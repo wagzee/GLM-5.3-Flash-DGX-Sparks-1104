@@ -216,7 +216,7 @@ variables. **The served pair's `local.sh`** sets `PORT=8888`, `PARALLEL=8`, `CON
 | `PREFILL_SHARE`, `PREFILL_BUDGET` | `0.68`, empty | See [Prefill beside decoding](#prefill-beside-decoding) |
 | `CONTEXT`, `CONTEXT_MAX` | `auto`, `1048576` | See [CONTEXT=auto](#contextauto) |
 | `KV`, `KV_PAGES` | `fp8`, `on` | `--kv-cache`, one shared pool of 512-row pages with `CONTEXT` as one request's cap |
-| `DENSE`, `HEAD` | `q8`, `bf16` | `bf16`, `q8`, `q6` or `q4` for the dense linears and the LM head; the pair's `local.sh` sets `HEAD=q8` |
+| `DENSE`, `HEAD` | `q8`, `bf16` | `bf16`, `q8`, `q6` or `q4` for the dense linears and the LM head; the pair's `local.sh` sets `HEAD=q8`. q8 against bf16 dense on sparkDash's thinking-on items: arith 39/40 and GSM8K 194/200 against 40/40 and 195/200, the same two items either way and no others (drafter on; with the drafter off the q8 replies are token-identical), for bf16's 12-20% slower decode |
 | `MEMORY_RESERVE_GIB`, `HOST_CACHE_GIB`, `PROMPT_CACHE_GIB` | `12`, `0`, empty | See [Memory](#memory-on-a-128-gb-unified-spark); the pair runs the reserve at 9.5 |
 | `CACHE_FIRST` | `0` | `1` sets `PROMPT_CACHE_GIB` (required) aside before the streams' windows (`TF_PROMPT_CACHE_FIRST`, patch 0108), so the cap becomes the cache; see [Memory](#memory-on-a-128-gb-unified-spark) |
 | `WITH_VIDEO` | `0` | `1` builds `libtfvideo.so` (FFmpeg 9.0.2, static, LGPL; h264/hevc/vp8/vp9/mpeg4 in mp4/mkv) into its own image tag, so `VISION=1` serves `video_url` parts; a few minutes more at build |

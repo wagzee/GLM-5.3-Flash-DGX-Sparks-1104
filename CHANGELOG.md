@@ -9,6 +9,16 @@
   (#12), the settings table's `HEAD` and `REASONING_EFFORT` defaults (#13), and the startup check's page count with
   `CACHE_FIRST=1` (#14), all by travellingsoldier85.
 
+- **2026-11-06** -- the two thinking-on items the native image lost against v0.6.0's run (sparkDash arith-31,
+  gsm8k-1176: arith 39/40, GSM8K 194/200 against 40/40 and 195/200) are the dense weights' width, not the drafter.
+  With `DRAFTER=none` both replies are token-identical to the drafted ones (316 and 1,913 tokens, the same wrong
+  answers), so DFlash2's verification is lossless there. With `DENSE=bf16` (the drafter on), the arith and GSM8K
+  categories rerun at 40/40 and 195/200, and those two are the only items whose verdict changes against the q8
+  run: no new failures. Both are precision-sensitive traces (a carried intermediate at step 7; a second-guessed
+  interpretation), so q8 costs two items of 240 here for its measured speed (docs/speed/RESULTS.md: bf16 dense
+  30.5 / 46.5 tok/s at one stream against q8's 39.0 / 57.3, 70 against 78-80 at four). `DENSE=q8` stays the
+  default; `DENSE=bf16` is the setting for exact dense weights. An fp8 dense path (v0.6.0's `DENSE=fp8`) would be
+  a byte a weight like q8 with 3 mantissa bits against q8's 7 over groups of 64, so it is not pursued.
 - **2026-11-06** -- `EFFORT_LINE=thinking` (default): the template's `<|system|>Reasoning Effort: Max` line with
   thinking on only, as TensorFold v0.6.0's recipe wrote it; `always` serves the template as it is. The checkpoint's
   template (and the vision copy) sets the line to Max unless a request's effort is low or high, so every prompt
