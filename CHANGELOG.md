@@ -1,5 +1,15 @@
 # Changelog
 
+- **2026-11-07** -- engine patch 0109, `EXTRA_EOS` (default `<|assistant|>`, `TF_EXTRA_EOS`): tokens that end a reply
+  besides the checkpoint's EOS ids. GLM-5.3's `generation_config.json` lists `<|endoftext|>`, `<|user|>` and
+  `<|observation|>` (154820, 154827, 154829) but not `<|assistant|>` (154828), which the model can write to close a
+  reply: the token then reached the reply as text and the model wrote its whole reply again until the length cap.
+  sparkDash's 32k needle item long-32k-2 at 1,024 tokens: before, 1,024 tokens (`length`), the answer, the token and a
+  second copy of the reply; with the patch, 630 tokens, `stop`, 16/16, the token gone. Its own 512-token run still
+  scores 1/16: with thinking off the model drafts all 16 codes (correctly) in the reply before the answer, which the
+  cap cuts after one line. Recall itself is exact: both 32k items list the 16 codes and 4 corrections right. QA and
+  arith rerun (190 items, `DENSE=bf16`) byte-identical to the run before. A name the tokenizer does not hold stops
+  the start; `EXTRA_EOS=none` keeps the checkpoint's list. README: the setting, the patch row, a troubleshooting row.
 - **2026-11-07** -- `scripts/tests/patch-numbers.sh`: a number in `patches/engine/` names one patch, checked by
   `scripts/tests/run.sh` (issue 15, travellingsoldier85's check). README: with `CACHE_FIRST=1`, `PROMPT_CACHE_GIB` is a
   priority, not a floor, and a larger ask can fund more cache by costing the streams a window (issue 16, jds1-ai's
