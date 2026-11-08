@@ -175,11 +175,27 @@ PROMPT_CACHE_GIB="${PROMPT_CACHE_GIB:-}"         # --prompt-cache-gib of device 
 # getting what whole windows leave. For long agent sessions: PARALLEL streams and a cache that keeps them. Needs
 # PROMPT_CACHE_GIB. 0 (default): windows first, as before.
 CACHE_FIRST="${CACHE_FIRST:-0}"
+# PROMPT_CACHE_MIN_GIB: the smallest prompt cache a start may serve with, in GiB. The engine funds the cache from the
+# room each rank has at that start (it varies by a GiB or more between starts), and PROMPT_CACHE_GIB only caps it, even
+# with CACHE_FIRST=1. With a value here, start.sh reads each rank's startup line and stops both ranks (E_CACHE) before
+# LIVE when one funds less. Empty (default): no check.
+PROMPT_CACHE_MIN_GIB="${PROMPT_CACHE_MIN_GIB:-}"
 # TF_GLM_HOST_CACHE_GIB, the kept prompt states' pinned host tier. On a discrete card that memory is free; on GB10 it
 # is the very memory the KV pool and the weights draw on, and a state in it costs a copy to restore, so the tier is off
 # here and PROMPT_CACHE_GIB (device pages) is the one to raise. Unset or auto would pin a quarter of MemAvailable,
 # up to 16 GiB over the two ranks.
 HOST_CACHE_GIB="${HOST_CACHE_GIB:-0}"
+# LEARN_GIB (engine patch 0109, --learn-conversations): kept prompt states also go to disk under CACHE_DIR/learn,
+# every rank's part in rank 0's store, so a conversation resumes after its device copy is evicted or the pair
+# restarts. The GiB of disk the states may take; 0 (default): off, as before. LEARN_MIN_FREE_GIB: no state is
+# written while the disk has less free.
+LEARN_GIB="${LEARN_GIB:-0}"
+LEARN_MIN_FREE_GIB="${LEARN_MIN_FREE_GIB:-15}"
+# KV_SHARD=1 (engine patch 0110, TF_GLM_KV_SHARD): each stream's FP8 latent rows live on one Spark (its owner) instead
+# of both, so the same memory holds about twice the tokens; the other Spark's queries go to the owner for attention
+# (1-4% decode). Needs KV=fp8, KV pages, DFlash2 or no drafter, PARALLEL above 1. The pool then takes most of the
+# room: pair it with CACHE_FIRST=1 PROMPT_CACHE_GIB so long conversations stay kept. 0 (default): off, as before.
+KV_SHARD="${KV_SHARD:-0}"
 VISION="${VISION:-1}"                            # --vision: images (rank 0's tower)
 VISION_MAX_IMAGES="${VISION_MAX_IMAGES:-50}"     # --vision-max-images: images per request (engine default 4, at most 64)
 # --chat-template: auto = with VISION=1, templates/glm-5.3-flash-vision.jinja (the checkpoint's own template, whose media

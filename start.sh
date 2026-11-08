@@ -32,7 +32,7 @@ URL="http://$API_HOST:$PORT"
 FIT_FILE="$STATE_DIR/context-fit.tsv"
 fit_key() {
   printf '%s|' "$PATCHES_HASH" "$MODEL_DIR" "$WORKER" "$TP" "$PARALLEL" "$KV" "$KV_PAGES" "$DENSE" "$HEAD" "$VISION" "$VISION_MAX_IMAGES" \
-    "$DRAFTER" "$DRAFTER_BITS" "$MEMORY_RESERVE_GIB" "$PROMPT_CACHE_GIB" "$CACHE_FIRST" "$HOST_CACHE_GIB" "$ROCE" "$CONTEXT_MAX" "$SERVE_EXTRA_ARGS" \
+    "$DRAFTER" "$DRAFTER_BITS" "$MEMORY_RESERVE_GIB" "$PROMPT_CACHE_GIB" "$CACHE_FIRST" "$HOST_CACHE_GIB" "$LEARN_GIB" "$KV_SHARD" "$ROCE" "$CONTEXT_MAX" "$SERVE_EXTRA_ARGS" \
     | sha256sum | cut -c1-16
 }
 remembered_context() {
@@ -150,6 +150,9 @@ build_serve_args() {
     [[ -z "$MTP_CONFIDENCE" ]] || SERVE_ARGS+=(--mtp-confidence "$MTP_CONFIDENCE")
   fi
   [[ -z "$PROMPT_CACHE_GIB" ]] || SERVE_ARGS+=(--prompt-cache-gib "$PROMPT_CACHE_GIB")
+  # LEARN_GIB: engine patch 0109 keeps the prompt states on disk too (rank 0's CACHE_DIR/learn holds every rank's part)
+  [[ "$LEARN_GIB" == 0 ]] || SERVE_ARGS+=(--learn-conversations --learn-dir /state/learn --learn-gib "$LEARN_GIB"
+    --learn-min-free-gib "$LEARN_MIN_FREE_GIB")
   read -r -a extra <<< "$SERVE_EXTRA_ARGS"
   SERVE_ARGS+=("${extra[@]}")
 }
@@ -160,7 +163,7 @@ declare -a PASS_ENV=()
 WORKER_ENV_FILE=''
 MANAGED_ENV=' HOME HF_HUB_OFFLINE CUDA_DEVICE_ORDER CUDA_VISIBLE_DEVICES TENSORFOLD_NO_UPDATE_CHECK TENSORFOLD_NO_LIVE
  TENSORFOLD_MEMORY_RESERVE_GIB TF_GLM_DENSE_BITS TF_GLM_HEAD_BITS TF_GLM_CLEAR_THINKING TF_GLM_RANK TF_GLM_WORLD TF_CUDA_DEVICE
- TF_KV_PAGES TF_GLM_CE_EXCHANGE TF_GLM_ABSORB_MMA TF_GLM_W8A8 TF_GLM_HOST_CACHE_GIB TENSORFOLD_PREFILL_SHARE TENSORFOLD_PREFILL_BUDGET TF_PROMPT_CACHE_FIRST TF_EXTRA_EOS
+ TF_KV_PAGES TF_GLM_CE_EXCHANGE TF_GLM_ABSORB_MMA TF_GLM_W8A8 TF_GLM_HOST_CACHE_GIB TENSORFOLD_PREFILL_SHARE TENSORFOLD_PREFILL_BUDGET TF_PROMPT_CACHE_FIRST TF_GLM_KV_SHARD TF_EXTRA_EOS
  TF_ROCE TF_ROCE_MAX_KB TF_ROCE_HCA TF_BIN TF_REPO TF_REF
  NCCL_COMM_ID NCCL_SOCKET_IFNAME NCCL_IB_HCA NCCL_IB_GID_INDEX NCCL_MIN_NCHANNELS NCCL_MAX_NCHANNELS '
 # The flags both ranks share. Everything that places a rank is added per rank, so the two fingerprints agree on the rest.
@@ -177,6 +180,8 @@ build_env_args() {
   [[ -z "$PREFILL_BUDGET" ]] || ENV_ARGS+=(-e "TENSORFOLD_PREFILL_BUDGET=$PREFILL_BUDGET")
   # CACHE_FIRST=1: engine patch 0108 sets PROMPT_CACHE_GIB aside before the streams' windows (both ranks alike)
   [[ "$CACHE_FIRST" != 1 ]] || ENV_ARGS+=(-e "TF_PROMPT_CACHE_FIRST=1")
+  # KV_SHARD=1: engine patch 0110 keeps each stream's latent rows on its owner rank (both ranks must agree)
+  [[ "$KV_SHARD" != 1 ]] || ENV_ARGS+=(-e "TF_GLM_KV_SHARD=1")
   # EXTRA_EOS: engine patch 0112 ends a reply at these tokens too (both ranks alike)
   [[ "$EXTRA_EOS" == none ]] || ENV_ARGS+=(-e "TF_EXTRA_EOS=$EXTRA_EOS")
   # Variables you exported yourself. Rank 0 takes them by name, so no value is printed or put on a command line.
@@ -325,7 +330,7 @@ launch() {
   log "Ranks:"
   show_ranks
   if [[ "$DRY_RUN" != 1 ]]; then
-    mkdir -p "$RUN_LOG_DIR" "$CACHE_DIR/home"
+    mkdir -p "$RUN_LOG_DIR" "$CACHE_DIR/home" "$CACHE_DIR/learn"
     ln -sfn -- "$RUN_LOG_DIR" "$LOG_DIR/current"
     wssh mkdir -p "$WORKER_CACHE_DIR/home" "$WORKER_STATE_DIR" \
       || fail E_START "Could not create $WORKER_CACHE_DIR on $(worker_host). It defaults to this Spark's home; when the logins differ, set WORKER_CACHE_DIR to a path under $(worker_host)'s own home in local.sh."
@@ -423,6 +428,42 @@ show_failure() {
     [[ -f "$f" ]] || continue
     printf '\n--- %s (last 15 lines) ---\n' "$f" >&2
     tail -n 15 -- "$f" >&2
+  done
+}
+
+# The device prompt cache a rank's startup line ("… N streams at once, …, a 9.7 GiB prompt cache; …") funds, in GiB:
+# 0 for "no prompt cache" or a cache in host memory, empty when the log has no startup line.
+funded_cache_gib() {
+  local line
+  line=$(grep -h 'streams at once' "$1" 2>/dev/null | tail -1) || true
+  [[ -n "$line" ]] || return 0
+  if [[ "$line" != *"GiB prompt cache in host memory"* && "$line" =~ ,\ a\ ([0-9][0-9.]*)\ GiB\ prompt\ cache ]]; then
+    printf '%s\n' "${BASH_REMATCH[1]}"
+  else
+    printf '0\n'
+  fi
+}
+# PROMPT_CACHE_MIN_GIB: both ranks stop before LIVE when a startup line funds less (the cap is not a floor, issue 16).
+check_cache_min() {
+  [[ -n "$PROMPT_CACHE_MIN_GIB" ]] || return 0
+  local r f got
+  collect_logs
+  for r in 0 1; do
+    f="$RUN_LOG_DIR/rank$r.log"
+    got=$(funded_cache_gib "$f")
+    if [[ -z "$got" ]]; then
+      if (( r == 0 )); then
+        stop_both
+        fail E_CACHE "PROMPT_CACHE_MIN_GIB=$PROMPT_CACHE_MIN_GIB: rank 0's log has no startup line (\"streams at once\"), so the start cannot be checked; both ranks are stopped. See $f."
+      fi
+      # Rank 1 follows rank 0's plan and prints no startup line on the pair: rank 0's line is the check.
+      continue
+    fi
+    if ! at_least "$got" "$PROMPT_CACHE_MIN_GIB"; then
+      stop_both
+      fail E_CACHE "Rank $r funds a $got GiB prompt cache, under PROMPT_CACHE_MIN_GIB=$PROMPT_CACHE_MIN_GIB; both ranks are stopped. The cache is what the room leaves, capped by PROMPT_CACHE_GIB: lower PARALLEL or CONTEXT, or with CACHE_FIRST=1 try a larger PROMPT_CACHE_GIB (it can cost the streams a whole window). See $f."
+    fi
+    log "Prompt cache: rank $r funds $got GiB (PROMPT_CACHE_MIN_GIB=$PROMPT_CACHE_MIN_GIB)."
   done
 }
 
@@ -586,6 +627,7 @@ if [[ "$DRY_RUN" != 1 ]] && ! wait_ready; then
     wait_ready && break
   done
 fi
+[[ "$DRY_RUN" == 1 ]] || check_cache_min
 start_memguard
 finish_start
 if [[ "$DRY_RUN" != 1 ]]; then
