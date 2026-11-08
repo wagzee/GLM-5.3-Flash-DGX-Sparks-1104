@@ -1,6 +1,6 @@
 # Changelog
 
-- **2026-11-07** -- engine patch 0109, `EXTRA_EOS` (default `<|assistant|>`, `TF_EXTRA_EOS`): tokens that end a reply
+- **2026-11-07** -- engine patch 0112, `EXTRA_EOS` (default `<|assistant|>`, `TF_EXTRA_EOS`): tokens that end a reply
   besides the checkpoint's EOS ids. GLM-5.3's `generation_config.json` lists `<|endoftext|>`, `<|user|>` and
   `<|observation|>` (154820, 154827, 154829) but not `<|assistant|>` (154828), which the model can write to close a
   reply: the token then reached the reply as text and the model wrote its whole reply again until the length cap.

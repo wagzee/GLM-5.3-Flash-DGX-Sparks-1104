@@ -177,7 +177,7 @@ build_env_args() {
   [[ -z "$PREFILL_BUDGET" ]] || ENV_ARGS+=(-e "TENSORFOLD_PREFILL_BUDGET=$PREFILL_BUDGET")
   # CACHE_FIRST=1: engine patch 0108 sets PROMPT_CACHE_GIB aside before the streams' windows (both ranks alike)
   [[ "$CACHE_FIRST" != 1 ]] || ENV_ARGS+=(-e "TF_PROMPT_CACHE_FIRST=1")
-  # EXTRA_EOS: engine patch 0109 ends a reply at these tokens too (both ranks alike)
+  # EXTRA_EOS: engine patch 0112 ends a reply at these tokens too (both ranks alike)
   [[ "$EXTRA_EOS" == none ]] || ENV_ARGS+=(-e "TF_EXTRA_EOS=$EXTRA_EOS")
   # Variables you exported yourself. Rank 0 takes them by name, so no value is printed or put on a command line.
   # Rank 1 cannot: `docker run -e KEY` on the worker would read the worker's environment, where they are not set, and
