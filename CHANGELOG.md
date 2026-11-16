@@ -1,5 +1,10 @@
 # Changelog
 
+- **2026-11-16** -- Experiment, rejected: `TF_GLM_INDEX_TOPK=4096`, DSA rows reading twice the checkpoint's 2,048
+  tokens (`docs/speed/candidates/index-topk-TF_GLM_INDEX_TOPK.patch`, not in any image). Prefill -7 to -9% at 8K-256K,
+  tier 1 flat, tier 2 85 -> 78/110 thinking off and 99 -> 98 on; counting stays wrong though its lines are read
+  (71 -> 85% in the late layers). Details in `docs/speed/baselines/README.md`.
+
 - **2026-11-16** -- Long-context baselines (this fork): `scripts/bench/attn_baseline.py` (prefill and decode speed at
   8K-256K, a recall smoke test, reply hashes; with `TF_GLM_PROF=1` the GPU split), `divergence.py` (tier 1: every
   token's log-probability over 275K tokens of code and 135K of prose against a stored reference, by depth) and

@@ -1,0 +1,304 @@
+From 5bbef1732dc60ca63b222254aed55d7a132aa0e2 Mon Sep 17 00:00:00 2001
+From: wagzee <jurik17@gmail.com>
+Date: Mon, 16 Nov 2026 21:39:27 +0100
+Subject: [PATCH] glm-cuda: TF_GLM_INDEX_TOPK=4096, an opt-in: a DSA row reads
+ 4,096 tokens (1,024 pools) instead of the checkpoint's 2,048; in the rank
+ fingerprint; unset, every launch as before
+
+---
+ zig/src/families/glm/cuda_engine.zig   |  6 +++++-
+ zig/src/families/glm/cuda_index.zig    | 18 +++++++++---------
+ zig/src/families/glm/cuda_kv8_test.zig |  2 +-
+ zig/src/families/glm/cuda_ranks.zig    | 15 ++++++++++++++-
+ zig/src/families/glm/cuda_sparse.zig   | 26 ++++++++++++++++++--------
+ zig/tests/cuda/glm_index_check.zig     |  4 ++--
+ zig/tests/cuda/glm_ref_index.zig       |  2 +-
+ 7 files changed, 50 insertions(+), 23 deletions(-)
+
+diff --git a/zig/src/families/glm/cuda_engine.zig b/zig/src/families/glm/cuda_engine.zig
+index 53764bf..4aa4310 100644
+--- a/zig/src/families/glm/cuda_engine.zig
++++ b/zig/src/families/glm/cuda_engine.zig
+@@ -160,7 +160,11 @@ pub const Engine = struct {
+             std.log.err("{s}: {s}", .{ cfg_path, why.text() });
+             return err;
+         };
+-        const c = try config.parse(gpa, text);
++        var c = try config.parse(gpa, text);
++        // TF_GLM_INDEX_TOPK: a DSA row's tokens, set past parse's shape check and before any buffer is sized; every
++        // rank alike (the fingerprint below holds the setting)
++        if (o.settings.index_topk != 0) c.i_topk = o.settings.index_topk;
++        @import("cuda_sparse.zig").setTopk(c.i_topk / c.kpool);
+         var stream = try cuda.Stream.init(d, false);
+         errdefer stream.deinit();
+         const config_hash = try ranks.hashFile(a, io, cfg_path);
+diff --git a/zig/src/families/glm/cuda_index.zig b/zig/src/families/glm/cuda_index.zig
+index dd7dcdc..3b286e7 100644
+--- a/zig/src/families/glm/cuda_index.zig
++++ b/zig/src/families/glm/cuda_index.zig
+@@ -5,7 +5,6 @@ const cuda = @import("cuda");
+ 
+ const sparse = @import("cuda_sparse.zig");
+ 
+-pub const topk = sparse.topk_pools;
+ /// glm_index_scores: rows a CTA (a warp each), 64-pool tiles a CTA, threads a CTA.
+ pub const score_rows = 8;
+ pub const score_tiles = 16;
+@@ -50,9 +49,10 @@ pub fn scoresGrid(rows: usize, nb: usize) [2]u32 {
+ pub const Tile = struct { cap: usize, target: usize };
+ 
+ pub fn tile(np: usize) Tile {
+-    if (np <= 12288) return .{ .cap = 1024, .target = 724 };
+-    if (np <= 32768) return .{ .cap = 2048, .target = 1024 };
+-    return .{ .cap = cap_max, .target = 2048 };
++    // tuned for 512 pools; a wider TF_GLM_INDEX_TOPK scales both, so the floor's survivors still hold K (speed only)
++    const f = @max(1, sparse.topk_pools / 512);
++    const t: Tile = if (np <= 12288) .{ .cap = 1024, .target = 724 } else if (np <= 32768) .{ .cap = 2048, .target = 1024 } else .{ .cap = cap_max, .target = 2048 };
++    return .{ .cap = @min(cap_max, t.cap * f), .target = @min(cap_max, t.target * f) };
+ }
+ 
+ pub const Kernels = struct {
+@@ -77,7 +77,7 @@ pub const Kernels = struct {
+     /// Whether `rows` rows over `np` pools with this key cache layout go through the kernels.
+     pub fn takes(k: *const Kernels, rows: usize, np: usize, pk: u64, ps: u64) bool {
+         _ = k;
+-        return rows >= rows_from and np >= topk and pk % 16 == 0 and ps % 16 == 0;
++        return rows >= rows_from and np >= sparse.topk_pools and pk % 16 == 0 and ps % 16 == 0;
+     }
+ 
+     /// Whether a decode window's `rows` rows (under rows_from) over `nb` 64-pool blocks take the scores kernel
+@@ -87,7 +87,7 @@ pub const Kernels = struct {
+     pub fn takesDecode(k: *const Kernels, rows: usize, np: usize, nb: usize, pk: u64, ps: u64) bool {
+         _ = k;
+         const wide = rows >= 8 or (rows >= 4 and nb >= 2048);
+-        return wide and rows < rows_from and np >= topk and pk % 16 == 0 and ps % 16 == 0;
++        return wide and rows < rows_from and np >= sparse.topk_pools and pk % 16 == 0 and ps % 16 == 0;
+     }
+ 
+     /// tf_glm_scores' launch for `rows` rows at `at` into out [rows][np]; the first `nb` 64-pool blocks are written.
+@@ -107,7 +107,7 @@ pub const Kernels = struct {
+     pub fn pools(k: *const Kernels, s: cuda.Stream, scores_ptr: u64, out: u64, at: u64, rows: usize, np: usize, path: u64) !void {
+         const t = tile(np);
+         var a: cuda.Args = .{};
+-        inline for (.{ scores_ptr, out, @as(i64, @intCast(np)), at, @as(c_int, topk), @as(c_int, @intCast(t.cap)), @as(c_int, @intCast(t.target)), path }) |v| a.add(v);
++        inline for (.{ scores_ptr, out, @as(i64, @intCast(np)), at, @as(c_int, @intCast(sparse.topk_pools)), @as(c_int, @intCast(t.cap)), @as(c_int, @intCast(t.target)), path }) |v| a.add(v);
+         try cuda.launch.launch(k.pools_fn, .{ .grid = .{ .x = @intCast(rows) }, .block = .{ .x = pool_threads } }, s, &a);
+     }
+ };
+@@ -158,7 +158,7 @@ test "GLM index: decode windows on aligned key caches take the scores kernel" {
+     try std.testing.expect(!k.takesDecode(1, 216080, 3376, 0x1000, 32768)); // one row: tf_glm_scores
+     try std.testing.expect(!k.takesDecode(rows_from, 1024, 16, 0x1000, 32768)); // prompt-sized: Kernels.takes
+     try std.testing.expect(!k.takesDecode(16, 1024, 16, 0x1008, 32768));
+-    try std.testing.expect(!k.takesDecode(16, topk - 1, 8, 0x1000, 32768));
++    try std.testing.expect(!k.takesDecode(16, sparse.topk_pools - 1, 8, 0x1000, 32768));
+ }
+ 
+ test "GLM index: only prompt-sized launches on aligned key caches take the kernels" {
+@@ -167,5 +167,5 @@ test "GLM index: only prompt-sized launches on aligned key caches take the kerne
+     try std.testing.expect(!k.takes(rows_from - 1, 1024, 0x1000, 32768));
+     try std.testing.expect(!k.takes(512, 1024, 0x1008, 32768));
+     try std.testing.expect(!k.takes(512, 1024, 0x1000, 32760));
+-    try std.testing.expect(!k.takes(512, topk - 1, 0x1000, 32768));
++    try std.testing.expect(!k.takes(512, sparse.topk_pools - 1, 0x1000, 32768));
+ }
+diff --git a/zig/src/families/glm/cuda_kv8_test.zig b/zig/src/families/glm/cuda_kv8_test.zig
+index 4b42ab1..3271962 100644
+--- a/zig/src/families/glm/cuda_kv8_test.zig
++++ b/zig/src/families/glm/cuda_kv8_test.zig
+@@ -297,7 +297,7 @@ test "GLM FP8 KV: a logical table keeps the assembled token lists positions, whi
+         try t.expectEqualSlices(u64, &.{ 900, 3_266_560 }, Rec.args[0][12..14]);
+         try t.expectEqual(@as(usize, 15), Rec.ids[2]);
+         try t.expectEqualSlices(u64, &.{ 5300, 300 }, Rec.args[2][0..2]);
+-        try t.expectEqual(@as(u32, sparse.topk_pools), Rec.word(2, 2));
++        try t.expectEqual(@as(u32, @intCast(sparse.topk_pools)), Rec.word(2, 2));
+         try t.expectEqualSlices(u64, &.{ 6000, 7000, if (logical) 0 else 900, 3_190 }, Rec.args[2][3..7]);
+     }
+ }
+diff --git a/zig/src/families/glm/cuda_ranks.zig b/zig/src/families/glm/cuda_ranks.zig
+index ef55827..88646ad 100644
+--- a/zig/src/families/glm/cuda_ranks.zig
++++ b/zig/src/families/glm/cuda_ranks.zig
+@@ -26,6 +26,7 @@ pub const Settings = struct {
+     head_bits: u8 = 16, // TF_GLM_HEAD_BITS: the head, likewise
+     numerics: Numerics = .{}, // opt-in prompt kernels that round differently (each off by default)
+     kv_shard: kv_shard.Switches = .{}, // TF_GLM_KV_SHARD and its knobs: each stream's latent rows on one rank
++    index_topk: u32 = 0, // TF_GLM_INDEX_TOPK: the tokens a DSA row reads, 2048 or 4096 (0: the checkpoint's index_topk)
+     l2pf: l2pf.Options = .{}, // TF_GLM_L2PF and its knobs: a decode window's next weights read into L2 beside it
+ 
+     /// The settings `get` (an environment lookup) gives; `problem` names a value that is not one of the choices.
+@@ -43,6 +44,13 @@ pub const Settings = struct {
+                 return error.BadSetting;
+             }
+         }
++        if (get("TF_GLM_INDEX_TOPK")) |v| {
++            s.index_topk = std.fmt.parseInt(u32, v, 10) catch 0;
++            if (s.index_topk != 2048 and s.index_topk != 4096) {
++                problem.* = "TF_GLM_INDEX_TOPK: 2048 or 4096";
++                return error.BadSetting;
++            }
++        }
+         if (get("TF_GLM_PREFILL_REDUCE")) |v| {
+             if (std.mem.eql(u8, v, "split")) s.split = true else if (std.mem.eql(u8, v, "ring")) {
+                 s.split = true;
+@@ -172,7 +180,7 @@ pub fn environment(name: [:0]const u8) ?[]const u8 {
+ 
+ /// What every rank must agree on, as bytes the communicator carries.
+ pub const Fingerprint = extern struct {
+-    layout: u32 = 17, // this struct's version (16 had no l2pf words; 15 had the chunk words or the kv_shard words alone; 14 was without chunk; 13 num3's numerics or prefill3's pair alone)
++    layout: u32 = 18, // this struct's version (17 had no index_topk; 16 had no l2pf words; 15 had the chunk words or the kv_shard words alone; 14 was without chunk; 13 num3's numerics or prefill3's pair alone)
+     world: u32,
+     rank: u32,
+     kv8: u32 = 0,
+@@ -196,6 +204,7 @@ pub const Fingerprint = extern struct {
+     numerics: u32 = 0, // Settings.numerics: every rank's prompt kernels round alike
+     kv_shard: u32 = 0, // TF_GLM_KV_SHARD and _CARRY, _TWINS (kv_shard.Switches.word; 0: off)
+     kv_shard_check: u32 = 0, // TF_GLM_KV_SHARD_CHECK when on (0 off)
++    index_topk: u32 = 0, // TF_GLM_INDEX_TOPK (0: the checkpoint's): every rank's rows read as many tokens
+     capacity: u64, // tokens a sequence holds
+     heat_high: f64, // the heat bands in degrees (0 and 0: off): every rank must wait alike
+     heat_low: f64,
+@@ -228,6 +237,7 @@ pub const Fingerprint = extern struct {
+         numerics,
+         kv_shard,
+         kv_shard_check,
++        index_topk,
+         capacity,
+         heat_high,
+         heat_low,
+@@ -265,6 +275,7 @@ pub const Fingerprint = extern struct {
+             .numerics = s.numerics.bits(),
+             .kv_shard = s.kv_shard.word(),
+             .kv_shard_check = s.kv_shard.checkWord(),
++            .index_topk = s.index_topk,
+             .capacity = capacity,
+             .heat_high = if (s.heat) |b| b.high_c else 0,
+             .heat_low = if (s.heat) |b| b.low_c else 0,
+@@ -306,6 +317,7 @@ pub fn mismatch(all: []const Fingerprint) ?Mismatch {
+             "numerics",
+             "kv_shard",
+             "kv_shard_check",
++            "index_topk",
+             "capacity",
+             "heat_high",
+             "heat_low",
+@@ -420,6 +432,7 @@ fn explain(f: Fingerprint.Field) []const u8 {
+         .numerics => "TF_GLM_ABSORB_MMA or TF_GLM_W8A8",
+         .kv_shard => "TF_GLM_KV_SHARD, TF_GLM_KV_SHARD_CARRY or TF_GLM_KV_SHARD_TWINS",
+         .kv_shard_check => "TF_GLM_KV_SHARD_CHECK",
++        .index_topk => "TF_GLM_INDEX_TOPK",
+         .capacity => "the sequence capacity (the context)",
+         .heat_high => "TF_HEAT_HIGH",
+         .heat_low => "TF_HEAT_LOW",
+diff --git a/zig/src/families/glm/cuda_sparse.zig b/zig/src/families/glm/cuda_sparse.zig
+index 01f366f..a014564 100644
+--- a/zig/src/families/glm/cuda_sparse.zig
++++ b/zig/src/families/glm/cuda_sparse.zig
+@@ -8,13 +8,23 @@ const index_mod = @import("cuda_index.zig");
+ 
+ /// sparse.POOL, TOPK_POOLS, SELECT_LIST, SCORE_LOOP_FROM, SCORE_LOOP; geometry.MLA_SELECT_ROWS.
+ pub const pool = 4;
+-pub const topk_pools = 512;
++/// The most pools a row can keep (TF_GLM_INDEX_TOPK=4096); the kernels' candidate caps hold 4,096.
++pub const max_topk_pools = 1024;
++/// The pools a row keeps: the checkpoint's index_topk / pool (512) unless TF_GLM_INDEX_TOPK says (setTopk, at start).
++pub var topk_pools: usize = 512;
+ pub const select_list = 1024;
+ pub const score_loop_from = 64;
+ pub const score_loop = 32;
+ pub const select_rows = 512;
+ /// A row's token list: the 512 pools' tokens, then the incomplete pool's up to 3.
+-pub const width = topk_pools * pool + pool - 1;
++pub var width: usize = 512 * pool + pool - 1;
++
++/// Sets the pools a row keeps (once, at start, before any buffer is sized).
++pub fn setTopk(pools: usize) void {
++    std.debug.assert(pools >= 1 and pools <= max_topk_pools);
++    topk_pools = pools;
++    width = pools * pool + pool - 1;
++}
+ 
+ /// TF_GLM_INDEX_PROBE=1 (diagnostic, off by default): every selection logs its last row's picked pools (logical pool
+ /// numbers, ascending; pool p is tokens 4p..4p+3) with the layer and the row's position, so a needle's tokens can be
+@@ -32,10 +42,10 @@ fn probing() bool {
+ }
+ 
+ fn probe(stream: cuda.Stream, pools: u64, rows: usize, host_pos: usize) void {
+-    var picks: [topk_pools]i64 = undefined;
++    var picks: [max_topk_pools]i64 = undefined;
+     stream.synchronize() catch return;
+     stream.d.check(stream.d.api.cuMemcpyDtoH_v2(@ptrCast(&picks), pools + (rows - 1) * topk_pools * 8, topk_pools * 8), "index probe") catch return;
+-    var buf: [topk_pools * 24]u8 = undefined;
++    var buf: [max_topk_pools * 24]u8 = undefined;
+     var w: std.Io.Writer = .fixed(&buf);
+     var i: usize = 0;
+     while (i < topk_pools) {
+@@ -107,11 +117,11 @@ pub fn decodeSelect(set: glue.Set, stream: cuda.Stream, scores: u64, pools: u64,
+     const g = dselScanCtas(host_pos, rows, np);
+     if (g > 0) {
+         var sa: cuda.Args = .{};
+-        inline for (.{ scores, @as(i64, @intCast(np)), at, @as(c_int, topk_pools), @as(c_int, dsel_target), bits, @as(i64, @intCast(words)) }) |v| sa.add(v);
++        inline for (.{ scores, @as(i64, @intCast(np)), at, @as(c_int, @intCast(topk_pools)), @as(c_int, dsel_target), bits, @as(i64, @intCast(words)) }) |v| sa.add(v);
+         try cuda.launch.launch(set.glue.dsel_scan, .{ .grid = .{ .x = @intCast(g), .y = @intCast(rows) }, .block = .{ .x = dsel_scan_threads } }, stream, &sa);
+     }
+     var ma: cuda.Args = .{};
+-    inline for (.{ scores, pools, @as(i64, @intCast(np)), at, @as(c_int, topk_pools), bits, @as(i64, @intCast(words)), path }) |v| ma.add(v);
++    inline for (.{ scores, pools, @as(i64, @intCast(np)), at, @as(c_int, @intCast(topk_pools)), bits, @as(i64, @intCast(words)), path }) |v| ma.add(v);
+     try cuda.launch.launch(set.glue.dsel_merge, .{ .grid = .{ .x = @intCast(rows) }, .block = .{ .x = dsel_merge_threads } }, stream, &ma);
+ }
+ 
+@@ -206,7 +216,7 @@ pub fn selectTokensProfile(set: glue.Set, ops: cuda.Module, stream: cuda.Stream,
+             continue;
+         }
+         var sel: cuda.Args = .{};
+-        inline for (.{ s.scores, s.pools + a * topk_pools * 8, @as(i64, @intCast(np_max)), at, @as(c_int, topk_pools) }) |v| sel.add(v);
++        inline for (.{ s.scores, s.pools + a * topk_pools * 8, @as(i64, @intCast(np_max)), at, @as(c_int, @intCast(topk_pools)) }) |v| sel.add(v);
+         try cuda.launch.launch(if (wide) set.glue.select_rows_wide else set.glue.select_rows, .{ .grid = .{ .x = @intCast(n) }, .block = .{ .x = if (wide) 1024 else 128 } }, stream, &sel);
+         stamp.end();
+     }
+@@ -221,7 +231,7 @@ pub fn selectTokensProfile(set: glue.Set, ops: cuda.Module, stream: cuda.Stream,
+     var args: cuda.Args = .{};
+     args.add(s.pools);
+     args.add(pos);
+-    args.add(@as(c_int, topk_pools));
++    args.add(@as(c_int, @intCast(topk_pools)));
+     args.add(tokens);
+     args.add(counts);
+     args.add(if (t.logical) @as(u64, 0) else t.pt); // an E4M3 cache's lists stay positions; its chunks take the table
+diff --git a/zig/tests/cuda/glm_index_check.zig b/zig/tests/cuda/glm_index_check.zig
+index 380df40..911cce3 100644
+--- a/zig/tests/cuda/glm_index_check.zig
++++ b/zig/tests/cuda/glm_index_check.zig
+@@ -238,7 +238,7 @@ fn decode(gpu: check.Gpu, s: cuda.Stream, ops: cuda.Module, ks: *const glm.glue.
+             step(.{ .cap = c.cap, .pos = c.pos, .rows = c.rows }, np, "decode select: planted scores");
+             try (cuda.DeviceBuffer{ .d = gpu.d, .ptr = scores, .len = c.rows * np * 4, .borrowed = true }).upload(0, std.mem.sliceAsBytes(host));
+             var sel: cuda.Args = .{};
+-            inline for (.{ scores, pa, @as(i64, @intCast(np)), dpos, @as(c_int, sp.topk_pools) }) |v| sel.add(v);
++            inline for (.{ scores, pa, @as(i64, @intCast(np)), dpos, @as(c_int, @intCast(sp.topk_pools)) }) |v| sel.add(v);
+             try cuda.launch.launch(old.glue.select_rows, .{ .grid = .{ .x = @intCast(c.rows) }, .block = .{ .x = 128 } }, s, &sel);
+             try sp.decodeSelect(new, s, scores, pb, np, dpos, c.pos, c.rows, bits, path);
+             try s.synchronize();
+@@ -380,7 +380,7 @@ fn ties(gpu: check.Gpu, bufs: *Bufs, rand: std.Random, set: glm.glue.Set, idx: *
+         try (cuda.DeviceBuffer{ .d = gpu.d, .ptr = sa.scores, .len = rows * np * 4, .borrowed = true }).upload(0, std.mem.sliceAsBytes(host));
+         step(c, np, "ties: tf_glm_select_rows");
+         var sel: cuda.Args = .{};
+-        inline for (.{ sa.scores, sa.pools, @as(i64, @intCast(np)), at, @as(c_int, sp.topk_pools) }) |v| sel.add(v);
++        inline for (.{ sa.scores, sa.pools, @as(i64, @intCast(np)), at, @as(c_int, @intCast(sp.topk_pools)) }) |v| sel.add(v);
+         try cuda.launch.launch(set.glue.select_rows, .{ .grid = .{ .x = @intCast(rows) }, .block = .{ .x = 128 } }, s, &sel);
+         step(c, np, "ties: tf_glm_index_pools");
+         try idx.pools(s, sa.scores, sb.pools, at, rows, np, path);
+diff --git a/zig/tests/cuda/glm_ref_index.zig b/zig/tests/cuda/glm_ref_index.zig
+index 9514cf6..4a3a11f 100644
+--- a/zig/tests/cuda/glm_ref_index.zig
++++ b/zig/tests/cuda/glm_ref_index.zig
+@@ -126,7 +126,7 @@ pub fn selectionWide(r: *Rig, set: glm.glue.Set) !void {
+         var ms: [2]f64 = undefined;
+         for ([2]cuda.Function{ set.glue.select_rows, set.glue.select_rows_wide }, [2]u32{ 128, 1024 }, outs, 0..) |f, threads, out, i| {
+             var a: cuda.Args = .{};
+-            inline for (.{ scores, out, @as(i64, @intCast(np)), at, @as(c_int, sp.topk_pools) }) |v| a.add(v);
++            inline for (.{ scores, out, @as(i64, @intCast(np)), at, @as(c_int, @intCast(sp.topk_pools)) }) |v| a.add(v);
+             const cfg: cuda.launch.Config = .{ .grid = .{ .x = @intCast(rows) }, .block = .{ .x = threads } };
+             try cuda.launch.launch(f, cfg, r.s, &a);
+             try t0.record(r.s);
+-- 
+2.43.0
+

@@ -1,0 +1,3103 @@
+{
+ "date": "2026-11-16T21:50:46+0100",
+ "image": "tensorfold-glm53-spark:a8fccfc76959",
+ "recipe": "c21abeb",
+ "settings": {
+  "DENSE": "bf16",
+  "KV": "bf16",
+  "HEAD": "(default)",
+  "PROMPT_CHUNK": "(default)",
+  "PARALLEL": "(default)",
+  "CONTEXT": "500000",
+  "DRAFTER": "(default)",
+  "ABSORB_MMA": "(default)",
+  "W8A8": "(default)"
+ },
+ "plan": "prompts in passes of up to 2048 rows, a 5.0 GiB prompt cache",
+ "label": "probe-4096",
+ "seed": 0,
+ "items": [
+  {
+   "id": "32768/0/00-mk",
+   "task": "mk",
+   "ok": true,
+   "answer": "8710684",
+   "want": [
+    "8710684"
+   ],
+   "prompt_tokens": 33558,
+   "evidence_lines": 1,
+   "decoy_lines": 7,
+   "evidence_found": true,
+   "rows": [
+    33557,
+    33559,
+    33563
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.311,
+     "evidence_whole": 0.0,
+     "decoys": 0.323
+    },
+    "7": {
+     "evidence": 0.422,
+     "evidence_whole": 0.0,
+     "decoys": 0.719
+    },
+    "11": {
+     "evidence": 0.822,
+     "evidence_whole": 0.33,
+     "decoys": 0.815
+    },
+    "15": {
+     "evidence": 0.844,
+     "evidence_whole": 0.67,
+     "decoys": 0.736
+    },
+    "19": {
+     "evidence": 0.911,
+     "evidence_whole": 0.67,
+     "decoys": 0.68
+    },
+    "23": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 1.0
+    },
+    "27": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.98
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 1.0
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 1.0
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 1.0
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.947
+    }
+   }
+  },
+  {
+   "id": "32768/0/01-mk",
+   "task": "mk",
+   "ok": true,
+   "answer": "5714636",
+   "want": [
+    "5714636"
+   ],
+   "prompt_tokens": 33558,
+   "evidence_lines": 1,
+   "decoy_lines": 7,
+   "evidence_found": true,
+   "rows": [
+    33557,
+    33560,
+    33563
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.244,
+     "evidence_whole": 0.0,
+     "decoys": 0.29
+    },
+    "7": {
+     "evidence": 0.644,
+     "evidence_whole": 0.33,
+     "decoys": 0.601
+    },
+    "11": {
+     "evidence": 0.911,
+     "evidence_whole": 0.67,
+     "decoys": 0.776
+    },
+    "15": {
+     "evidence": 0.422,
+     "evidence_whole": 0.33,
+     "decoys": 0.785
+    },
+    "19": {
+     "evidence": 0.467,
+     "evidence_whole": 0.33,
+     "decoys": 0.779
+    },
+    "23": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.99
+    },
+    "27": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.98
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 1.0
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 1.0
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 1.0
+    },
+    "43": {
+     "evidence": 0.911,
+     "evidence_whole": 0.67,
+     "decoys": 0.898
+    }
+   }
+  },
+  {
+   "id": "32768/0/02-mv",
+   "task": "mv",
+   "ok": true,
+   "answer": "457319, 164744, 936531, 753150",
+   "want": [
+    "457319",
+    "164744",
+    "753150",
+    "936531"
+   ],
+   "prompt_tokens": 33561,
+   "evidence_lines": 4,
+   "decoy_lines": 0,
+   "evidence_found": true,
+   "rows": [
+    33560,
+    33563,
+    33568,
+    33573
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.608,
+     "evidence_whole": 0.75,
+     "decoys": null
+    },
+    "7": {
+     "evidence": 0.375,
+     "evidence_whole": 0.0,
+     "decoys": null
+    },
+    "11": {
+     "evidence": 0.47,
+     "evidence_whole": 0.0,
+     "decoys": null
+    },
+    "15": {
+     "evidence": 0.772,
+     "evidence_whole": 2.0,
+     "decoys": null
+    },
+    "19": {
+     "evidence": 0.784,
+     "evidence_whole": 2.0,
+     "decoys": null
+    },
+    "23": {
+     "evidence": 0.966,
+     "evidence_whole": 3.5,
+     "decoys": null
+    },
+    "27": {
+     "evidence": 0.953,
+     "evidence_whole": 3.25,
+     "decoys": null
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 4.0,
+     "decoys": null
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 4.0,
+     "decoys": null
+    },
+    "39": {
+     "evidence": 0.953,
+     "evidence_whole": 3.25,
+     "decoys": null
+    },
+    "43": {
+     "evidence": 0.957,
+     "evidence_whole": 3.5,
+     "decoys": null
+    }
+   }
+  },
+  {
+   "id": "32768/0/03-mv",
+   "task": "mv",
+   "ok": false,
+   "answer": "67765, 968667, 255853, 987253",
+   "want": [
+    "968667",
+    "987253",
+    "255853",
+    "396256"
+   ],
+   "prompt_tokens": 33561,
+   "evidence_lines": 4,
+   "decoy_lines": 0,
+   "evidence_found": true,
+   "rows": [
+    33560,
+    33562,
+    33567,
+    33568
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.418,
+     "evidence_whole": 0.25,
+     "decoys": null
+    },
+    "7": {
+     "evidence": 0.457,
+     "evidence_whole": 0.5,
+     "decoys": null
+    },
+    "11": {
+     "evidence": 0.647,
+     "evidence_whole": 0.25,
+     "decoys": null
+    },
+    "15": {
+     "evidence": 0.897,
+     "evidence_whole": 3.0,
+     "decoys": null
+    },
+    "19": {
+     "evidence": 0.905,
+     "evidence_whole": 2.5,
+     "decoys": null
+    },
+    "23": {
+     "evidence": 0.94,
+     "evidence_whole": 2.75,
+     "decoys": null
+    },
+    "27": {
+     "evidence": 0.944,
+     "evidence_whole": 2.75,
+     "decoys": null
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 4.0,
+     "decoys": null
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 4.0,
+     "decoys": null
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 4.0,
+     "decoys": null
+    },
+    "43": {
+     "evidence": 0.948,
+     "evidence_whole": 3.25,
+     "decoys": null
+    }
+   }
+  },
+  {
+   "id": "32768/0/04-vt",
+   "task": "vt",
+   "ok": true,
+   "answer": "RJJNC, QQNQH, XGJNK, GVNXT, RKHFT",
+   "want": [
+    "RJJNC",
+    "QQNQH",
+    "XGJNK",
+    "GVNXT",
+    "RKHFT"
+   ],
+   "prompt_tokens": 33568,
+   "evidence_lines": 5,
+   "decoy_lines": 5,
+   "evidence_found": true,
+   "rows": [
+    33567,
+    33569,
+    33572,
+    33576
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.857,
+     "evidence_whole": 3.0,
+     "decoys": 0.724
+    },
+    "7": {
+     "evidence": 0.857,
+     "evidence_whole": 2.75,
+     "decoys": 0.807
+    },
+    "11": {
+     "evidence": 0.888,
+     "evidence_whole": 3.25,
+     "decoys": 0.854
+    },
+    "15": {
+     "evidence": 0.816,
+     "evidence_whole": 3.25,
+     "decoys": 0.828
+    },
+    "19": {
+     "evidence": 0.75,
+     "evidence_whole": 2.75,
+     "decoys": 0.755
+    },
+    "23": {
+     "evidence": 0.969,
+     "evidence_whole": 4.25,
+     "decoys": 0.885
+    },
+    "27": {
+     "evidence": 0.99,
+     "evidence_whole": 4.5,
+     "decoys": 0.979
+    },
+    "31": {
+     "evidence": 0.995,
+     "evidence_whole": 4.75,
+     "decoys": 1.0
+    },
+    "35": {
+     "evidence": 0.985,
+     "evidence_whole": 4.25,
+     "decoys": 0.995
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 1.0
+    },
+    "43": {
+     "evidence": 0.995,
+     "evidence_whole": 4.75,
+     "decoys": 1.0
+    }
+   }
+  },
+  {
+   "id": "32768/0/05-vt",
+   "task": "vt",
+   "ok": false,
+   "answer": "Looking at the document, I need to find which variables are assigned the value 36511, either directly or through chains",
+   "want": [
+    "GGKXG",
+    "BXHTX",
+    "CPJWL",
+    "PCDBL",
+    "BGPZN"
+   ],
+   "prompt_tokens": 33567,
+   "evidence_lines": 5,
+   "decoy_lines": 5,
+   "evidence_found": true,
+   "rows": [
+    33566,
+    33569,
+    33571,
+    33573
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.332,
+     "evidence_whole": 0.25,
+     "decoys": 0.163
+    },
+    "7": {
+     "evidence": 0.239,
+     "evidence_whole": 0.25,
+     "decoys": 0.739
+    },
+    "11": {
+     "evidence": 0.245,
+     "evidence_whole": 0.75,
+     "decoys": 0.489
+    },
+    "15": {
+     "evidence": 0.473,
+     "evidence_whole": 0.75,
+     "decoys": 0.56
+    },
+    "19": {
+     "evidence": 0.967,
+     "evidence_whole": 4.5,
+     "decoys": 0.832
+    },
+    "23": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 0.995
+    },
+    "27": {
+     "evidence": 0.973,
+     "evidence_whole": 4.75,
+     "decoys": 0.918
+    },
+    "31": {
+     "evidence": 0.88,
+     "evidence_whole": 4.0,
+     "decoys": 0.908
+    },
+    "35": {
+     "evidence": 0.929,
+     "evidence_whole": 4.25,
+     "decoys": 0.891
+    },
+    "39": {
+     "evidence": 0.875,
+     "evidence_whole": 4.0,
+     "decoys": 0.88
+    },
+    "43": {
+     "evidence": 0.804,
+     "evidence_whole": 3.5,
+     "decoys": 0.804
+    }
+   }
+  },
+  {
+   "id": "32768/0/06-hop",
+   "task": "hop",
+   "ok": false,
+   "answer": "Lima",
+   "want": [
+    "Malmo"
+   ],
+   "prompt_tokens": 33564,
+   "evidence_lines": 2,
+   "decoy_lines": 3,
+   "evidence_found": true,
+   "rows": [
+    33563,
+    33568
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.455,
+     "evidence_whole": 0.0,
+     "decoys": 0.25
+    },
+    "7": {
+     "evidence": 0.955,
+     "evidence_whole": 1.0,
+     "decoys": 0.571
+    },
+    "11": {
+     "evidence": 0.886,
+     "evidence_whole": 0.5,
+     "decoys": 0.875
+    },
+    "15": {
+     "evidence": 0.955,
+     "evidence_whole": 1.5,
+     "decoys": 0.893
+    },
+    "19": {
+     "evidence": 0.864,
+     "evidence_whole": 0.0,
+     "decoys": 0.607
+    },
+    "23": {
+     "evidence": 0.909,
+     "evidence_whole": 1.0,
+     "decoys": 0.911
+    },
+    "27": {
+     "evidence": 0.932,
+     "evidence_whole": 1.0,
+     "decoys": 0.875
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 0.964
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 0.982
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 0.982
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    }
+   }
+  },
+  {
+   "id": "32768/0/07-hop",
+   "task": "hop",
+   "ok": true,
+   "answer": "Lima",
+   "want": [
+    "Lima"
+   ],
+   "prompt_tokens": 33562,
+   "evidence_lines": 2,
+   "decoy_lines": 3,
+   "evidence_found": true,
+   "rows": [
+    33561,
+    33566
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.5,
+     "evidence_whole": 0.5,
+     "decoys": 0.793
+    },
+    "7": {
+     "evidence": 0.722,
+     "evidence_whole": 1.0,
+     "decoys": 0.862
+    },
+    "11": {
+     "evidence": 0.861,
+     "evidence_whole": 1.5,
+     "decoys": 0.966
+    },
+    "15": {
+     "evidence": 0.861,
+     "evidence_whole": 1.5,
+     "decoys": 0.966
+    },
+    "19": {
+     "evidence": 0.722,
+     "evidence_whole": 0.5,
+     "decoys": 0.759
+    },
+    "23": {
+     "evidence": 0.972,
+     "evidence_whole": 1.5,
+     "decoys": 0.914
+    },
+    "27": {
+     "evidence": 0.944,
+     "evidence_whole": 1.0,
+     "decoys": 0.948
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 0.966
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 0.966
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 0.966
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 0.983
+    }
+   }
+  },
+  {
+   "id": "32768/0/08-cnt",
+   "task": "cnt",
+   "ok": false,
+   "answer": "4",
+   "want": [
+    "8"
+   ],
+   "prompt_tokens": 33563,
+   "evidence_lines": 8,
+   "decoy_lines": 6,
+   "evidence_found": true,
+   "rows": [
+    33562,
+    33564
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.148,
+     "evidence_whole": 0.0,
+     "decoys": 0.312
+    },
+    "7": {
+     "evidence": 0.5,
+     "evidence_whole": 0.0,
+     "decoys": 0.292
+    },
+    "11": {
+     "evidence": 0.414,
+     "evidence_whole": 1.0,
+     "decoys": 0.333
+    },
+    "15": {
+     "evidence": 0.812,
+     "evidence_whole": 5.0,
+     "decoys": 0.552
+    },
+    "19": {
+     "evidence": 0.688,
+     "evidence_whole": 5.0,
+     "decoys": 0.604
+    },
+    "23": {
+     "evidence": 0.969,
+     "evidence_whole": 7.5,
+     "decoys": 0.833
+    },
+    "27": {
+     "evidence": 0.859,
+     "evidence_whole": 6.0,
+     "decoys": 0.667
+    },
+    "31": {
+     "evidence": 0.781,
+     "evidence_whole": 5.0,
+     "decoys": 0.865
+    },
+    "35": {
+     "evidence": 0.781,
+     "evidence_whole": 4.5,
+     "decoys": 0.604
+    },
+    "39": {
+     "evidence": 0.75,
+     "evidence_whole": 4.0,
+     "decoys": 0.771
+    },
+    "43": {
+     "evidence": 0.766,
+     "evidence_whole": 5.0,
+     "decoys": 0.646
+    }
+   }
+  },
+  {
+   "id": "32768/0/09-agg",
+   "task": "agg",
+   "ok": false,
+   "answer": "Lagos, Fresno, Zurich, Sofia, Accra, Nairobi, Quito, Split",
+   "want": [
+    "Split",
+    "Nairobi",
+    "Quito",
+    "Lagos",
+    "Zurich"
+   ],
+   "prompt_tokens": 33565,
+   "evidence_lines": 5,
+   "decoy_lines": 3,
+   "evidence_found": true,
+   "rows": [
+    33564,
+    33567,
+    33571,
+    33576
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.671,
+     "evidence_whole": 1.75,
+     "decoys": 0.643
+    },
+    "7": {
+     "evidence": 0.726,
+     "evidence_whole": 2.0,
+     "decoys": 0.696
+    },
+    "11": {
+     "evidence": 0.744,
+     "evidence_whole": 2.0,
+     "decoys": 0.714
+    },
+    "15": {
+     "evidence": 0.933,
+     "evidence_whole": 4.0,
+     "decoys": 0.857
+    },
+    "19": {
+     "evidence": 0.774,
+     "evidence_whole": 2.5,
+     "decoys": 0.92
+    },
+    "23": {
+     "evidence": 0.945,
+     "evidence_whole": 3.25,
+     "decoys": 1.0
+    },
+    "27": {
+     "evidence": 0.933,
+     "evidence_whole": 3.0,
+     "decoys": 1.0
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 1.0
+    },
+    "35": {
+     "evidence": 0.976,
+     "evidence_whole": 4.5,
+     "decoys": 1.0
+    },
+    "39": {
+     "evidence": 0.945,
+     "evidence_whole": 3.5,
+     "decoys": 1.0
+    },
+    "43": {
+     "evidence": 0.994,
+     "evidence_whole": 4.75,
+     "decoys": 1.0
+    }
+   }
+  },
+  {
+   "id": "32768/1/00-mk",
+   "task": "mk",
+   "ok": true,
+   "answer": "6907031",
+   "want": [
+    "6907031"
+   ],
+   "prompt_tokens": 30138,
+   "evidence_lines": 1,
+   "decoy_lines": 7,
+   "evidence_found": true,
+   "rows": [
+    30137,
+    30141,
+    30143
+   ],
+   "layers": {
+    "3": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.434
+    },
+    "7": {
+     "evidence": 0.822,
+     "evidence_whole": 0.33,
+     "decoys": 0.715
+    },
+    "11": {
+     "evidence": 0.622,
+     "evidence_whole": 0.0,
+     "decoys": 0.822
+    },
+    "15": {
+     "evidence": 0.644,
+     "evidence_whole": 0.33,
+     "decoys": 0.647
+    },
+    "19": {
+     "evidence": 0.933,
+     "evidence_whole": 0.67,
+     "decoys": 0.777
+    },
+    "23": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.919
+    },
+    "27": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.984
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 1.0
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 1.0
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.994
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.981
+    }
+   }
+  },
+  {
+   "id": "32768/1/01-mk",
+   "task": "mk",
+   "ok": true,
+   "answer": "5860951",
+   "want": [
+    "5860951"
+   ],
+   "prompt_tokens": 30138,
+   "evidence_lines": 1,
+   "decoy_lines": 7,
+   "evidence_found": true,
+   "rows": [
+    30137,
+    30140,
+    30143
+   ],
+   "layers": {
+    "3": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.434
+    },
+    "7": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.631
+    },
+    "11": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.715
+    },
+    "15": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.586
+    },
+    "19": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.806
+    },
+    "23": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.939
+    },
+    "27": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.964
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 1.0
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.99
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.971
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.955
+    }
+   }
+  },
+  {
+   "id": "32768/1/02-mv",
+   "task": "mv",
+   "ok": true,
+   "answer": "507207, 940338, 118326, 870081",
+   "want": [
+    "507207",
+    "870081",
+    "118326",
+    "940338"
+   ],
+   "prompt_tokens": 30142,
+   "evidence_lines": 4,
+   "decoy_lines": 0,
+   "evidence_found": true,
+   "rows": [
+    30141,
+    30143,
+    30144,
+    30146
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.653,
+     "evidence_whole": 0.25,
+     "decoys": null
+    },
+    "7": {
+     "evidence": 0.524,
+     "evidence_whole": 0.0,
+     "decoys": null
+    },
+    "11": {
+     "evidence": 0.665,
+     "evidence_whole": 0.75,
+     "decoys": null
+    },
+    "15": {
+     "evidence": 0.77,
+     "evidence_whole": 2.0,
+     "decoys": null
+    },
+    "19": {
+     "evidence": 0.923,
+     "evidence_whole": 3.0,
+     "decoys": null
+    },
+    "23": {
+     "evidence": 0.992,
+     "evidence_whole": 3.75,
+     "decoys": null
+    },
+    "27": {
+     "evidence": 0.976,
+     "evidence_whole": 3.25,
+     "decoys": null
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 4.0,
+     "decoys": null
+    },
+    "35": {
+     "evidence": 0.992,
+     "evidence_whole": 3.75,
+     "decoys": null
+    },
+    "39": {
+     "evidence": 0.976,
+     "evidence_whole": 3.25,
+     "decoys": null
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 4.0,
+     "decoys": null
+    }
+   }
+  },
+  {
+   "id": "32768/1/03-mv",
+   "task": "mv",
+   "ok": true,
+   "answer": "754748, 578794, 991513, 777987",
+   "want": [
+    "777987",
+    "991513",
+    "578794",
+    "754748"
+   ],
+   "prompt_tokens": 30141,
+   "evidence_lines": 4,
+   "decoy_lines": 0,
+   "evidence_found": true,
+   "rows": [
+    30140,
+    30142,
+    30148,
+    30150
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.662,
+     "evidence_whole": 0.25,
+     "decoys": null
+    },
+    "7": {
+     "evidence": 0.621,
+     "evidence_whole": 0.0,
+     "decoys": null
+    },
+    "11": {
+     "evidence": 0.683,
+     "evidence_whole": 0.75,
+     "decoys": null
+    },
+    "15": {
+     "evidence": 0.808,
+     "evidence_whole": 1.75,
+     "decoys": null
+    },
+    "19": {
+     "evidence": 0.908,
+     "evidence_whole": 2.75,
+     "decoys": null
+    },
+    "23": {
+     "evidence": 0.954,
+     "evidence_whole": 2.75,
+     "decoys": null
+    },
+    "27": {
+     "evidence": 0.996,
+     "evidence_whole": 3.75,
+     "decoys": null
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 4.0,
+     "decoys": null
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 4.0,
+     "decoys": null
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 4.0,
+     "decoys": null
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 4.0,
+     "decoys": null
+    }
+   }
+  },
+  {
+   "id": "32768/1/04-vt",
+   "task": "vt",
+   "ok": false,
+   "answer": "NWKHS, TBMSH, CBMZD",
+   "want": [
+    "NWKHS",
+    "TBMSH",
+    "CBMZD",
+    "NPTGZ",
+    "BDWCD"
+   ],
+   "prompt_tokens": 30148,
+   "evidence_lines": 5,
+   "decoy_lines": 5,
+   "evidence_found": true,
+   "rows": [
+    30147,
+    30149,
+    30152,
+    30154
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.91,
+     "evidence_whole": 4.25,
+     "decoys": 0.949
+    },
+    "7": {
+     "evidence": 0.989,
+     "evidence_whole": 4.75,
+     "decoys": 0.955
+    },
+    "11": {
+     "evidence": 0.92,
+     "evidence_whole": 4.25,
+     "decoys": 0.994
+    },
+    "15": {
+     "evidence": 0.936,
+     "evidence_whole": 4.5,
+     "decoys": 0.932
+    },
+    "19": {
+     "evidence": 0.936,
+     "evidence_whole": 4.5,
+     "decoys": 0.949
+    },
+    "23": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 1.0
+    },
+    "27": {
+     "evidence": 0.995,
+     "evidence_whole": 4.75,
+     "decoys": 1.0
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 1.0
+    },
+    "35": {
+     "evidence": 0.989,
+     "evidence_whole": 4.75,
+     "decoys": 0.994
+    },
+    "39": {
+     "evidence": 0.989,
+     "evidence_whole": 4.75,
+     "decoys": 0.989
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 1.0
+    }
+   }
+  },
+  {
+   "id": "32768/1/05-vt",
+   "task": "vt",
+   "ok": true,
+   "answer": "HLSVJ, GZBWN, HJZSF, XWTWV, HLQCC,",
+   "want": [
+    "HLSVJ",
+    "GZBWN",
+    "HJZSF",
+    "XWTWV",
+    "HLQCC"
+   ],
+   "prompt_tokens": 30148,
+   "evidence_lines": 5,
+   "decoy_lines": 5,
+   "evidence_found": true,
+   "rows": [
+    30147,
+    30150,
+    30151,
+    30154
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.76,
+     "evidence_whole": 3.0,
+     "decoys": 0.77
+    },
+    "7": {
+     "evidence": 0.907,
+     "evidence_whole": 3.5,
+     "decoys": 0.862
+    },
+    "11": {
+     "evidence": 0.912,
+     "evidence_whole": 3.25,
+     "decoys": 0.857
+    },
+    "15": {
+     "evidence": 0.833,
+     "evidence_whole": 4.0,
+     "decoys": 0.781
+    },
+    "19": {
+     "evidence": 0.902,
+     "evidence_whole": 3.25,
+     "decoys": 0.811
+    },
+    "23": {
+     "evidence": 0.985,
+     "evidence_whole": 4.5,
+     "decoys": 0.969
+    },
+    "27": {
+     "evidence": 0.98,
+     "evidence_whole": 4.5,
+     "decoys": 0.964
+    },
+    "31": {
+     "evidence": 0.98,
+     "evidence_whole": 4.5,
+     "decoys": 0.99
+    },
+    "35": {
+     "evidence": 0.966,
+     "evidence_whole": 4.25,
+     "decoys": 0.923
+    },
+    "39": {
+     "evidence": 0.971,
+     "evidence_whole": 4.0,
+     "decoys": 0.99
+    },
+    "43": {
+     "evidence": 0.99,
+     "evidence_whole": 4.5,
+     "decoys": 0.985
+    }
+   }
+  },
+  {
+   "id": "32768/1/06-hop",
+   "task": "hop",
+   "ok": true,
+   "answer": "Riga",
+   "want": [
+    "Riga"
+   ],
+   "prompt_tokens": 30143,
+   "evidence_lines": 2,
+   "decoy_lines": 3,
+   "evidence_found": true,
+   "rows": [
+    30142,
+    30144
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.778,
+     "evidence_whole": 1.0,
+     "decoys": 1.0
+    },
+    "7": {
+     "evidence": 0.833,
+     "evidence_whole": 0.5,
+     "decoys": 1.0
+    },
+    "11": {
+     "evidence": 0.861,
+     "evidence_whole": 0.5,
+     "decoys": 1.0
+    },
+    "15": {
+     "evidence": 0.944,
+     "evidence_whole": 1.0,
+     "decoys": 1.0
+    },
+    "19": {
+     "evidence": 0.889,
+     "evidence_whole": 1.0,
+     "decoys": 0.963
+    },
+    "23": {
+     "evidence": 0.972,
+     "evidence_whole": 1.5,
+     "decoys": 1.0
+    },
+    "27": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    }
+   }
+  },
+  {
+   "id": "32768/1/07-hop",
+   "task": "hop",
+   "ok": true,
+   "answer": "Dakar",
+   "want": [
+    "Dakar"
+   ],
+   "prompt_tokens": 30142,
+   "evidence_lines": 2,
+   "decoy_lines": 3,
+   "evidence_found": true,
+   "rows": [
+    30141,
+    30143,
+    30146
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.983,
+     "evidence_whole": 1.67,
+     "decoys": 0.923
+    },
+    "7": {
+     "evidence": 0.95,
+     "evidence_whole": 1.0,
+     "decoys": 0.949
+    },
+    "11": {
+     "evidence": 0.967,
+     "evidence_whole": 1.33,
+     "decoys": 0.923
+    },
+    "15": {
+     "evidence": 0.917,
+     "evidence_whole": 1.33,
+     "decoys": 1.0
+    },
+    "19": {
+     "evidence": 0.95,
+     "evidence_whole": 1.0,
+     "decoys": 0.872
+    },
+    "23": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "27": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    }
+   }
+  },
+  {
+   "id": "32768/1/08-cnt",
+   "task": "cnt",
+   "ok": false,
+   "answer": "8",
+   "want": [
+    "7"
+   ],
+   "prompt_tokens": 30142,
+   "evidence_lines": 7,
+   "decoy_lines": 2,
+   "evidence_found": true,
+   "rows": [
+    30141,
+    30143
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.541,
+     "evidence_whole": 3.0,
+     "decoys": 0.643
+    },
+    "7": {
+     "evidence": 0.582,
+     "evidence_whole": 3.0,
+     "decoys": 0.643
+    },
+    "11": {
+     "evidence": 0.48,
+     "evidence_whole": 2.0,
+     "decoys": 0.964
+    },
+    "15": {
+     "evidence": 0.755,
+     "evidence_whole": 3.5,
+     "decoys": 1.0
+    },
+    "19": {
+     "evidence": 0.939,
+     "evidence_whole": 4.0,
+     "decoys": 0.929
+    },
+    "23": {
+     "evidence": 0.959,
+     "evidence_whole": 5.0,
+     "decoys": 1.0
+    },
+    "27": {
+     "evidence": 0.98,
+     "evidence_whole": 6.0,
+     "decoys": 0.964
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 7.0,
+     "decoys": 1.0
+    },
+    "35": {
+     "evidence": 0.929,
+     "evidence_whole": 4.5,
+     "decoys": 1.0
+    },
+    "39": {
+     "evidence": 0.827,
+     "evidence_whole": 3.5,
+     "decoys": 1.0
+    },
+    "43": {
+     "evidence": 0.663,
+     "evidence_whole": 3.0,
+     "decoys": 0.964
+    }
+   }
+  },
+  {
+   "id": "32768/1/09-agg",
+   "task": "agg",
+   "ok": true,
+   "answer": "Perth, Lima, Leeds, Fresno, Zurich",
+   "want": [
+    "Zurich",
+    "Leeds",
+    "Perth",
+    "Fresno",
+    "Lima"
+   ],
+   "prompt_tokens": 30146,
+   "evidence_lines": 5,
+   "decoy_lines": 3,
+   "evidence_found": true,
+   "rows": [
+    30145,
+    30148,
+    30150,
+    30152
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.933,
+     "evidence_whole": 4.5,
+     "decoys": 0.89
+    },
+    "7": {
+     "evidence": 0.889,
+     "evidence_whole": 3.75,
+     "decoys": 1.0
+    },
+    "11": {
+     "evidence": 0.911,
+     "evidence_whole": 4.0,
+     "decoys": 0.88
+    },
+    "15": {
+     "evidence": 0.978,
+     "evidence_whole": 4.75,
+     "decoys": 0.92
+    },
+    "19": {
+     "evidence": 0.939,
+     "evidence_whole": 4.25,
+     "decoys": 1.0
+    },
+    "23": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 1.0
+    },
+    "27": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 1.0
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 1.0
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 1.0
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 1.0
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 1.0
+    }
+   }
+  },
+  {
+   "id": "131072/0/00-mk",
+   "task": "mk",
+   "ok": true,
+   "answer": "7428686",
+   "want": [
+    "7428686"
+   ],
+   "prompt_tokens": 141460,
+   "evidence_lines": 1,
+   "decoy_lines": 7,
+   "evidence_found": true,
+   "rows": [
+    141459,
+    141461,
+    141466
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.089,
+     "evidence_whole": 0.0,
+     "decoys": 0.097
+    },
+    "7": {
+     "evidence": 0.356,
+     "evidence_whole": 0.0,
+     "decoys": 0.45
+    },
+    "11": {
+     "evidence": 0.511,
+     "evidence_whole": 0.0,
+     "decoys": 0.725
+    },
+    "15": {
+     "evidence": 0.689,
+     "evidence_whole": 0.33,
+     "decoys": 0.641
+    },
+    "19": {
+     "evidence": 0.689,
+     "evidence_whole": 0.33,
+     "decoys": 0.534
+    },
+    "23": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.867
+    },
+    "27": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.89
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.964
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.958
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.964
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.861
+    }
+   }
+  },
+  {
+   "id": "131072/0/01-mk",
+   "task": "mk",
+   "ok": true,
+   "answer": "2386612",
+   "want": [
+    "2386612"
+   ],
+   "prompt_tokens": 141460,
+   "evidence_lines": 1,
+   "decoy_lines": 7,
+   "evidence_found": true,
+   "rows": [
+    141459,
+    141462,
+    141466
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.0,
+     "evidence_whole": 0.0,
+     "decoys": 0.11
+    },
+    "7": {
+     "evidence": 0.422,
+     "evidence_whole": 0.0,
+     "decoys": 0.401
+    },
+    "11": {
+     "evidence": 0.511,
+     "evidence_whole": 0.0,
+     "decoys": 0.715
+    },
+    "15": {
+     "evidence": 0.578,
+     "evidence_whole": 0.0,
+     "decoys": 0.647
+    },
+    "19": {
+     "evidence": 0.333,
+     "evidence_whole": 0.33,
+     "decoys": 0.654
+    },
+    "23": {
+     "evidence": 0.667,
+     "evidence_whole": 0.0,
+     "decoys": 0.919
+    },
+    "27": {
+     "evidence": 0.756,
+     "evidence_whole": 0.0,
+     "decoys": 0.942
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.987
+    },
+    "35": {
+     "evidence": 0.867,
+     "evidence_whole": 0.0,
+     "decoys": 0.971
+    },
+    "39": {
+     "evidence": 0.844,
+     "evidence_whole": 0.0,
+     "decoys": 0.968
+    },
+    "43": {
+     "evidence": 0.8,
+     "evidence_whole": 0.0,
+     "decoys": 0.916
+    }
+   }
+  },
+  {
+   "id": "131072/0/02-mv",
+   "task": "mv",
+   "ok": true,
+   "answer": "197351, 584347, 525150, 106393",
+   "want": [
+    "106393",
+    "197351",
+    "584347",
+    "525150"
+   ],
+   "prompt_tokens": 141464,
+   "evidence_lines": 4,
+   "decoy_lines": 0,
+   "evidence_found": true,
+   "rows": [
+    141463,
+    141466,
+    141469,
+    141471
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.206,
+     "evidence_whole": 0.0,
+     "decoys": null
+    },
+    "7": {
+     "evidence": 0.25,
+     "evidence_whole": 0.0,
+     "decoys": null
+    },
+    "11": {
+     "evidence": 0.484,
+     "evidence_whole": 0.25,
+     "decoys": null
+    },
+    "15": {
+     "evidence": 0.702,
+     "evidence_whole": 1.5,
+     "decoys": null
+    },
+    "19": {
+     "evidence": 0.831,
+     "evidence_whole": 2.0,
+     "decoys": null
+    },
+    "23": {
+     "evidence": 0.871,
+     "evidence_whole": 2.0,
+     "decoys": null
+    },
+    "27": {
+     "evidence": 0.96,
+     "evidence_whole": 3.0,
+     "decoys": null
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 4.0,
+     "decoys": null
+    },
+    "35": {
+     "evidence": 0.976,
+     "evidence_whole": 3.5,
+     "decoys": null
+    },
+    "39": {
+     "evidence": 0.891,
+     "evidence_whole": 3.0,
+     "decoys": null
+    },
+    "43": {
+     "evidence": 0.911,
+     "evidence_whole": 2.25,
+     "decoys": null
+    }
+   }
+  },
+  {
+   "id": "131072/0/03-mv",
+   "task": "mv",
+   "ok": true,
+   "answer": "358793, 632169, 959179, 995332",
+   "want": [
+    "632169",
+    "358793",
+    "995332",
+    "959179"
+   ],
+   "prompt_tokens": 141463,
+   "evidence_lines": 4,
+   "decoy_lines": 0,
+   "evidence_found": true,
+   "rows": [
+    141462,
+    141464,
+    141469,
+    141475
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.371,
+     "evidence_whole": 0.0,
+     "decoys": null
+    },
+    "7": {
+     "evidence": 0.358,
+     "evidence_whole": 0.0,
+     "decoys": null
+    },
+    "11": {
+     "evidence": 0.483,
+     "evidence_whole": 0.0,
+     "decoys": null
+    },
+    "15": {
+     "evidence": 0.599,
+     "evidence_whole": 0.25,
+     "decoys": null
+    },
+    "19": {
+     "evidence": 0.608,
+     "evidence_whole": 0.25,
+     "decoys": null
+    },
+    "23": {
+     "evidence": 0.819,
+     "evidence_whole": 0.5,
+     "decoys": null
+    },
+    "27": {
+     "evidence": 0.871,
+     "evidence_whole": 0.5,
+     "decoys": null
+    },
+    "31": {
+     "evidence": 0.931,
+     "evidence_whole": 1.5,
+     "decoys": null
+    },
+    "35": {
+     "evidence": 0.94,
+     "evidence_whole": 2.25,
+     "decoys": null
+    },
+    "39": {
+     "evidence": 0.966,
+     "evidence_whole": 2.5,
+     "decoys": null
+    },
+    "43": {
+     "evidence": 0.94,
+     "evidence_whole": 2.0,
+     "decoys": null
+    }
+   }
+  },
+  {
+   "id": "131072/0/04-vt",
+   "task": "vt",
+   "ok": true,
+   "answer": "BRCBK, DBQJR, QFWKZ, GFCJG, HSKBN, RGZ",
+   "want": [
+    "BRCBK",
+    "DBQJR",
+    "QFWKZ",
+    "GFCJG",
+    "HSKBN"
+   ],
+   "prompt_tokens": 141470,
+   "evidence_lines": 5,
+   "decoy_lines": 5,
+   "evidence_found": true,
+   "rows": [
+    141469,
+    141471,
+    141472,
+    141474
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.694,
+     "evidence_whole": 3.0,
+     "decoys": 0.557
+    },
+    "7": {
+     "evidence": 0.796,
+     "evidence_whole": 2.0,
+     "decoys": 0.583
+    },
+    "11": {
+     "evidence": 0.801,
+     "evidence_whole": 3.0,
+     "decoys": 0.786
+    },
+    "15": {
+     "evidence": 0.714,
+     "evidence_whole": 2.0,
+     "decoys": 0.771
+    },
+    "19": {
+     "evidence": 0.821,
+     "evidence_whole": 3.5,
+     "decoys": 0.599
+    },
+    "23": {
+     "evidence": 0.98,
+     "evidence_whole": 4.75,
+     "decoys": 0.875
+    },
+    "27": {
+     "evidence": 0.98,
+     "evidence_whole": 4.75,
+     "decoys": 0.953
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 0.99
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 0.99
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 0.995
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 0.969
+    }
+   }
+  },
+  {
+   "id": "131072/0/05-vt",
+   "task": "vt",
+   "ok": true,
+   "answer": "HFXKX, KGDJM, QCVMQ, ZNVFF, LQZJK, MWJ",
+   "want": [
+    "HFXKX",
+    "KGDJM",
+    "QCVMQ",
+    "ZNVFF",
+    "LQZJK"
+   ],
+   "prompt_tokens": 141470,
+   "evidence_lines": 5,
+   "decoy_lines": 5,
+   "evidence_found": true,
+   "rows": [
+    141469,
+    141471,
+    141473,
+    141476
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.365,
+     "evidence_whole": 0.0,
+     "decoys": 0.648
+    },
+    "7": {
+     "evidence": 0.802,
+     "evidence_whole": 1.25,
+     "decoys": 0.693
+    },
+    "11": {
+     "evidence": 0.844,
+     "evidence_whole": 2.0,
+     "decoys": 0.83
+    },
+    "15": {
+     "evidence": 0.807,
+     "evidence_whole": 3.25,
+     "decoys": 0.773
+    },
+    "19": {
+     "evidence": 0.88,
+     "evidence_whole": 3.25,
+     "decoys": 0.727
+    },
+    "23": {
+     "evidence": 0.99,
+     "evidence_whole": 4.5,
+     "decoys": 0.892
+    },
+    "27": {
+     "evidence": 0.969,
+     "evidence_whole": 4.0,
+     "decoys": 0.943
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 0.955
+    },
+    "35": {
+     "evidence": 0.99,
+     "evidence_whole": 4.75,
+     "decoys": 0.949
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 0.966
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 0.994
+    }
+   }
+  },
+  {
+   "id": "131072/0/06-hop",
+   "task": "hop",
+   "ok": false,
+   "answer": "Ghent",
+   "want": [
+    "Riga"
+   ],
+   "prompt_tokens": 141465,
+   "evidence_lines": 2,
+   "decoy_lines": 3,
+   "evidence_found": true,
+   "rows": [
+    141464,
+    141466,
+    141469
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.0,
+     "evidence_whole": 0.0,
+     "decoys": 0.095
+    },
+    "7": {
+     "evidence": 0.815,
+     "evidence_whole": 1.0,
+     "decoys": 0.583
+    },
+    "11": {
+     "evidence": 0.926,
+     "evidence_whole": 1.33,
+     "decoys": 0.738
+    },
+    "15": {
+     "evidence": 0.926,
+     "evidence_whole": 1.33,
+     "decoys": 0.929
+    },
+    "19": {
+     "evidence": 0.778,
+     "evidence_whole": 0.67,
+     "decoys": 0.75
+    },
+    "23": {
+     "evidence": 0.852,
+     "evidence_whole": 1.0,
+     "decoys": 0.929
+    },
+    "27": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 0.929
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 0.952
+    }
+   }
+  },
+  {
+   "id": "131072/0/07-hop",
+   "task": "hop",
+   "ok": true,
+   "answer": "Durban",
+   "want": [
+    "Durban"
+   ],
+   "prompt_tokens": 141464,
+   "evidence_lines": 2,
+   "decoy_lines": 3,
+   "evidence_found": true,
+   "rows": [
+    141463,
+    141465,
+    141467
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.088,
+     "evidence_whole": 0.0,
+     "decoys": 0.198
+    },
+    "7": {
+     "evidence": 0.579,
+     "evidence_whole": 1.0,
+     "decoys": 0.556
+    },
+    "11": {
+     "evidence": 0.684,
+     "evidence_whole": 0.0,
+     "decoys": 0.877
+    },
+    "15": {
+     "evidence": 0.895,
+     "evidence_whole": 1.33,
+     "decoys": 0.926
+    },
+    "19": {
+     "evidence": 0.737,
+     "evidence_whole": 0.33,
+     "decoys": 0.667
+    },
+    "23": {
+     "evidence": 0.842,
+     "evidence_whole": 1.0,
+     "decoys": 0.926
+    },
+    "27": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 0.926
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    }
+   }
+  },
+  {
+   "id": "131072/0/08-cnt",
+   "task": "cnt",
+   "ok": false,
+   "answer": "4",
+   "want": [
+    "9"
+   ],
+   "prompt_tokens": 141464,
+   "evidence_lines": 9,
+   "decoy_lines": 5,
+   "evidence_found": true,
+   "rows": [
+    141463,
+    141465
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.032,
+     "evidence_whole": 0.0,
+     "decoys": 0.029
+    },
+    "7": {
+     "evidence": 0.23,
+     "evidence_whole": 0.0,
+     "decoys": 0.214
+    },
+    "11": {
+     "evidence": 0.206,
+     "evidence_whole": 0.0,
+     "decoys": 0.143
+    },
+    "15": {
+     "evidence": 0.54,
+     "evidence_whole": 4.0,
+     "decoys": 0.486
+    },
+    "19": {
+     "evidence": 0.452,
+     "evidence_whole": 1.0,
+     "decoys": 0.414
+    },
+    "23": {
+     "evidence": 0.881,
+     "evidence_whole": 5.5,
+     "decoys": 0.743
+    },
+    "27": {
+     "evidence": 0.595,
+     "evidence_whole": 3.5,
+     "decoys": 0.7
+    },
+    "31": {
+     "evidence": 0.96,
+     "evidence_whole": 7.5,
+     "decoys": 0.986
+    },
+    "35": {
+     "evidence": 0.873,
+     "evidence_whole": 6.0,
+     "decoys": 0.943
+    },
+    "39": {
+     "evidence": 0.794,
+     "evidence_whole": 5.0,
+     "decoys": 0.914
+    },
+    "43": {
+     "evidence": 0.619,
+     "evidence_whole": 3.5,
+     "decoys": 0.743
+    }
+   }
+  },
+  {
+   "id": "131072/0/09-agg",
+   "task": "agg",
+   "ok": false,
+   "answer": "Tallinn, Leeds, Kyoto, Nairobi, Dakar, Tunis",
+   "want": [
+    "Tallinn",
+    "Dakar",
+    "Nairobi",
+    "Leeds",
+    "Kyoto"
+   ],
+   "prompt_tokens": 141468,
+   "evidence_lines": 5,
+   "decoy_lines": 3,
+   "evidence_found": true,
+   "rows": [
+    141467,
+    141471,
+    141473,
+    141477
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.261,
+     "evidence_whole": 0.0,
+     "decoys": 0.348
+    },
+    "7": {
+     "evidence": 0.638,
+     "evidence_whole": 1.0,
+     "decoys": 0.72
+    },
+    "11": {
+     "evidence": 0.697,
+     "evidence_whole": 0.75,
+     "decoys": 0.758
+    },
+    "15": {
+     "evidence": 0.899,
+     "evidence_whole": 2.25,
+     "decoys": 0.826
+    },
+    "19": {
+     "evidence": 0.527,
+     "evidence_whole": 0.5,
+     "decoys": 0.636
+    },
+    "23": {
+     "evidence": 0.894,
+     "evidence_whole": 2.0,
+     "decoys": 0.909
+    },
+    "27": {
+     "evidence": 0.936,
+     "evidence_whole": 3.25,
+     "decoys": 0.947
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 0.97
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 0.939
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 0.955
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 1.0
+    }
+   }
+  },
+  {
+   "id": "262144/0/00-mk",
+   "task": "mk",
+   "ok": true,
+   "answer": "2604327",
+   "want": [
+    "2604327"
+   ],
+   "prompt_tokens": 252922,
+   "evidence_lines": 1,
+   "decoy_lines": 7,
+   "evidence_found": true,
+   "rows": [
+    252921,
+    252923,
+    252926
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.167,
+     "evidence_whole": 0.0,
+     "decoys": 0.205
+    },
+    "7": {
+     "evidence": 0.69,
+     "evidence_whole": 0.0,
+     "decoys": 0.604
+    },
+    "11": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.789
+    },
+    "15": {
+     "evidence": 0.595,
+     "evidence_whole": 0.33,
+     "decoys": 0.789
+    },
+    "19": {
+     "evidence": 0.571,
+     "evidence_whole": 0.33,
+     "decoys": 0.838
+    },
+    "23": {
+     "evidence": 0.643,
+     "evidence_whole": 0.0,
+     "decoys": 0.914
+    },
+    "27": {
+     "evidence": 0.857,
+     "evidence_whole": 0.33,
+     "decoys": 0.964
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.967
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.98
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 1.0,
+     "decoys": 0.98
+    },
+    "43": {
+     "evidence": 0.929,
+     "evidence_whole": 0.67,
+     "decoys": 0.917
+    }
+   }
+  },
+  {
+   "id": "262144/0/01-mk",
+   "task": "mk",
+   "ok": true,
+   "answer": "1850522",
+   "want": [
+    "1850522"
+   ],
+   "prompt_tokens": 252922,
+   "evidence_lines": 1,
+   "decoy_lines": 7,
+   "evidence_found": true,
+   "rows": [
+    252921,
+    252923,
+    252927
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.19,
+     "evidence_whole": 0.0,
+     "decoys": 0.241
+    },
+    "7": {
+     "evidence": 0.5,
+     "evidence_whole": 0.0,
+     "decoys": 0.508
+    },
+    "11": {
+     "evidence": 0.881,
+     "evidence_whole": 0.67,
+     "decoys": 0.825
+    },
+    "15": {
+     "evidence": 0.738,
+     "evidence_whole": 0.0,
+     "decoys": 0.601
+    },
+    "19": {
+     "evidence": 0.833,
+     "evidence_whole": 0.0,
+     "decoys": 0.713
+    },
+    "23": {
+     "evidence": 0.738,
+     "evidence_whole": 0.0,
+     "decoys": 0.878
+    },
+    "27": {
+     "evidence": 0.929,
+     "evidence_whole": 0.0,
+     "decoys": 0.898
+    },
+    "31": {
+     "evidence": 0.976,
+     "evidence_whole": 0.67,
+     "decoys": 0.967
+    },
+    "35": {
+     "evidence": 0.976,
+     "evidence_whole": 0.67,
+     "decoys": 0.927
+    },
+    "39": {
+     "evidence": 0.952,
+     "evidence_whole": 0.33,
+     "decoys": 0.881
+    },
+    "43": {
+     "evidence": 0.857,
+     "evidence_whole": 0.33,
+     "decoys": 0.782
+    }
+   }
+  },
+  {
+   "id": "262144/0/02-mv",
+   "task": "mv",
+   "ok": true,
+   "answer": "735539, 789873, 334783, 944831",
+   "want": [
+    "735539",
+    "789873",
+    "334783",
+    "944831"
+   ],
+   "prompt_tokens": 252927,
+   "evidence_lines": 4,
+   "decoy_lines": 0,
+   "evidence_found": true,
+   "rows": [
+    252926,
+    252928,
+    252932,
+    252934
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.125,
+     "evidence_whole": 0.0,
+     "decoys": null
+    },
+    "7": {
+     "evidence": 0.386,
+     "evidence_whole": 0.0,
+     "decoys": null
+    },
+    "11": {
+     "evidence": 0.798,
+     "evidence_whole": 1.5,
+     "decoys": null
+    },
+    "15": {
+     "evidence": 0.783,
+     "evidence_whole": 2.5,
+     "decoys": null
+    },
+    "19": {
+     "evidence": 0.787,
+     "evidence_whole": 2.25,
+     "decoys": null
+    },
+    "23": {
+     "evidence": 0.915,
+     "evidence_whole": 1.75,
+     "decoys": null
+    },
+    "27": {
+     "evidence": 0.926,
+     "evidence_whole": 2.5,
+     "decoys": null
+    },
+    "31": {
+     "evidence": 0.974,
+     "evidence_whole": 3.25,
+     "decoys": null
+    },
+    "35": {
+     "evidence": 0.945,
+     "evidence_whole": 3.25,
+     "decoys": null
+    },
+    "39": {
+     "evidence": 0.993,
+     "evidence_whole": 3.5,
+     "decoys": null
+    },
+    "43": {
+     "evidence": 0.963,
+     "evidence_whole": 3.5,
+     "decoys": null
+    }
+   }
+  },
+  {
+   "id": "262144/0/03-mv",
+   "task": "mv",
+   "ok": true,
+   "answer": "978547, 223630, 399216, 975758",
+   "want": [
+    "978547",
+    "975758",
+    "223630",
+    "399216"
+   ],
+   "prompt_tokens": 252926,
+   "evidence_lines": 4,
+   "decoy_lines": 0,
+   "evidence_found": true,
+   "rows": [
+    252925,
+    252927,
+    252931,
+    252933
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.46,
+     "evidence_whole": 0.0,
+     "decoys": null
+    },
+    "7": {
+     "evidence": 0.323,
+     "evidence_whole": 0.0,
+     "decoys": null
+    },
+    "11": {
+     "evidence": 0.669,
+     "evidence_whole": 0.75,
+     "decoys": null
+    },
+    "15": {
+     "evidence": 0.556,
+     "evidence_whole": 1.5,
+     "decoys": null
+    },
+    "19": {
+     "evidence": 0.645,
+     "evidence_whole": 0.5,
+     "decoys": null
+    },
+    "23": {
+     "evidence": 0.726,
+     "evidence_whole": 1.25,
+     "decoys": null
+    },
+    "27": {
+     "evidence": 0.855,
+     "evidence_whole": 2.0,
+     "decoys": null
+    },
+    "31": {
+     "evidence": 0.968,
+     "evidence_whole": 2.75,
+     "decoys": null
+    },
+    "35": {
+     "evidence": 0.952,
+     "evidence_whole": 2.5,
+     "decoys": null
+    },
+    "39": {
+     "evidence": 0.952,
+     "evidence_whole": 2.5,
+     "decoys": null
+    },
+    "43": {
+     "evidence": 0.871,
+     "evidence_whole": 2.25,
+     "decoys": null
+    }
+   }
+  },
+  {
+   "id": "262144/0/04-vt",
+   "task": "vt",
+   "ok": true,
+   "answer": "WWLCV, BXLJH, CFFBV, WVHFR, KSGXL, WLSGW",
+   "want": [
+    "WWLCV",
+    "BXLJH",
+    "CFFBV",
+    "WVHFR",
+    "KSGXL"
+   ],
+   "prompt_tokens": 252931,
+   "evidence_lines": 5,
+   "decoy_lines": 5,
+   "evidence_found": true,
+   "rows": [
+    252930,
+    252932,
+    252934,
+    252936
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.685,
+     "evidence_whole": 1.5,
+     "decoys": 0.51
+    },
+    "7": {
+     "evidence": 0.696,
+     "evidence_whole": 1.5,
+     "decoys": 0.75
+    },
+    "11": {
+     "evidence": 0.946,
+     "evidence_whole": 3.5,
+     "decoys": 0.975
+    },
+    "15": {
+     "evidence": 0.842,
+     "evidence_whole": 3.5,
+     "decoys": 0.925
+    },
+    "19": {
+     "evidence": 0.826,
+     "evidence_whole": 3.0,
+     "decoys": 0.81
+    },
+    "23": {
+     "evidence": 0.918,
+     "evidence_whole": 3.25,
+     "decoys": 0.925
+    },
+    "27": {
+     "evidence": 0.94,
+     "evidence_whole": 3.75,
+     "decoys": 0.945
+    },
+    "31": {
+     "evidence": 0.951,
+     "evidence_whole": 3.75,
+     "decoys": 0.975
+    },
+    "35": {
+     "evidence": 0.967,
+     "evidence_whole": 3.5,
+     "decoys": 0.955
+    },
+    "39": {
+     "evidence": 0.962,
+     "evidence_whole": 3.25,
+     "decoys": 0.96
+    },
+    "43": {
+     "evidence": 0.957,
+     "evidence_whole": 3.0,
+     "decoys": 0.97
+    }
+   }
+  },
+  {
+   "id": "262144/0/05-vt",
+   "task": "vt",
+   "ok": false,
+   "answer": "BCCSF",
+   "want": [
+    "BCCSF",
+    "MDGPP",
+    "DKVSN",
+    "TTHXN",
+    "WLSGW"
+   ],
+   "prompt_tokens": 252932,
+   "evidence_lines": 5,
+   "decoy_lines": 5,
+   "evidence_found": true,
+   "rows": [
+    252931,
+    252933,
+    252935
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.411,
+     "evidence_whole": 0.67,
+     "decoys": 0.364
+    },
+    "7": {
+     "evidence": 0.773,
+     "evidence_whole": 1.67,
+     "decoys": 0.568
+    },
+    "11": {
+     "evidence": 0.908,
+     "evidence_whole": 3.0,
+     "decoys": 0.977
+    },
+    "15": {
+     "evidence": 0.66,
+     "evidence_whole": 2.67,
+     "decoys": 0.727
+    },
+    "19": {
+     "evidence": 0.688,
+     "evidence_whole": 1.33,
+     "decoys": 0.78
+    },
+    "23": {
+     "evidence": 0.858,
+     "evidence_whole": 2.67,
+     "decoys": 0.879
+    },
+    "27": {
+     "evidence": 0.851,
+     "evidence_whole": 3.0,
+     "decoys": 0.886
+    },
+    "31": {
+     "evidence": 0.801,
+     "evidence_whole": 3.33,
+     "decoys": 0.939
+    },
+    "35": {
+     "evidence": 0.837,
+     "evidence_whole": 3.33,
+     "decoys": 0.833
+    },
+    "39": {
+     "evidence": 0.887,
+     "evidence_whole": 3.33,
+     "decoys": 0.955
+    },
+    "43": {
+     "evidence": 0.879,
+     "evidence_whole": 3.67,
+     "decoys": 0.947
+    }
+   }
+  },
+  {
+   "id": "262144/0/06-hop",
+   "task": "hop",
+   "ok": true,
+   "answer": "Kyoto",
+   "want": [
+    "Kyoto"
+   ],
+   "prompt_tokens": 252926,
+   "evidence_lines": 2,
+   "decoy_lines": 3,
+   "evidence_found": true,
+   "rows": [
+    252925,
+    252928
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.342,
+     "evidence_whole": 0.0,
+     "decoys": 0.3
+    },
+    "7": {
+     "evidence": 0.579,
+     "evidence_whole": 0.0,
+     "decoys": 0.34
+    },
+    "11": {
+     "evidence": 0.842,
+     "evidence_whole": 0.5,
+     "decoys": 0.72
+    },
+    "15": {
+     "evidence": 0.842,
+     "evidence_whole": 0.5,
+     "decoys": 0.6
+    },
+    "19": {
+     "evidence": 0.947,
+     "evidence_whole": 1.0,
+     "decoys": 0.68
+    },
+    "23": {
+     "evidence": 0.947,
+     "evidence_whole": 1.0,
+     "decoys": 0.92
+    },
+    "27": {
+     "evidence": 0.947,
+     "evidence_whole": 1.0,
+     "decoys": 0.96
+    },
+    "31": {
+     "evidence": 0.974,
+     "evidence_whole": 1.5,
+     "decoys": 1.0
+    },
+    "35": {
+     "evidence": 0.974,
+     "evidence_whole": 1.5,
+     "decoys": 1.0
+    },
+    "39": {
+     "evidence": 0.947,
+     "evidence_whole": 1.0,
+     "decoys": 1.0
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 0.92
+    }
+   }
+  },
+  {
+   "id": "262144/0/07-hop",
+   "task": "hop",
+   "ok": true,
+   "answer": "Perth",
+   "want": [
+    "Perth"
+   ],
+   "prompt_tokens": 252928,
+   "evidence_lines": 2,
+   "decoy_lines": 3,
+   "evidence_found": true,
+   "rows": [
+    252927,
+    252930
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.0,
+     "evidence_whole": 0.0,
+     "decoys": 0.346
+    },
+    "7": {
+     "evidence": 0.5,
+     "evidence_whole": 0.0,
+     "decoys": 0.365
+    },
+    "11": {
+     "evidence": 0.778,
+     "evidence_whole": 0.5,
+     "decoys": 0.769
+    },
+    "15": {
+     "evidence": 0.722,
+     "evidence_whole": 0.5,
+     "decoys": 0.654
+    },
+    "19": {
+     "evidence": 0.917,
+     "evidence_whole": 1.5,
+     "decoys": 0.808
+    },
+    "23": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 0.808
+    },
+    "27": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 0.962
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 2.0,
+     "decoys": 1.0
+    },
+    "43": {
+     "evidence": 0.889,
+     "evidence_whole": 1.5,
+     "decoys": 1.0
+    }
+   }
+  },
+  {
+   "id": "262144/0/08-cnt",
+   "task": "cnt",
+   "ok": false,
+   "answer": "4",
+   "want": [
+    "7"
+   ],
+   "prompt_tokens": 252926,
+   "evidence_lines": 7,
+   "decoy_lines": 2,
+   "evidence_found": true,
+   "rows": [
+    252925,
+    252927
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.143,
+     "evidence_whole": 0.0,
+     "decoys": 0.214
+    },
+    "7": {
+     "evidence": 0.245,
+     "evidence_whole": 0.0,
+     "decoys": 0.357
+    },
+    "11": {
+     "evidence": 0.378,
+     "evidence_whole": 1.0,
+     "decoys": 0.357
+    },
+    "15": {
+     "evidence": 0.541,
+     "evidence_whole": 2.0,
+     "decoys": 0.429
+    },
+    "19": {
+     "evidence": 0.663,
+     "evidence_whole": 3.0,
+     "decoys": 0.536
+    },
+    "23": {
+     "evidence": 0.857,
+     "evidence_whole": 5.0,
+     "decoys": 0.536
+    },
+    "27": {
+     "evidence": 0.847,
+     "evidence_whole": 4.5,
+     "decoys": 0.536
+    },
+    "31": {
+     "evidence": 0.99,
+     "evidence_whole": 6.5,
+     "decoys": 0.929
+    },
+    "35": {
+     "evidence": 0.918,
+     "evidence_whole": 6.0,
+     "decoys": 0.929
+    },
+    "39": {
+     "evidence": 0.929,
+     "evidence_whole": 6.0,
+     "decoys": 0.929
+    },
+    "43": {
+     "evidence": 0.888,
+     "evidence_whole": 6.0,
+     "decoys": 0.643
+    }
+   }
+  },
+  {
+   "id": "262144/0/09-agg",
+   "task": "agg",
+   "ok": true,
+   "answer": "Sofia, Riga, Tallinn, Fresno, Zurich",
+   "want": [
+    "Tallinn",
+    "Fresno",
+    "Sofia",
+    "Riga",
+    "Zurich"
+   ],
+   "prompt_tokens": 252929,
+   "evidence_lines": 5,
+   "decoy_lines": 3,
+   "evidence_found": true,
+   "rows": [
+    252928,
+    252932,
+    252936,
+    252938
+   ],
+   "layers": {
+    "3": {
+     "evidence": 0.637,
+     "evidence_whole": 2.0,
+     "decoys": 0.463
+    },
+    "7": {
+     "evidence": 0.506,
+     "evidence_whole": 1.25,
+     "decoys": 0.815
+    },
+    "11": {
+     "evidence": 0.929,
+     "evidence_whole": 4.0,
+     "decoys": 0.861
+    },
+    "15": {
+     "evidence": 0.976,
+     "evidence_whole": 4.75,
+     "decoys": 0.926
+    },
+    "19": {
+     "evidence": 0.661,
+     "evidence_whole": 2.0,
+     "decoys": 0.926
+    },
+    "23": {
+     "evidence": 0.952,
+     "evidence_whole": 4.5,
+     "decoys": 0.963
+    },
+    "27": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 0.963
+    },
+    "31": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 0.963
+    },
+    "35": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 0.972
+    },
+    "39": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 0.963
+    },
+    "43": {
+     "evidence": 1.0,
+     "evidence_whole": 5.0,
+     "decoys": 1.0
+    }
+   }
+  }
+ ]
+}
