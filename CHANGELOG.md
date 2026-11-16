@@ -1,27 +1,150 @@
 # Changelog
 
-- **2026-11-16** -- `PROMPT_CHUNK` (`auto`, `2048`, `4096`) and engine patch 0114 in `patches/engine/chunk2048/`:
-  with `DENSE=bf16` the image reads prompts in 2,048-row passes, as before 0094/0095; q8 keeps 4,096 and its tag
-  (`041480255cb6`). A bf16 pass costs 1.3 ms a row past about 3,000 rows against 0.54 below: a cold 34.7K prompt
-  1,295 -> 1,700 tok/s (+31%), its first token beside a decoding chat 38.6 -> 29.7 s, the chat's worst pause 3.5 ->
-  1.47 s. With q8, 2,048 is 6% slower and halves the pause, so it stays an opt-in there. Greedy replies hash the same
-  at both widths. Offered upstream as MiaAI-Lab#58 (0122 there, measured again on main 80be4d6: +29%, -4.4% on q8).
+- **2026-11-16** -- `PROMPT_CHUNK` (`auto`, `2048`, `4096`) and engine patch 0122 in `patches/engine/chunk2048/`:
+  with `DENSE=bf16` on the pair the image reads prompts in 2,048-row passes, as before 0094/0095, and every other
+  image keeps 4,096, with the tag it had (a 4,096-row image's inputs are unchanged). A bf16 pass costs 1.3 ms a row
+  past about 3,000 rows against 0.54 below, so the wide chunk lost there: a cold 34.7K prompt 1,321 -> 1,701 tok/s
+  (+29%), its first token beside a decoding chat 37.1 -> 29.7 s, the chat's worst pause 3.37 -> 1.46 s. With q8,
+  2,048 is 4.4% slower (1,791 -> 1,712) and halves the pause (2.60 -> 1.46 s), so it stays an opt-in there. Greedy
+  replies hash the same at both widths with either dense setting; with `LEARN_GIB` a state on disk from the other
+  width is not resumed and the turn prefills, with the same reply. A 2,048-row image builds from a staged copy of
+  `patches/engine/` (the Dockerfile is unchanged); `scripts/tests/prompt-chunk.sh` checks the choice and
+  `patch-numbers.sh` reads `chunk2048/` too. Measured on main 80be4d6 at its defaults by wagzee.
 
-- **2026-11-08** -- engine patch 0113, `THINK_OFF_SPLIT` (default 1024, `TF_THINK_OFF_SPLIT`): with thinking off,
-  GLM-5.3 sometimes drafts in its hidden-reasoning voice anyway ("We need ... Let's extract.") and writes `</think>`
-  before its answer, so the draft and the marker were the reply's content. A thinking-off chat reply that writes the
-  close token within its first `THINK_OFF_SPLIT` tokens now has the text before it as `reasoning_content` and the
-  text after it as `content`, as a thinking reply does. A streamed reply's content waits until the token, the end or
-  the hold, so streamed and whole replies split alike; a close after the hold stays text; raw completions, the JSON
-  channel and logprobs requests are never split; `0` is off. sparkDash long-32k-2 (thinking off, 1,024 tokens): a
-  505-token draft in `reasoning_content`, `content` the 16 lines and no `</think>`, 16/16, streamed and whole
-  identical; long-32k-1 (no draft) unchanged. sparkDash QA, arith, MMLU (thinking off) and track (thinking on), 515
-  replies, byte-identical to the runs before: no reply there closes a think block. Scores do not change (sparkDash
-  already scores the text after `</think>`); the draft still costs its tokens. Tests: `think_off_split.zig` (the
-  decision) and `think_off_split_test.zig` (the chat route, whole and streamed, token by token and batched: a closed
-  draft splits, an ordinary or longer-than-the-hold reply and a late close are unchanged, the setting off is as
-  before, thinking replies split as before), `zig build test-think-off-split-host`; the server suite
-  (`test-server-cpu`, 895 tests) passes. README: the setting, the patch row, a troubleshooting row.
+- **2026-11-11** -- `MEMORY_RESERVE_GIB=6.5` and `CACHE_FIRST=1` are the defaults everywhere, the pair included (the
+  reserve was 12, and the pair ran 9.5 in its `local.sh`; cache-first was off), with `PROMPT_CACHE_GIB` 5 on the pair
+  (8 and 4 at four Sparks, as below). Cache-first is part of it: at 6.5 and windows first the pair's page pool would
+  cross the 19.5 GiB threshold for a third 1M window and leave no prompt cache (RESULTS.md 2026-11-04). The pair's
+  5 GiB beside its two windows is predicted, not yet measured. `scripts/local.sh.example` and the README follow.
+
+- **2026-11-11** -- Four Sparks with EXL3 take the same defaults, `MEMORY_RESERVE_GIB=6.5 CACHE_FIRST=1`, with
+  `PROMPT_CACHE_GIB=8`: at 12 they already held all eight 1M windows (16,392 pages) and a 3.6 GiB prompt cache, and the
+  5.5 GiB the lower reserve frees goes to the cache: measured on the ring, the same 16,392 pages (8.39M tokens) and an
+  8.0 GiB prompt cache a rank, 7.4-10.4 GiB still available on each Spark. The pair keeps 12 and no cache-first.
+  README: a memory table for both weights under "4 Sparks".
+
+- **2026-11-11** -- Four Sparks with `FP8=1` default to `MEMORY_RESERVE_GIB=6.5 CACHE_FIRST=1 PROMPT_CACHE_GIB=4`
+  (`scripts/config.sh`; EXL3 and the pair keep 12 and no cache-first). At the earlier 9.5 the FP8 start's KV pages left
+  0.08 GiB, so it served with no prompt cache; at 6.5 the ring measured the same 6,147 pages (3.15M tokens) and a
+  3.9 GiB prompt cache a rank, with 7.6-10.5 GiB still available on each Spark. A value in `local.sh` or the
+  environment still wins.
+
+- **2026-11-11** -- Four Sparks (TP=4) join main, with `./start-tp4.sh` (a switch) and `./start-tp4-switchless.sh` (a
+  ring of direct cables), `./stop-tp4.sh`, `scripts/tp4.sh`, the README's "4 Sparks" section with a step-by-step guide,
+  and their measurements under `docs/speed/tp4`. **The engine patches are renumbered for everyone, the pair too:** the
+  four TP=4 patches take 0107-0110 (block FP8 checkpoints, the four-rank RoCE ring all-gather, the DFlash2 drafter MLP
+  split across every rank, `TF_GLM_CHUNK_SOLO`), so main's former 0107-0117 are now 0111-0121 (0107 tool-call guard ->
+  0111, 0108 `CACHE_FIRST` -> 0112, 0109 learned conversations -> 0113, 0110 KV sharding -> 0114, 0111 -> 0115, 0112
+  -> 0116, 0113 `L2PF` -> 0117, 0114 -> 0118, 0115 32-row windows -> 0119, 0116 `EXTRA_EOS` -> 0120, 0117
+  `THINK_OFF_SPLIT` -> 0121); entries below this one use the old numbers. None of the four changes the pair's
+  serving: FP8 reads only a block-FP8 checkpoint, the ring all-gather runs only with `ROCE_RING=on` at four ranks,
+  `TF_GLM_CHUNK_SOLO` is off unless set, and the drafter MLP split at two ranks is the same halves and the same single
+  fp32 add as before (same bits). The rank fingerprint's layout is 17. The pair's next start rebuilds its image (121
+  patches) under a new label. `start.sh` still runs two Sparks; `KV_SHARD=1` stays two-rank only (the TP=4 starts
+  refuse it).
+
+- **2026-11-11** -- Two four-Spark launchers. The ring's is now `./start-tp4-switchless.sh` (renamed from
+  `./start-tp4.sh`, otherwise as before); `./start-tp4.sh` is new, for four Sparks on a switch, adapted from the
+  earlier Python-engine recipe's switch launcher (MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks-TensorFold, branch tp4):
+  it runs the same script with `FABRIC_EXPECT=mesh`. On a switch `scripts/tp4.sh` requires every pair of Sparks to
+  share a RoCE subnet, takes the workers in any order, writes no ring graphs and gives NCCL its own algorithms and
+  devices (no `NCCL_ALGO=Ring`, no subnet-aware routing or prefix), and refuses `ROCE_RING=on` (the ring's relay;
+  this engine has no other four-rank RoCE path). Each launcher stops on the other's cabling and names it. README:
+  the "4 Sparks" section and its guide cover both. The switch launcher is not run yet.
+
+- **2026-11-11** -- tp4-local takes main up to 74cf93c (the entries below, in main's numbering) on its own stack. Main's
+  0107 and 0108 are this stack's 0111 and 0112, as before; main's 0109-0117 are this stack's 0113-0121, each regenerated
+  against 0001-0112 here (3-way; conflicts only where they meet 0110's CHUNK_SOLO and 0108's ring kernels). The rank
+  fingerprint's layout is 17 here: CHUNK_SOLO and KV_SHARD each moved it to 15 on their own branches with different
+  words, so the combined struct takes 16, and L2PF 17. The 121 patches apply to `f350cd3e` with the Dockerfile's loop.
+  `./start-tp4.sh` gains what the pair's start has: `LEARN_GIB` (`--learn-conversations`, 0113), `L2PF` (0117),
+  `EXTRA_EOS` (0120, on with `<|assistant|>`), `THINK_OFF_SPLIT` (0121, opt-in), `EFFORT_LINE=thinking`'s template
+  (written after the first download with `VISION=0`), `|| true` on the post-LIVE pool line and the one-stream
+  `W_STREAMS` match. It refuses `KV_SHARD=1` (0114 runs at TP=2 only) and says that `PROMPT_CACHE_MIN_GIB` is not
+  checked at four. Not yet run on the four Sparks.
+
+- **2026-11-11** -- three contributed changes, ported from their PRs (authorship kept):
+  - Engine patch 0116, `EXTRA_EOS` (default `<|assistant|>`, `TF_EXTRA_EOS`): tokens that end a reply besides the
+    checkpoint's EOS ids. GLM-5.3's `generation_config.json` leaves out `<|assistant|>`, which the model can write to
+    close a reply; it then reached the reply as text and the model wrote its whole reply again until the length cap
+    (#36, thanks @wagzee; submitted as 0112, renumbered after main's 0112-0115). `EXTRA_EOS=none` keeps the
+    checkpoint's list.
+  - Engine patch 0117, `THINK_OFF_SPLIT` (`TF_THINK_OFF_SPLIT`), **opt-in**: a thinking-off chat reply that writes
+    `</think>` within the hold has its draft as `reasoning_content` and its answer as `content`. It ships off
+    (`THINK_OFF_SPLIT=0`, the engine's own default when unset) because a hold delays every streamed thinking-off
+    reply's first content by up to that many tokens; 1024 is the hold its author measured (#37, thanks @wagzee;
+    submitted on by default as 0113).
+  - `validate_config`: `KV_SHARD=1` also needs `KV_PAGES=on` and `PARALLEL` other than 1, which patch 0110 refuses
+    after `./start.sh restart` has stopped the serving pair; they now stop before anything runs, with
+    `scripts/tests/kv-shard-config.sh` (#29, thanks @travellingsoldier85).
+  The 117 patches apply to `f350cd3e`; the image builds with 0116 and 0117. Not measured on the pair.
+
+- **2026-11-11** -- contributed script fixes, ported from their PRs (authorship kept):
+  - `PROMPT_CACHE_MIN_GIB`: a `PARALLEL=1` start's "1 stream at once" line is read instead of stopping both ranks
+    (issue #31), and `E_CACHE` names the log archive `stop.sh` wrote rather than the run directory it removed (#25,
+    thanks @laidick; `scripts/tests/cache-min.sh` gains the one-stream case).
+  - `start.sh` after a `CONTEXT=auto` start: KV windows (no pages line) no longer end the start with exit 1 under
+    pipefail, and `W_STREAMS` stays quiet for `PARALLEL=auto` and matches "1 stream at once" (#28, thanks
+    @travellingsoldier85).
+  - `DRY_RUN=1` prints the whole plan with a placeholder for rank 1's `--user` when the worker is out of reach; a real
+    start still stops with `E_WORKER` (#30, thanks @travellingsoldier85).
+  - `VISION=0` with `EFFORT_LINE=thinking` on a checkout that has not downloaded the checkpoint writes the template
+    after step 3's download instead of stopping before step 1 (#27, thanks @travellingsoldier85).
+  - `scripts/graft.py`, a partial Ablit overlay: the layers you name copied byte for byte from the Ablit tree into a
+    hardlinked copy of the published weights, with `scripts/tests/graft.sh` (#26, thanks @mjjjjaazing). On top: an
+    OUT that resolves to PARENT or DONOR through a symlink is refused before anything is unlinked (before, the
+    parent lost its shard), with a test that fails without it.
+
+- **2026-11-11** -- engine patch 0115 (32-row decode windows, from upstream #2257) and the pair's measurements of
+  0113-0115. 0115 raises the verify window from 16 to 32 rows, so a context copy verifies up to 31 tokens a round
+  (DFlash2 still drafts 7), with the fixes the wider window exposes here: shared-window scratch is said outright (at
+  32 and 32 the KDA projection buffer would have shrunk to 4 bytes and shared rounds lost 0075/0088's one-launch
+  segment attention), the follower's draws hold 32 rows, and the window width joins the learned-state store's
+  identity. Not taken from upstream: load-timed pricing (0096's GB10 prices stay), 15-deep MTP chains, and #1779's
+  shared draft reservation, which upstream itself turned off for DFlash2 (cc2fa8d23, #2720: a cut chance left a
+  stream at no drafts while its peers decoded). Measured on spark3+4 (`docs/speed/ab-upstream.sh`,
+  `ab-upstream2.sh`; `docs/dec.py` 3 trials, greedy, thinking off; new `docs/speed/copybench.py`, a 1,195-token
+  file returned with one rename), every leg's contract and copy token hashes identical to base:
+
+  | leg | 1 stream | 4 streams | 8 streams | file rewrite, 1 stream | file rewrite, 4 streams |
+  | --- | ---: | ---: | ---: | ---: | ---: |
+  | base (114 patches, L2PF=0) | 37.6 | 72.7 | 121.1 | | |
+  | L2PF=1 | 38.4 | 73.1 | 121.4 | 151 (14.9 tok/round) | 34.2 a stream (4.0) |
+  | 0115, L2PF=1 | 38.5 | 73.2 | 121.4 | 203 (26.6 tok/round) | 34.4 a stream (4.0) |
+  | 0115, L2PF=0 | 37.5 | 72.8 | 121.6 | 201 (26.6 tok/round) | 34.0 a stream (4.0) |
+
+  Decode tok/s (prompt time removed). 0115: +34% on a one-stream rewrite, no change elsewhere, 34 MiB more fixed
+  memory a stream (451 against 417 MiB). L2PF: +2% at one stream (round 55.1 to 53.9 ms), flat under load; it stays
+  opt-in. Shared rounds take almost no copies (4 tokens a round at four streams, before and after): the next copy gain
+  is there, not in the window width. 0113-0115 build clean on the pair (images 6a5156b33a41 and 1d9dcf33f2e0).
+
+- **2026-11-10** -- engine patches 0113 and 0114, ported from upstream TensorFold main (22fb601) onto `f350cd3e` and
+  this recipe's 0001-0112, with `TF_REF` unchanged. Upstream had 2,662 commits since the pin; a trial rebase of the
+  112 patches onto main conflicted in about 90, so only two GLM wins were picked, after a review that dropped the
+  router-on-shared-mma-tiles refactor (it loses 0083's PDL trigger), `TF_GLM_KV_LIVE_HALF` (unsafe beside 0109's disk
+  images and 0110's KV sharding), the two-heads-a-block prompt attention (not GLM's prompt path) and the bounded peer
+  warm-up (0106 covers it; the port would pull in a long unrelated chain). 0113: `L2PF=1` (`TF_GLM_L2PF`, opt-in)
+  prefetches each decode window's next weights into L2 on a side stream; upstream runs it by default on GB10 at TP>=2,
+  kept off here until it is measured on this stack. 0114: a JSON tool call `max_tokens` cuts after naming an offered
+  tool is returned as the reply's cut call, as XML and GLM calls were, and a whole `/v1/messages` reply closes its
+  input instead of answering 500; two local fixes over upstream (a key with no value no longer indexes an empty
+  slice; the name matches offered tools in any case, as a closed call's does). The 114 patches apply to `f350cd3e` with the Dockerfile's exact
+  `git apply --check && git apply` loop. Built and measured on the pair 2026-11-11 (the entry above).
+
+- **2026-11-09** -- engine patch 0112: rejected tool calls are logged one by one, and `TF_TOOL_CALL_GUARD=1` no longer
+  empties replies. A Hermes Agent report (2026-11-06, guard on) showed 25 replies of 436 with calls hidden on requests
+  that offered tools, 11 of them left empty, and Hermes retrying each empty reply unchanged until its 39 s timeout;
+  the log said only `kept N malformed or unoffered tool envelopes as content`, with no request id, name or reason.
+  Now each envelope the parser rejects gets `tool call rejected from ID: REASON ['NAME'] (N tools offered)
+  thinking= effort=; FATE` (reasons `unknown_tool_name`, `malformed`, and `unclosed` for a call the end token cut
+  before its closer), and `TF_TOOL_CALL_DEBUG=1` adds the envelope's text. With tools offered the guard hides only
+  well-formed calls to unoffered tools: malformed calls stay as text, and a reply that hiding would leave with no text
+  and no call keeps its calls. The no-tools guard path is unchanged; guard off, replies are byte-identical apart from
+  the log. The report's "nameless calls passed through" (Hermes' `tool_call calls[0] requires a 'name'`) is Hermes'
+  own `tool_call` bridge tool refusing the model's arguments, not a server leak (host test added). Host tests: 64
+  `test-tool-parse-host`, 19 `test-tool-visibility-http-host`, 956 across `test-server-cpu` and the tool, JSON-answer
+  and recovery steps, all passing; the 112 patches apply to `f350cd3e`. Not yet measured on the pair: a rebuilt image
+  and a day of live agent traffic. Response to the report: `docs/issue-2026-11-06-tool-call-guard-silent.md`.
 - **2026-11-08** -- engine patch 0111: the image build's nvcc prints no compiler warning. A clean-machine build showed
   49 warning lines that the builds in docs/speed's logs had carried for days: two fp8 expert prompt kernels declared a
   kernel-local `RW` their bodies never read, `prefill_attention.cu`'s `SMEM_MAX` had no reader anywhere,
@@ -48,16 +171,6 @@
 - **2026-11-07** -- `start.sh`: an exported `NCCL_SOCKET_IFNAME` that is an NCCL exclusion list (`^lo,docker,...`,
   often from `/etc/profile.d`) no longer stops the start with `E_CONFIG`; it is set aside with a `W_CONFIG` warning and
   the link is found as when empty (issue 17, mjjjjaazing). Test: `scripts/tests/nccl-ifname.sh`.
-- **2026-11-07** -- engine patch 0112, `EXTRA_EOS` (default `<|assistant|>`, `TF_EXTRA_EOS`): tokens that end a reply
-  besides the checkpoint's EOS ids. GLM-5.3's `generation_config.json` lists `<|endoftext|>`, `<|user|>` and
-  `<|observation|>` (154820, 154827, 154829) but not `<|assistant|>` (154828), which the model can write to close a
-  reply: the token then reached the reply as text and the model wrote its whole reply again until the length cap.
-  sparkDash's 32k needle item long-32k-2 at 1,024 tokens: before, 1,024 tokens (`length`), the answer, the token and a
-  second copy of the reply; with the patch, 630 tokens, `stop`, 16/16, the token gone. Its own 512-token run still
-  scores 1/16: with thinking off the model drafts all 16 codes (correctly) in the reply before the answer, which the
-  cap cuts after one line. Recall itself is exact: both 32k items list the 16 codes and 4 corrections right. QA and
-  arith rerun (190 items, `DENSE=bf16`) byte-identical to the run before. A name the tokenizer does not hold stops
-  the start; `EXTRA_EOS=none` keeps the checkpoint's list. README: the setting, the patch row, a troubleshooting row.
 - **2026-11-07** -- `scripts/tests/patch-numbers.sh`: a number in `patches/engine/` names one patch, checked by
   `scripts/tests/run.sh` (issue 15, travellingsoldier85's check). README: with `CACHE_FIRST=1`, `PROMPT_CACHE_GIB` is a
   priority, not a floor, and a larger ask can fund more cache by costing the streams a window (issue 16, jds1-ai's
@@ -75,6 +188,17 @@
   its log has one. Test:
   `scripts/tests/cache-min.sh` (startup lines in the engine's formats, ranks stubbed), run by `scripts/tests/run.sh`.
   On the pair: `PROMPT_CACHE_MIN_GIB=1` starts (rank 0 funds 3.1 GiB), `=20` stops both ranks with `E_CACHE`.
+- **2026-11-06** -- the two thinking-on items the native image lost against v0.6.0's run (sparkDash arith-31,
+  gsm8k-1176: arith 39/40, GSM8K 194/200 against 40/40 and 195/200) are the dense weights' width, not the drafter.
+  With `DRAFTER=none` both replies are token-identical to the drafted ones (316 and 1,913 tokens, the same wrong
+  answers), so DFlash2's verification is lossless there. With `DENSE=bf16` (the drafter on), the arith and GSM8K
+  categories rerun at 40/40 and 195/200, and those two are the only items whose verdict changes against the q8
+  run: no new failures. Both are precision-sensitive traces (a carried intermediate at step 7; a second-guessed
+  interpretation), so q8 costs two items of 240 here for its measured speed (docs/speed/RESULTS.md: bf16 dense
+  30.5 / 46.5 tok/s at one stream against q8's 39.0 / 57.3, 70 against 78-80 at four). `DENSE=q8` stays the
+  default; `DENSE=bf16` is the setting for exact dense weights. An fp8 dense path (v0.6.0's `DENSE=fp8`) would be
+  a byte a weight like q8 with 3 mantissa bits against q8's 7 over groups of 64, so it is not pursued.
+
 - **2026-11-06** -- engine patch 0110: `KV_SHARD=1` (`TF_GLM_KV_SHARD`), opt-in (#24), KV sharding at TP=2 by
   Robert Wojciechowski ([@wojo](https://github.com/wojo), X [@rwojo](https://x.com/rwojo)), toward upstream [#1431](https://github.com/ashhart/TensorFold/issues/1431). Each stream's FP8
   latent rows live on its owner Spark alone, so the pool holds about twice the tokens (4,098 to 8,196 pages at the
@@ -101,16 +225,6 @@
   and decode (38.3 / 56.4 at one stream, 79-80 at four) equal main's; on (`LEARN_GIB=30`), after a full restart a
   101.5k-token conversation resumes 98,304 tokens cached (first token 3.6 s) and an 18.6k one 16,384, both replies
   byte-identical to the in-memory resume; rank 1 logs clean.
-- **2026-11-06** -- the two thinking-on items the native image lost against v0.6.0's run (sparkDash arith-31,
-  gsm8k-1176: arith 39/40, GSM8K 194/200 against 40/40 and 195/200) are the dense weights' width, not the drafter.
-  With `DRAFTER=none` both replies are token-identical to the drafted ones (316 and 1,913 tokens, the same wrong
-  answers), so DFlash2's verification is lossless there. With `DENSE=bf16` (the drafter on), the arith and GSM8K
-  categories rerun at 40/40 and 195/200, and those two are the only items whose verdict changes against the q8
-  run: no new failures. Both are precision-sensitive traces (a carried intermediate at step 7; a second-guessed
-  interpretation), so q8 costs two items of 240 here for its measured speed (docs/speed/RESULTS.md: bf16 dense
-  30.5 / 46.5 tok/s at one stream against q8's 39.0 / 57.3, 70 against 78-80 at four). `DENSE=q8` stays the
-  default; `DENSE=bf16` is the setting for exact dense weights. An fp8 dense path (v0.6.0's `DENSE=fp8`) would be
-  a byte a weight like q8 with 3 mantissa bits against q8's 7 over groups of 64, so it is not pursued.
 - **2026-11-06** -- `EFFORT_LINE=thinking` (default; #23 by wagzee): the template's `<|system|>Reasoning Effort: Max` line with
   thinking on only, as TensorFold v0.6.0's recipe wrote it; `always` serves the template as it is. The checkpoint's
   template (and the vision copy) sets the line to Max unless a request's effort is low or high, so every prompt
@@ -131,6 +245,7 @@
   the thinking-on greedy hash is unchanged (`650453259cef`). Copying a tool-call markup line 30 times with thinking
   off went from 30-36% malformed lines (greedy included, `top_k` 20 or not) to 3 of 1,419.
 - **2026-11-06** -- engine patch 0108: `CACHE_FIRST=1` (`TF_PROMPT_CACHE_FIRST`), opt-in. The pool counted the room in
+- **2026-11-06** -- engine patch 0112 (main's 0108): `CACHE_FIRST=1` (`TF_PROMPT_CACHE_FIRST`), opt-in. The pool counted the room in
   whole windows before the prompt cache, so `PROMPT_CACHE_GIB` only capped the remainder (issue 7: crystal8194,
   tanchunsiong, unitea1992; issue 3). With it, the cache is set aside first and the streams share the pages left, one
   window at least. On the pair at `PARALLEL=8` and the 1M window with `PROMPT_CACHE_GIB=12`: a 9.3-9.7 GiB cache; a
@@ -153,7 +268,7 @@
   thinking off and 93 thinking on (reasoning high). A build with 2,048-row prompt chunks (without 0094/0095) has the
   same hashes and a shorter worst pause beside a long prefill (1.6 s against 2.7 s), but p95 pauses 10 times longer
   and three concurrent agent loops 3.6 times slower, so 4,096 rows stay.
-- **2026-11-05** -- engine patch 0107: `TF_TOOL_CALL_GUARD=1`, opt-in. A Hermes agent showed raw
+- **2026-11-05** -- engine patch 0111 (main's 0107): `TF_TOOL_CALL_GUARD=1`, opt-in. A Hermes agent showed raw
   `<tool_call>session_search<arg_key>…` text: its turn after two tool rounds was sent without `session_search`, and
   the server (as vLLM) keeps a call to a tool the request does not offer as text. With the guard, such a request gets a
   closing system note that tools are unavailable and the markup hidden (no tools, or `tool_choice: "none"`), or only
@@ -188,6 +303,22 @@
   (`WORKER_CACHE_DIR/home`) is not writable by that login, which a workaround that let an earlier rank write there can leave
   behind. A worker reading shards only the head's id can read (mode 0600 over NFS without `all_squash`) now needs shards its
   login can read.
+- **2026-11-04** -- `0108` (candidate, off by default): the four-rank RoCE ring all-gather. `ROCE_RING=on ./start-tp4.sh`
+  carries the decode and verify all-gathers up to `ROCE_MAX_KB` as one-shot RDMA writes to both neighbours, each
+  relaying half a shard to the rank across (`TF_ROCE_RING=1`, `TF_ROCE_HCA=<toward previous>,<toward next>` per
+  rank); any rank that cannot bring it up puts all four back on NCCL. `tf-cuda-test roce-ring <rank>` checks bytes
+  against NCCL, graph replays and times a call (16 KiB a rank: 20 us against NCCL's 28). On FP8 at TP=4, same image
+  A/B: +1-2% at one stream, +5-7% at four, prefill, hashes and NLL identical. Under the pre-registered 3% one-stream
+  line, so the default stays off; the image (5d37e5287d7b, 108 patches) is on all four Sparks. docs/speed/RESULTS.md
+  "The four-rank RoCE ring all-gather".
+- **2026-11-04** -- `0107`: block FP8 checkpoints (`quant_method: fp8`, e4m3, 128 x 128 scales) load on this engine:
+  `FP8=1 ./start-tp4.sh` serves Z.AI's own release `zai-org/GLM-5.3-Flash` @ `46a050be` (the model is published in
+  block FP8; `unsloth/GLM-5.3-Flash-FP8` is its byte-identical mirror, the copy this kit measured) at TP=4 on the
+  four-Spark ring (README "Block FP8 weights"), ~81 GiB a rank, NLL
+  0.7425 against the EXL3 pack's 0.7487, decode 44.7 / 65.2 tok/s prose / code at one stream against 56 / 85 (twice
+  the expert bytes a round), prefill the same. The routed experts take the engine's existing block-FP8 expert kernels;
+  every other quantized linear its block-FP8 lane; `weight_scale_inv` is read as the scale. Reviewed with Codex before
+  and after; the pre-registered gates and the measurements are in docs/speed/RESULTS.md.
 - **2026-11-04** -- CREDITS and NOTICE: the Aevonix entry removed. On reflection it earns no line here: the serving scripts are
   this lab's own (Aevonix's recipe reworked the lab's GLM-5.3-Flash-EXL3-4x-DGX-Sparks-TensorFold scripts, and this recipe's
   copies reach it through the lab's 2x RTX PRO 6000 recipe), the banner was never theirs, and the lab's own 2x RTX PRO 6000

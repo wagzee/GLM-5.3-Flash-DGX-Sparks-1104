@@ -1,7 +1,7 @@
 From b4f20f05df15863af4da2d14a4c389e2da1b24ed Mon Sep 17 00:00:00 2001
 From: wagzee <jurik17@gmail.com>
 Date: Sat, 7 Nov 2026 01:40:29 +0100
-Subject: [PATCH] server: TF_EXTRA_EOS=<token>[,<token>...], an opt-in: the
+Subject: [PATCH] server: TF_EXTRA_EOS=<token>[,<token>...] (the recipe sets <|assistant|> by default): the
  named tokens end a reply like the checkpoint EOS ids, after them. GLM-5.3 can
  write <|assistant|> (absent from its generation_config) at the end of a
  reply; unset, it streams as text and the model writes a second turn until the
@@ -17,7 +17,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
 
 diff --git a/zig/src/server/extra_eos.zig b/zig/src/server/extra_eos.zig
 new file mode 100644
-index 0000000..c69b24c
+index 000000000..c69b24c57
 --- /dev/null
 +++ b/zig/src/server/extra_eos.zig
 @@ -0,0 +1,52 @@
@@ -74,7 +74,7 @@ index 0000000..c69b24c
 +    try std.testing.expectEqualStrings("<|nope|>", unknown);
 +}
 diff --git a/zig/src/server/root.zig b/zig/src/server/root.zig
-index 956d741..115e0db 100644
+index 756715276..0138614ff 100644
 --- a/zig/src/server/root.zig
 +++ b/zig/src/server/root.zig
 @@ -17,6 +17,7 @@ pub const Server = server.Server;
@@ -86,7 +86,7 @@ index 956d741..115e0db 100644
      _ = @import("auth_scope_http_test.zig");
      _ = @import("admission_cli.zig");
 diff --git a/zig/src/server/server.zig b/zig/src/server/server.zig
-index d243854..aceddee 100644
+index d24385447..aceddeebc 100644
 --- a/zig/src/server/server.zig
 +++ b/zig/src/server/server.zig
 @@ -20,6 +20,7 @@ const clock = @import("clock.zig");

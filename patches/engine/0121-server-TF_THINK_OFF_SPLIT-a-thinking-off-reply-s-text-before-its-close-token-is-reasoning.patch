@@ -26,7 +26,7 @@ Claude-Session: https://claude.ai/code/session_01QBwDo8BJMNvBwCYRxE5Gyt
  create mode 100644 zig/src/server/think_off_split_test.zig
 
 diff --git a/zig/build/cuda.zig b/zig/build/cuda.zig
-index 054d859..e2ba56e 100644
+index 054d85922..e2ba56e87 100644
 --- a/zig/build/cuda.zig
 +++ b/zig/build/cuda.zig
 @@ -385,6 +385,7 @@ pub fn hostTests(b: *std.Build, draft_ids: *std.Build.Module, build_options: *st
@@ -38,7 +38,7 @@ index 054d859..e2ba56e 100644
      b.step("test-dory-chat-host", "Dory chat template, EOS, reasoning split and qwen3_coder call on the CPU").dependOn(&b.addRunArtifact(b.addTest(.{ .root_module = server_tests, .filters = &.{"Dory chat:"} })).step);
      b.step("test-embeddings-protocol-host", "Embedding request and response contracts without an admitted model or GPU").dependOn(&b.addRunArtifact(b.addTest(.{ .root_module = server_tests, .filters = &.{"embeddings protocol:"} })).step);
 diff --git a/zig/src/server/chat.zig b/zig/src/server/chat.zig
-index c4c9dc2..2835e24 100644
+index c4c9dc2b5..2835e2460 100644
 --- a/zig/src/server/chat.zig
 +++ b/zig/src/server/chat.zig
 @@ -4,6 +4,7 @@ const api = @import("engine_api");
@@ -133,7 +133,7 @@ index c4c9dc2..2835e24 100644
              .response_channel = g.response_channel,
              .content = content,
 diff --git a/zig/src/server/root.zig b/zig/src/server/root.zig
-index 115e0db..6728a74 100644
+index 0138614ff..c29cea810 100644
 --- a/zig/src/server/root.zig
 +++ b/zig/src/server/root.zig
 @@ -18,6 +18,7 @@ pub const Config = server.Config;
@@ -144,7 +144,7 @@ index 115e0db..6728a74 100644
      _ = @import("auth_scope_test.zig");
      _ = @import("auth_scope_http_test.zig");
      _ = @import("admission_cli.zig");
-@@ -93,6 +94,7 @@ test {
+@@ -96,6 +97,7 @@ test {
      _ = @import("think_split_test.zig");
      _ = @import("thinking_reserve_test.zig");
      _ = @import("loop_stop_test.zig");
@@ -153,7 +153,7 @@ index 115e0db..6728a74 100644
      _ = @import("compact_test.zig");
      _ = @import("compact_auto_test.zig");
 diff --git a/zig/src/server/server.zig b/zig/src/server/server.zig
-index aceddee..ea841d5 100644
+index aceddeebc..ea841d520 100644
 --- a/zig/src/server/server.zig
 +++ b/zig/src/server/server.zig
 @@ -205,6 +205,7 @@ pub const Server = struct {
@@ -166,7 +166,7 @@ index aceddee..ea841d5 100644
          srv.thinking_switch = std.mem.indexOf(u8, source, "enable_thinking") != null or
 diff --git a/zig/src/server/think_off_split.zig b/zig/src/server/think_off_split.zig
 new file mode 100644
-index 0000000..c5b5ea7
+index 000000000..c5b5ea7c8
 --- /dev/null
 +++ b/zig/src/server/think_off_split.zig
 @@ -0,0 +1,79 @@
@@ -251,7 +251,7 @@ index 0000000..c5b5ea7
 +}
 diff --git a/zig/src/server/think_off_split_test.zig b/zig/src/server/think_off_split_test.zig
 new file mode 100644
-index 0000000..c28b6c0
+index 000000000..c28b6c003
 --- /dev/null
 +++ b/zig/src/server/think_off_split_test.zig
 @@ -0,0 +1,211 @@
