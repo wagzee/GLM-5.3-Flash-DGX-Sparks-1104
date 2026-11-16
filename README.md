@@ -98,7 +98,9 @@ branch leads at 4 streams (89-95 against 79-81).
 Prefill was tuned on 2026-11-02 (docs/speed/RESULTS.md): `ABSORB_MMA` is +8.0% with identical answers and is on; the
 4,096-row prompt chunk (0094/0095) is +7% with byte-identical replies; `W8A8` reaches +10.5% but rounds activations
 (one of ten answers wrong) and stays off; `q4` dense is rejected on quality; the cable is about 3% of a long prompt's
-time. At equal dense width the engine is at parity with the v1.0.7 build's prefill.
+time. At equal dense width the engine is at parity with the v1.0.7 build's prefill. With `DENSE=bf16` the 4,096-row
+chunk loses instead, so that image reads 2,048 rows a pass (`PROMPT_CHUNK`, patch 0114): 1,700 tok/s against 1,295
+at 35K, the same answers ([Prefill beside decoding](#prefill-beside-decoding)).
 
 ## Requirements
 
@@ -136,6 +138,22 @@ A long prompt is read in atomic 4,096-row chunks (about 2.5 s each); other strea
 `PREFILL_SHARE=p` makes each chunk owe the decoders `(1 - p) / p` of its own time in decode rounds first. At the
 default `0.68` a chat beside a long prefill keeps about 12-13 tok/s with a worst pause of one chunk, and the long
 prompt's first token comes about 47% later than at `1`. Replies are byte-identical at any value.
+
+**`PROMPT_CHUNK`** sets the chunk's rows in the image: `4096` (0094/0095) or `2048` (patch 0114, in
+`patches/engine/chunk2048/`, which sets them back); `auto` (default) builds 2,048 for `DENSE=bf16` and 4,096
+otherwise. A pass has a fixed cost of about 0.15 s (it decodes every expert's EXL3 weights), which a wider chunk
+spreads; with q8 dense the rest costs 0.6 ms a row at any width, while with bf16 dense a pass costs 0.54 ms a row to
+about 2,800 rows and 1.3 ms a row past about 3,000. Measured on this pair (2026-11-15/16, `KV=bf16`, `PARALLEL=4`, a
+cold 34.7K prompt beside a decoding chat):
+
+| | bf16, 4,096 | bf16, 2,048 | q8, 4,096 | q8, 2,048 |
+| --- | ---: | ---: | ---: | ---: |
+| Prefill alone | 1,295 tok/s | **1,700** | **1,810** | 1,700 |
+| The long prompt's first token beside the chat | 38.6 s | **29.7 s** | **28.1 s** | 29.9 s |
+| The chat's worst pause | 3.5 s | **1.47 s** | 2.58 s | **1.45 s** |
+
+The chat's rate during the prompt is the same at both widths, and greedy replies hash the same. With `LEARN_GIB`, a
+state on disk from the other width is not resumed: the turn prefills, with the same reply. Upstream: MiaAI-Lab#58.
 
 ## Memory on a 128 GB unified Spark
 
@@ -237,6 +255,7 @@ variables. **The served pair's `local.sh`** sets `PORT=8888`, `PARALLEL=8`, `CON
 | `DRAFTER`, `DRAFTER_BITS` | `dflash2`, `4` | `dflash2`, `mtp` (the checkpoint's own head) or `none` |
 | `PARALLEL` | `4` | `--parallel`; admitted only if it fits, `auto` serves up to 8. The pair runs 8: free at 1-4 streams, 94-95 tok/s at 6, 105-106 at 8 |
 | `PREFILL_SHARE`, `PREFILL_BUDGET` | `0.68`, empty | See [Prefill beside decoding](#prefill-beside-decoding) |
+| `PROMPT_CHUNK` | `auto` | Rows a prompt pass takes, built into the image: `2048` (patch 0114) or `4096`; `auto` is 2048 for `DENSE=bf16`, else 4096. See [Prefill beside decoding](#prefill-beside-decoding) |
 | `CONTEXT`, `CONTEXT_MAX` | `auto`, `1048576` | See [CONTEXT=auto](#contextauto) |
 | `KV`, `KV_PAGES` | `fp8`, `on` | `--kv-cache`, one shared pool of 512-row pages with `CONTEXT` as one request's cap |
 | `DENSE`, `HEAD` | `q8`, `bf16` | `bf16`, `q8`, `q6` or `q4` for the dense linears and the LM head; the pair's `local.sh` sets `HEAD=q8`. q8 against bf16 dense on sparkDash's thinking-on items: arith 39/40 and GSM8K 194/200 against 40/40 and 195/200, the same two items either way and no others (drafter on; with the drafter off the q8 replies are token-identical), for bf16's 12-20% slower decode |
@@ -341,7 +360,7 @@ the template as it is. A `CHAT_TEMPLATE` of your own is served as it is either w
 
 `patches/engine/` holds 113 patches on TensorFold `f350cd3e`, applied in filename order at image build: 0001-0093 are
 the [RTX PRO 6000 recipe](https://github.com/MiaAI-Lab/GLM-5.3-Flash-2x-RTX-PRO-6000-TensorFold)'s, unchanged;
-0094-0113 are this pair's own or ported from that recipe or from upstream. None is GB10-specific: the arch-gated kernels test
+0094-0113 are this pair's own or ported from that recipe or from upstream; 0114, in `patches/engine/chunk2048/`, is applied after them only to a `PROMPT_CHUNK=2048` image. None is GB10-specific: the arch-gated kernels test
 `__CUDA_ARCH__ >= 1200`, which `sm_121` satisfies.
 
 | Patches | What they do |
@@ -365,6 +384,7 @@ the [RTX PRO 6000 recipe](https://github.com/MiaAI-Lab/GLM-5.3-Flash-2x-RTX-PRO-
 | 0111 | **This pair's.** The clean image build prints no compiler warning: two fp8 expert kernels' unread kernel-local `RW`, `prefill_attention`'s readerless `SMEM_MAX`, `glm_mm`'s `Tile` `SMEM` member no instantiation uses, and `flashnext_fact` / `flashnext_attn` unroll loops that sat behind an `if constexpr` they could not reach (now behind the inverted guard, so each instantiation compiles only its reachable side). No arithmetic, launch shape or output changes: all six files' fatbins compile byte-identical |
 | 0112 | `TF_EXTRA_EOS=<token>[,<token>...]` (`EXTRA_EOS`, on by default with `<\|assistant\|>`): the named tokens end a reply like the checkpoint's EOS ids and leave the reply as they do. A name the tokenizer does not hold refuses the start; unset, the EOS list is the checkpoint's |
 | 0113 | `TF_THINK_OFF_SPLIT=<tokens>` (`THINK_OFF_SPLIT`, on by default at 1024): a thinking-off chat reply that writes the think close token within the hold is split like a thinking reply, whole and streamed alike (a stream holds its content until the token, the hold or the end). A close after the hold stays text; raw completions, the JSON channel and logprobs requests are never split. Tests: `zig build test-think-off-split-host` |
+| 0114 | **This fork's** (`patches/engine/chunk2048/`, `PROMPT_CHUNK=2048`; `auto` with `DENSE=bf16`). A prompt chunk of 2,048 rows, with DFlash2's `MAX_CTX` to match: 0094/0095 set back. bf16 dense +31% prefill (1,295 -> 1,700 tok/s at 35K), q8 -6%; the worst pause beside a long prompt about 1.46 s at either; byte-identical replies. Upstream as 0122 (MiaAI-Lab#58) |
 
 Every default-on patch was A/B tested against the image before it: greedy replies identical plus a measured gain.
 

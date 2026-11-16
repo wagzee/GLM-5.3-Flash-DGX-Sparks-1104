@@ -1,5 +1,12 @@
 # Changelog
 
+- **2026-11-16** -- `PROMPT_CHUNK` (`auto`, `2048`, `4096`) and engine patch 0114 in `patches/engine/chunk2048/`:
+  with `DENSE=bf16` the image reads prompts in 2,048-row passes, as before 0094/0095; q8 keeps 4,096 and its tag
+  (`041480255cb6`). A bf16 pass costs 1.3 ms a row past about 3,000 rows against 0.54 below: a cold 34.7K prompt
+  1,295 -> 1,700 tok/s (+31%), its first token beside a decoding chat 38.6 -> 29.7 s, the chat's worst pause 3.5 ->
+  1.47 s. With q8, 2,048 is 6% slower and halves the pause, so it stays an opt-in there. Greedy replies hash the same
+  at both widths. Offered upstream as MiaAI-Lab#58 (0122 there, measured again on main 80be4d6: +29%, -4.4% on q8).
+
 - **2026-11-08** -- engine patch 0113, `THINK_OFF_SPLIT` (default 1024, `TF_THINK_OFF_SPLIT`): with thinking off,
   GLM-5.3 sometimes drafts in its hidden-reasoning voice anyway ("We need ... Let's extract.") and writes `</think>`
   before its answer, so the draft and the marker were the reply's content. A thinking-off chat reply that writes the
