@@ -1,0 +1,147 @@
+{
+ "date": "2026-11-16T19:52:24+0100",
+ "image": "tensorfold-glm53-spark:e612c82df940",
+ "recipe": "c21abeb",
+ "settings": {
+  "DENSE": "bf16",
+  "KV": "bf16",
+  "HEAD": "(default)",
+  "PROMPT_CHUNK": "(default)",
+  "PARALLEL": "(default)",
+  "CONTEXT": "500000",
+  "DRAFTER": "(default)",
+  "ABSORB_MMA": "(default)",
+  "W8A8": "(default)"
+ },
+ "plan": "prompts in passes of up to 2048 rows, a 5.0 GiB prompt cache",
+ "label": "promptk-shape",
+ "tf_commit": "f350cd3ea253a042e205746928271f9d8f71a82d",
+ "corpora": {
+  "code": {
+   "text_sha": "9ccd24f67d0e9c63",
+   "tokens_sha": "2d31f141571c8ae9",
+   "prompt_tokens": 274764,
+   "secs": 312.0,
+   "logprobs_sha": "ae117a8340bb1326",
+   "bins": [
+    {
+     "from": 0,
+     "to": 8192,
+     "tokens": 8192,
+     "nll": 0.87206,
+     "top1_is_actual": 0.81372,
+     "ref_nll": 0.8712,
+     "top1_agree": 0.979492,
+     "dlp_mean": 0.052259,
+     "dlp_p99": 0.61199,
+     "dlp_max": 6.97426,
+     "dnll": 0.00086
+    },
+    {
+     "from": 8192,
+     "to": 32768,
+     "tokens": 24576,
+     "nll": 0.70104,
+     "top1_is_actual": 0.85429,
+     "ref_nll": 0.70054,
+     "top1_agree": 0.985514,
+     "dlp_mean": 0.03308,
+     "dlp_p99": 0.4485,
+     "dlp_max": 2.70079,
+     "dnll": 0.0005
+    },
+    {
+     "from": 32768,
+     "to": 131072,
+     "tokens": 98304,
+     "nll": 0.5737,
+     "top1_is_actual": 0.87495,
+     "ref_nll": 0.57355,
+     "top1_agree": 0.986053,
+     "dlp_mean": 0.031182,
+     "dlp_p99": 0.4537,
+     "dlp_max": 7.97979,
+     "dnll": 0.00015
+    },
+    {
+     "from": 131072,
+     "to": 274763,
+     "tokens": 143691,
+     "nll": 0.63301,
+     "top1_is_actual": 0.85124,
+     "ref_nll": 0.63328,
+     "top1_agree": 0.981836,
+     "dlp_mean": 0.037321,
+     "dlp_p99": 0.48394,
+     "dlp_max": 3.6671,
+     "dnll": -0.00027
+    }
+   ],
+   "reference": "/home/wagzee/LLM/GLM-5.3-Flash-DGX-Sparks-1104-wagzee/docs/speed/baselines/reference/ref-code.bin.gz",
+   "identical_to_reference": false
+  },
+  "prose": {
+   "text_sha": "dd45c6f5c2750960",
+   "tokens_sha": "c508bf3c0b025bb9",
+   "prompt_tokens": 135229,
+   "secs": 151.1,
+   "logprobs_sha": "69baba5f7b07a755",
+   "bins": [
+    {
+     "from": 0,
+     "to": 8192,
+     "tokens": 8192,
+     "nll": 2.37868,
+     "top1_is_actual": 0.48853,
+     "ref_nll": 2.3775,
+     "top1_agree": 0.929443,
+     "dlp_mean": 0.119451,
+     "dlp_p99": 0.78458,
+     "dlp_max": 2.74872,
+     "dnll": 0.00118
+    },
+    {
+     "from": 8192,
+     "to": 32768,
+     "tokens": 24576,
+     "nll": 2.33632,
+     "top1_is_actual": 0.50448,
+     "ref_nll": 2.33673,
+     "top1_agree": 0.941121,
+     "dlp_mean": 0.10143,
+     "dlp_p99": 0.67878,
+     "dlp_max": 3.06525,
+     "dnll": -0.00041
+    },
+    {
+     "from": 32768,
+     "to": 131072,
+     "tokens": 98304,
+     "nll": 1.76007,
+     "top1_is_actual": 0.59438,
+     "ref_nll": 1.75831,
+     "top1_agree": 0.952688,
+     "dlp_mean": 0.08648,
+     "dlp_p99": 0.63902,
+     "dlp_max": 13.97708,
+     "dnll": 0.00176
+    },
+    {
+     "from": 131072,
+     "to": 135228,
+     "tokens": 4156,
+     "nll": 1.32706,
+     "top1_is_actual": 0.6949,
+     "ref_nll": 1.32677,
+     "top1_agree": 0.965351,
+     "dlp_mean": 0.073219,
+     "dlp_p99": 0.66124,
+     "dlp_max": 2.32776,
+     "dnll": 0.00029
+    }
+   ],
+   "reference": "/home/wagzee/LLM/GLM-5.3-Flash-DGX-Sparks-1104-wagzee/docs/speed/baselines/reference/ref-prose.bin.gz",
+   "identical_to_reference": false
+  }
+ }
+}

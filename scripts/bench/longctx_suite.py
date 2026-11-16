@@ -59,7 +59,9 @@ def build(length, index, seed, prose):
         needles.append((rng.random(), f"The special magic number for {k} is {nums[k]}."))
     for k in rng.sample(keys, 2):
         qs.append({"task": "mk", "q": f"What is the special magic number for {k}? Answer with the number only.",
-                   "want": [nums[k]], "avoid": []})
+                   "want": [nums[k]], "avoid": [],
+                   "evidence": [f"The special magic number for {k} is {nums[k]}."],
+                   "decoys": [f"The special magic number for {o} is {nums[o]}." for o in keys if o != k]})
     # mv: two keys with four codes each
     for _ in range(2):
         k = fresh(lambda: word(rng))
@@ -67,7 +69,8 @@ def build(length, index, seed, prose):
         for c in codes:
             needles.append((rng.random(), f"One of the registered serial codes for {k} is {c}."))
         qs.append({"task": "mv", "q": f"List all of the registered serial codes for {k}. Answer with the codes only, comma-separated.",
-                   "want": codes, "avoid": []})
+                   "want": codes, "avoid": [],
+                   "evidence": [f"One of the registered serial codes for {k} is {c}." for c in codes], "decoys": []})
     # vt: a chain of five variables and a decoy chain, each placed in document order
     for _ in range(2):
         val, decoy = (str(rng.randrange(10**4, 10**5)) for _ in range(2))
@@ -79,9 +82,11 @@ def build(length, index, seed, prose):
             for i in range(1, 5):
                 needles.append((depths[i], f"VAR {names[i]} = VAR {names[i - 1]}"))
             chains.append(names)
+            sents = [f"VAR {names[0]} = {v}"] + [f"VAR {names[i]} = VAR {names[i - 1]}" for i in range(1, 5)]
+            chains[-1] = (names, sents)
         qs.append({"task": "vt", "q": f"Which variables are assigned the value {val}, directly or through other variables? "
                                       "Answer with the variable names only, comma-separated.",
-                   "want": chains[0], "avoid": chains[1]})
+                   "want": chains[0][0], "avoid": chains[1][0], "evidence": chains[0][1], "decoys": chains[1][1]})
     # hop: two people, their companies and four companies' cities
     comps = [fresh(lambda: word(rng, 2) + rng.choice(["tron", "vex", "lid", "corp", "ware"])) for _ in range(4)]
     cities = rng.sample(CITIES, 4)
@@ -91,21 +96,25 @@ def build(length, index, seed, prose):
         p = fresh(lambda: f"{rng.choice(FIRST)} {rng.choice(LAST)}")
         needles.append((rng.random(), f"{p} works at {comps[i]}."))
         qs.append({"task": "hop", "q": f"In which city are the headquarters of the company {p} works at? Answer with the city only.",
-                   "want": [cities[i]], "avoid": [c for c in cities if c != cities[i]]})
+                   "want": [cities[i]], "avoid": [c for c in cities if c != cities[i]],
+                   "evidence": [f"{p} works at {comps[i]}.", f"{comps[i]} has its headquarters in {cities[i]}."],
+                   "decoys": [f"{c} has its headquarters in {city}." for c, city in zip(comps, cities) if c != comps[i]]})
     # cnt: a log line 3-9 times, a decoy line 2-8 times
     tag, dtag = fresh(lambda: word(rng, 2).upper()), fresh(lambda: word(rng, 2).upper())
     n, dn = rng.randint(3, 9), rng.randint(2, 8)
     needles += [(rng.random(), f"Status log: checkpoint {tag} reached.") for _ in range(n)]
     needles += [(rng.random(), f"Status log: checkpoint {dtag} reached.") for _ in range(dn)]
     qs.append({"task": "cnt", "q": f"How many times does the status log say that checkpoint {tag} was reached? Answer with the number only.",
-               "want": [str(n)], "avoid": []})
+               "want": [str(n)], "avoid": [], "evidence": [f"Status log: checkpoint {tag} reached."] * n,
+               "decoys": [f"Status log: checkpoint {dtag} reached."] * dn})
     # agg: a traveller's five cities, a decoy traveller's three
     pool = rng.sample([c for c in CITIES if c not in cities], 8)
     t, dt = fresh(lambda: f"{rng.choice(FIRST)} {rng.choice(LAST)}"), fresh(lambda: f"{rng.choice(FIRST)} {rng.choice(LAST)}")
     needles += [(rng.random(), f"Travel log: {t} visited {c}.") for c in pool[:5]]
     needles += [(rng.random(), f"Travel log: {dt} visited {c}.") for c in pool[5:]]
     qs.append({"task": "agg", "q": f"List every city that {t} visited according to the travel logs. Answer with the city names only, comma-separated.",
-               "want": pool[:5], "avoid": pool[5:]})
+               "want": pool[:5], "avoid": pool[5:], "evidence": [f"Travel log: {t} visited {c}." for c in pool[:5]],
+               "decoys": [f"Travel log: {dt} visited {c}." for c in pool[5:]]})
     # plant at line starts, deepest first so earlier offsets hold
     cuts = []
     for depth, s in needles:
@@ -244,6 +253,9 @@ def selftest(_):
         for w in q["want"]:
             assert w in t1, (q["id"], w)
     assert t1.count("Status log: checkpoint") >= 5
+    for q in q1:  # every evidence and decoy line is in the haystack, as often as listed
+        for e in set(q["evidence"]) | set(q["decoys"]):
+            assert t1.count(e) >= q["evidence"].count(e) + q["decoys"].count(e) and t1.count(e) >= 1, (q["id"], e)
     assert score("cnt", ["7"], [], "7")[0] and not score("cnt", ["7"], [], "There are 6.")[0]
     assert score("vt", ["A", "B"], ["C"], "A, B")[0] and not score("vt", ["A", "B"], ["C"], "A, B, C")[0]
     assert score("mv", ["1", "2", "3", "4"], [], "1, 2, 3") == (False, 0.75)

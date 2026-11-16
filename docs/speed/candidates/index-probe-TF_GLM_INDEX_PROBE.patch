@@ -1,0 +1,131 @@
+From 10152b8114477b5528b2fc52a6bfaa0a637f0889 Mon Sep 17 00:00:00 2001
+From: wagzee <jurik17@gmail.com>
+Date: Mon, 16 Nov 2026 20:25:51 +0100
+Subject: [PATCH] glm-cuda: TF_GLM_INDEX_PROBE=1, a diagnostic: every DSA
+ selection logs its last row's picked pools with the layer and the position
+
+---
+ zig/src/families/glm/cuda_dsa_block.zig | 13 +++++++---
+ zig/src/families/glm/cuda_sparse.zig    | 34 +++++++++++++++++++++++++
+ zig/src/families/glm/cuda_weights.zig   |  1 +
+ 3 files changed, 45 insertions(+), 3 deletions(-)
+
+diff --git a/zig/src/families/glm/cuda_dsa_block.zig b/zig/src/families/glm/cuda_dsa_block.zig
+index 2f9b87b..2498ad4 100644
+--- a/zig/src/families/glm/cuda_dsa_block.zig
++++ b/zig/src/families/glm/cuda_dsa_block.zig
+@@ -8,6 +8,12 @@ const latent = @import("cuda_latent.zig");
+ const sparse = @import("cuda_sparse.zig");
+ const prof = @import("cuda_prof.zig");
+ 
++/// sparse.selectTokensProfile for layer `l`, which TF_GLM_INDEX_PROBE's lines name.
++fn selectTokens(l: Layer, set: glue.Set, ops: cuda.Module, stream: cuda.Stream, qi: u64, wts: u64, w_stride: usize, pk: u64, t: latent.Table, pos: u64, host_pos: usize, rows: usize, heads: usize, d: usize, np_max_cap: usize, s: sparse.Scratch, tokens: u64, counts: u64, split: ?sparse.Split, profile: ?*prof.Prof) !void {
++    sparse.probe_layer = l.id;
++    return sparse.selectTokensProfile(set, ops, stream, qi, wts, w_stride, pk, t, pos, host_pos, rows, heads, d, np_max_cap, s, tokens, counts, split, profile);
++}
++
+ /// A prompt chunk's rows one dense latent attention call takes (geometry.MLA_PROMPT_ATT_ROWS).
+ pub const prompt_att_rows = 512;
+ 
+@@ -32,6 +38,7 @@ pub const Layer = struct {
+     dims: usize,
+     eps: f32,
+     dense_limit: usize, // the largest context whose top-k selection keeps every visible key (Config.keyWidth)
++    id: usize = 0, // the checkpoint layer number (TF_GLM_INDEX_PROBE names it)
+ };
+ 
+ /// The caches: latent bf16 [capacity][lw], index keys/gates bf16 [capacity][128], pooled keys bf16 [pk_rows][128].
+@@ -152,7 +159,7 @@ pub fn attend(k: Kernels, stream: cuda.Stream, l: Layer, c: Caches, s: Scratch,
+         stamp.end();
+     }
+     if (sparseRows(l, host_pos, rows)) {
+-        try sparse.selectTokensProfile(set, k.ops, stream, v.qi, v.ikr + ix.d * 2, kw_rows, c.pk, t, pos, host_pos, rows, ix.heads, ix.d, c.pk_rows - 2, v.select, v.tokens, v.counts, k.split, k.prof);
++        try selectTokens(l, set, k.ops, stream, v.qi, v.ikr + ix.d * 2, kw_rows, c.pk, t, pos, host_pos, rows, ix.heads, ix.d, c.pk_rows - 2, v.select, v.tokens, v.counts, k.split, k.prof);
+         const stamp = prof.span(k.prof, stream, .mla);
+         defer stamp.end();
+         try latent.sparseAttentionFormat(set, stream, v.qa, c.lc, c.ls, latTable(l, c), v.tokens, v.counts, sparse.width, v.partials, v.ol, rows, l.heads, l.lw, scale);
+@@ -165,7 +172,7 @@ pub fn attend(k: Kernels, stream: cuda.Stream, l: Layer, c: Caches, s: Scratch,
+ pub fn attendNoLatent(k: Kernels, stream: cuda.Stream, l: Layer, c: Caches, s: Scratch, r0: usize, rows: usize, pos: u64, host_pos: usize) !Scratch {
+     const ix = l.index;
+     const v = try attendWrite(k, stream, l, c, s, r0, rows, pos);
+-    if (sparseRows(l, host_pos, rows)) try sparse.selectTokensProfile(k.set, k.ops, stream, v.qi, v.ikr + ix.d * 2, ix.d + ix.heads, c.pk, table(l, c), pos, host_pos, rows, ix.heads, ix.d, c.pk_rows - 2, v.select, v.tokens, v.counts, k.split, k.prof);
++    if (sparseRows(l, host_pos, rows)) try selectTokens(l, k.set, k.ops, stream, v.qi, v.ikr + ix.d * 2, ix.d + ix.heads, c.pk, table(l, c), pos, host_pos, rows, ix.heads, ix.d, c.pk_rows - 2, v.select, v.tokens, v.counts, k.split, k.prof);
+     return v;
+ }
+ 
+@@ -323,7 +330,7 @@ test "a shared window's cache-write segments fit glm_glue_index.cuh's table and
+ pub fn attendSelect(k: Kernels, stream: cuda.Stream, l: Layer, c: Caches, v: Scratch, rows: usize, pos: u64, host_pos: usize, tokens: u64, counts: u64) !void {
+     const ix = l.index;
+     const kw_rows = ix.d + ix.heads;
+-    try sparse.selectTokensProfile(k.set, k.ops, stream, v.qi, v.ikr + ix.d * 2, kw_rows, c.pk, table(l, c), pos, host_pos, rows, ix.heads, ix.d, c.pk_rows - 2, v.select, tokens, counts, k.split, k.prof);
++    try selectTokens(l, k.set, k.ops, stream, v.qi, v.ikr + ix.d * 2, kw_rows, c.pk, table(l, c), pos, host_pos, rows, ix.heads, ix.d, c.pk_rows - 2, v.select, tokens, counts, k.split, k.prof);
+ }
+ 
+ /// The segments' latent attention (latent.attentionSegs) into s.ol, with the layer's scale.
+diff --git a/zig/src/families/glm/cuda_sparse.zig b/zig/src/families/glm/cuda_sparse.zig
+index 8efa62b..01f366f 100644
+--- a/zig/src/families/glm/cuda_sparse.zig
++++ b/zig/src/families/glm/cuda_sparse.zig
+@@ -16,6 +16,39 @@ pub const select_rows = 512;
+ /// A row's token list: the 512 pools' tokens, then the incomplete pool's up to 3.
+ pub const width = topk_pools * pool + pool - 1;
+ 
++/// TF_GLM_INDEX_PROBE=1 (diagnostic, off by default): every selection logs its last row's picked pools (logical pool
++/// numbers, ascending; pool p is tokens 4p..4p+3) with the layer and the row's position, so a needle's tokens can be
++/// checked against what each DSA layer read. It synchronizes the stream once a call: for measurement only. Nothing
++/// it does changes a selection or a byte of the reply.
++pub var probe_layer: usize = 0;
++var probe_state: enum { unread, off, on } = .unread;
++
++fn probing() bool {
++    if (probe_state == .unread) {
++        const v = std.c.getenv("TF_GLM_INDEX_PROBE");
++        probe_state = if (v != null and std.mem.eql(u8, std.mem.span(v.?), "1")) .on else .off;
++    }
++    return probe_state == .on;
++}
++
++fn probe(stream: cuda.Stream, pools: u64, rows: usize, host_pos: usize) void {
++    var picks: [topk_pools]i64 = undefined;
++    stream.synchronize() catch return;
++    stream.d.check(stream.d.api.cuMemcpyDtoH_v2(@ptrCast(&picks), pools + (rows - 1) * topk_pools * 8, topk_pools * 8), "index probe") catch return;
++    var buf: [topk_pools * 24]u8 = undefined;
++    var w: std.Io.Writer = .fixed(&buf);
++    var i: usize = 0;
++    while (i < topk_pools) {
++        if (picks[i] < 0) break;
++        var j = i;
++        while (j + 1 < topk_pools and picks[j + 1] == picks[j] + 1) j += 1;
++        if (i > 0) w.writeByte(',') catch break;
++        if (j > i) w.print("{d}-{d}", .{ picks[i], picks[j] }) catch break else w.print("{d}", .{picks[i]}) catch break;
++        i = j + 1;
++    }
++    std.log.info("glm index probe layer={d} pos={d} rows={d} pools={s}", .{ probe_layer, host_pos + rows - 1, rows, w.buffered() });
++}
++
+ fn cdiv(a: usize, b: usize) usize {
+     return (a + b - 1) / b;
+ }
+@@ -183,6 +216,7 @@ pub fn selectTokensProfile(set: glue.Set, ops: cuda.Module, stream: cuda.Stream,
+         const bytes = per * topk_pools * 8;
+         try x.lib.check(x.lib.api.ncclAllGather(s.pools + x.rank * bytes, s.pools, bytes, .u8, x.comm, stream.handle), "ncclAllGather");
+     }
++    if (probing()) probe(stream, s.pools, rows, host_pos);
+     const assemble = try ops.function("tf_glm_dsa_tokens");
+     var args: cuda.Args = .{};
+     args.add(s.pools);
+diff --git a/zig/src/families/glm/cuda_weights.zig b/zig/src/families/glm/cuda_weights.zig
+index fc97c66..90bf3a0 100644
+--- a/zig/src/families/glm/cuda_weights.zig
++++ b/zig/src/families/glm/cuda_weights.zig
+@@ -293,6 +293,7 @@ const Loader = struct {
+             .dims = c.hidden,
+             .eps = c.eps,
+             .dense_limit = c.keyWidth(),
++            .id = i,
+         };
+     }
+ 
+-- 
+2.43.0
+

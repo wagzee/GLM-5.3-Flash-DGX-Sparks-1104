@@ -133,7 +133,7 @@ def compare(a):
                   f"{b['dlp_mean']:>11.5f} {b['dlp_p99']:>8.4f} {b['dlp_max']:>8.3f}")
             if b["dnll"] > a.nll_tol:
                 bad.append(f"{name} NLL at {b['from']}-{b['to']} {b['dnll']:+.4f}")
-            if b["top1_agree"] < 1 - a.agree_tol:
+            if a.agree_tol is not None and b["top1_agree"] < 1 - a.agree_tol:
                 bad.append(f"{name} top-1 agreement at {b['from']}-{b['to']} {100 * b['top1_agree']:.3f}%")
     if bad:
         print("REGRESSION: " + "; ".join(bad))
@@ -169,8 +169,11 @@ def main():
     r.add_argument("--out")
     c = sub.add_parser("compare")
     c.add_argument("result")
-    c.add_argument("--nll-tol", type=float, default=0.002, help="NLL a depth bin may rise (nats a token)")
-    c.add_argument("--agree-tol", type=float, default=0.01, help="share of top-1 choices that may change")
+    # calibrated 2026-11-16 on TF_GLM_PROMPT_K=shape, a summation-order change alone: NLL moved -0.0004..+0.0018,
+    # and 1.4-7.1% of top-1 choices changed. So NLL is the gate, at about twice that noise; top-1 agreement is shown
+    # but gates only when asked (any change that is not byte-identical flips a few percent of near-ties).
+    c.add_argument("--nll-tol", type=float, default=0.005, help="NLL a depth bin may rise (nats a token)")
+    c.add_argument("--agree-tol", type=float, default=None, help="share of top-1 choices that may change (off by default)")
     sub.add_parser("selftest")
     a = ap.parse_args()
     {"run": run, "compare": compare, "selftest": selftest}[a.cmd](a)

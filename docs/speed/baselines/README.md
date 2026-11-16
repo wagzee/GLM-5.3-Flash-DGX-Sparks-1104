@@ -30,7 +30,12 @@ depends only on the tokens before it, so one call shows prediction quality at ev
   and how often the model's top choice is the actual token.
 - Against the reference (`reference/ref-{code,prose}.bin.gz`, every token's log-probability and top choice) it adds
   top-1 agreement, |delta log-probability| (mean, p99, max) and the NLL change.
-- `compare` fails when any bin's NLL rises by more than 0.002 nats or more than 1% of top-1 choices change.
+- `compare` fails when any bin's NLL rises by more than 0.005 nats. Top-1 agreement is reported but is not a gate
+  (`--agree-tol` makes it one).
+- **Calibration (2026-11-16):** `TF_GLM_PROMPT_K=shape` changes only the summation order of prompt matmuls. Against
+  the reference it moved NLL by -0.0004 to +0.0018 and changed 1.4-2.1% of top-1 choices on code and 3.5-7.1% on
+  prose (near-ties flip). That is the noise floor of a harmless numeric change; a real loss of context shows as NLL
+  rising well past it, most in the deep bins.
 - A lower NLL at depth is an improvement: the model predicts better from far context.
 
 `prompt_logprobs` bypasses the prompt cache, so no restart is needed, and a repeat on the same image is
@@ -201,3 +206,41 @@ flat from 32K to 256K.
 Long context costs this model's decode about 1 ms a step at 256K. The KDA blocks are the largest section, and the
 2026-11 decode notes (`codex-kda-c1-brief.md`) put most of that bucket in the input projections' weight reads, not the
 chain.
+
+## Indexer probe
+
+`scripts/bench/index_probe.py` shows which planted facts each of the 11 DSA layers read when the model answered. It
+needs an image with `docs/speed/candidates/index-probe-TF_GLM_INDEX_PROBE.patch`, a diagnostic that is not in the
+serving image: put it in `patches/engine/` of a test checkout, build, start with `TF_GLM_INDEX_PROBE=1`, and run
+
+```bash
+python3 scripts/bench/index_probe.py run --label <label> --out docs/speed/baselines/<date>-<label>-index-probe.json
+```
+
+It asks tier 2's questions (same haystacks, thinking off). For the answer's rows it reports each layer's
+**evidence read**: the share of the question's planted lines' tokens among the 2,048 tokens that layer selected.
+
+**2026-11-16, 40 questions (32K x2, 128K, 256K):**
+
+| | Items | Evidence read, layers 3-19 | Layers 23-43 |
+| --- | ---: | ---: | ---: |
+| Right | 32 | 56% | 91% |
+| Wrong | 8 | 42% | 83% |
+| Wrong, counting (all 4) | 4 | 27% | 71% |
+| Wrong, the rest (vt, agg, hop) | 4 | 61% | 95% |
+
+- Counting fails because the selection misses lines: even the late layers read only 65-77% of them, and the 128K and
+  256K answers undercount (4 for 9, 4 for 7).
+- The other failures read nearly all their evidence and answered wrong anyway (a decoy city, a broken chain): a
+  wider selection would not help them.
+- The late layers read most evidence on every other task. The early layers read much less, which may be by design.
+
+A wider selection (4,096 tokens a layer) is therefore aimed at counting and aggregation over many scattered lines,
+and could turn up to 4 of these 8 failures. It needs an engine patch (512 pools is a constant in several kernels).
+
+## Experiments against this baseline
+
+| Date | Change | Result | Verdict |
+| --- | --- | --- | --- |
+| 2026-11-16 | Drafter on bf16 dense (`docs/dec.py`, 1/2/4 streams, 3 trials): `TF_GLM_DRAFT_CONFIDENCE` 0.5, 0.6, 0.8; `TF_GLM_DRAFT_RULE=tpm`, with the built-in costs and with bf16's (`TF_GLM_VERIFY_MS=52.8,6.2,5.92`) | Default 31.9 / 47.9 / 64.6 tok/s; every setting within -2.2% to +0.9% (the noise floor). Deeper drafts land more tokens a round (2.40 against 2.21 at 0.5) but make each round as much longer (72 against 67 ms). Replies byte-identical throughout | No gain; the defaults stay. Same verdict as the q8 sweep (`docs/speed/HANDOFF-decode-4stream.md`) |
+| 2026-11-16 | `TF_GLM_PROMPT_K=shape` (K slices by weight shape in prompt matmuls), aimed at the shared expert's low prompt efficiency (about 17 TFLOPS against 43-49 for the other projections) | Prefill 1,019-1,023 tok/s against 1,670 (-39%); tier 1 within tolerance (the calibration above); reply hashes changed | Rejected |

@@ -1,0 +1,78 @@
+{
+ "label": "promptk-shape",
+ "date": "2026-11-16T19:48:51+0100",
+ "profiled": false,
+ "image": "tensorfold-glm53-spark:e612c82df940",
+ "recipe": "c21abeb",
+ "settings": {
+  "DENSE": "bf16",
+  "KV": "bf16",
+  "PROMPT_CHUNK": "",
+  "PARALLEL": "",
+  "CONTEXT": "500000",
+  "MEMORY_RESERVE_GIB": "",
+  "CACHE_FIRST": "",
+  "DRAFTER": ""
+ },
+ "plan": "prompts in passes of up to 2048 rows, a 5.0 GiB prompt cache",
+ "decode_tokens": 512,
+ "contexts": [
+  {
+   "ctx": 32768,
+   "prompt_tokens": 32855,
+   "cold_cached": 0,
+   "warm_cached": 32768,
+   "ttft_s": 32.244,
+   "prefill_tps": 1018.9,
+   "warm_s": 0.308,
+   "decode_tokens": 512,
+   "decode_tps": 34.52,
+   "recall": "4/4",
+   "recall_by_vault": {
+    "Amber": true,
+    "Basalt": true,
+    "Cedar": true,
+    "Dune": true
+   },
+   "reply_sha": "675aa44e2f51d728",
+   "reply_head": "VAULT=CODE lines:\n\nAmber=772039\nBasalt=671970\nCedar=707333\nDune=312330\n\nDescription of the word list:\n\nThe text is a very long, continuous stream of single comm"
+  },
+  {
+   "ctx": 131072,
+   "prompt_tokens": 131280,
+   "cold_cached": 0,
+   "warm_cached": 131072,
+   "ttft_s": 128.343,
+   "prefill_tps": 1022.9,
+   "warm_s": 0.475,
+   "decode_tokens": 512,
+   "decode_tps": 33.02,
+   "recall": "4/4",
+   "recall_by_vault": {
+    "Amber": true,
+    "Basalt": true,
+    "Cedar": true,
+    "Dune": true
+   },
+   "reply_sha": "27c76bf678190323",
+   "reply_head": "VAULT=CODE lines:\n\nAmber=137343\nBasalt=299697\nCedar=815388\nDune=863105\n\nDescription of the word list:\n\nThe text is an extremely long, unbroken stream of common "
+  }
+ ],
+ "greedy": [
+  {
+   "name": "short",
+   "prompt_tokens": 30,
+   "sha": "b0c00588ccecabb7"
+  },
+  {
+   "name": "p3k",
+   "prompt_tokens": 2987,
+   "sha": "3a50eb81ee260862"
+  },
+  {
+   "name": "p9k",
+   "prompt_tokens": 8859,
+   "sha": "d05562aec869bf6b"
+  }
+ ]
+}
