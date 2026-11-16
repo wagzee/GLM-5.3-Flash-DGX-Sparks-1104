@@ -3,3 +3,4 @@
 /.env
 /scripts/local.sh
 /HANDOFF.md
+__pycache__/
