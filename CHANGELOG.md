@@ -1,5 +1,14 @@
 # Changelog
 
+- **2026-11-16** -- Long-context baselines (this fork): `scripts/bench/attn_baseline.py` (prefill and decode speed at
+  8K-256K, a recall smoke test, reply hashes; with `TF_GLM_PROF=1` the GPU split), `divergence.py` (tier 1: every
+  token's log-probability over 275K tokens of code and 135K of prose against a stored reference, by depth) and
+  `longctx_suite.py` (tier 2: 220 long-context task items at 32K-256K, thinking off and on, paired comparison with
+  McNemar's p and reasoning tokens). Each has `compare`, which exits 1 on a regression. Procedure and the first
+  results in `docs/speed/baselines/`, `scripts/tests/bench-parse.sh` tests them offline. Baseline on `e612c82df940`:
+  prefill 1,560-1,670 tok/s flat to 256K; decode 34-39 tok/s; tier 2 85/110 off, 99/110 on; a decode step 59 ms at
+  8K and 61 ms at 256K, of which the KDA blocks take 22 ms and DSA attention 8-9 ms.
+
 - **2026-11-16** -- `PROMPT_CHUNK` (`auto`, `2048`, `4096`) and engine patch 0122 in `patches/engine/chunk2048/`:
   with `DENSE=bf16` on the pair the image reads prompts in 2,048-row passes, as before 0094/0095, and every other
   image keeps 4,096, with the tag it had (a 4,096-row image's inputs are unchanged). A bf16 pass costs 1.3 ms a row

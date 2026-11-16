@@ -1,0 +1,97 @@
+{
+ "date": "2026-11-16T16:50:41+0100",
+ "image": "tensorfold-glm53-spark:e612c82df940",
+ "recipe": "d55ea05",
+ "settings": {
+  "DENSE": "bf16",
+  "KV": "bf16",
+  "HEAD": "(default)",
+  "PROMPT_CHUNK": "(default)",
+  "PARALLEL": "(default)",
+  "CONTEXT": "500000",
+  "DRAFTER": "(default)",
+  "ABSORB_MMA": "(default)",
+  "W8A8": "(default)"
+ },
+ "plan": "prompts in passes of up to 2048 rows, a 5.0 GiB prompt cache",
+ "label": "bf16-2048-ref",
+ "tf_commit": "f350cd3ea253a042e205746928271f9d8f71a82d",
+ "corpora": {
+  "code": {
+   "text_sha": "9ccd24f67d0e9c63",
+   "tokens_sha": "2d31f141571c8ae9",
+   "prompt_tokens": 274764,
+   "secs": 199.5,
+   "logprobs_sha": "64c5374dc5340b2d",
+   "bins": [
+    {
+     "from": 0,
+     "to": 8192,
+     "tokens": 8192,
+     "nll": 0.8712,
+     "top1_is_actual": 0.81299
+    },
+    {
+     "from": 8192,
+     "to": 32768,
+     "tokens": 24576,
+     "nll": 0.70054,
+     "top1_is_actual": 0.85295
+    },
+    {
+     "from": 32768,
+     "to": 131072,
+     "tokens": 98304,
+     "nll": 0.57355,
+     "top1_is_actual": 0.87478
+    },
+    {
+     "from": 131072,
+     "to": 274763,
+     "tokens": 143691,
+     "nll": 0.63328,
+     "top1_is_actual": 0.85064
+    }
+   ],
+   "reference": "docs/speed/baselines/reference/ref-code.bin.gz (written by this run)"
+  },
+  "prose": {
+   "text_sha": "dd45c6f5c2750960",
+   "tokens_sha": "c508bf3c0b025bb9",
+   "prompt_tokens": 135229,
+   "secs": 95.1,
+   "logprobs_sha": "851c31d066adc0cb",
+   "bins": [
+    {
+     "from": 0,
+     "to": 8192,
+     "tokens": 8192,
+     "nll": 2.3775,
+     "top1_is_actual": 0.49219
+    },
+    {
+     "from": 8192,
+     "to": 32768,
+     "tokens": 24576,
+     "nll": 2.33673,
+     "top1_is_actual": 0.50496
+    },
+    {
+     "from": 32768,
+     "to": 131072,
+     "tokens": 98304,
+     "nll": 1.75831,
+     "top1_is_actual": 0.59414
+    },
+    {
+     "from": 131072,
+     "to": 135228,
+     "tokens": 4156,
+     "nll": 1.32677,
+     "top1_is_actual": 0.69538
+    }
+   ],
+   "reference": "docs/speed/baselines/reference/ref-prose.bin.gz (written by this run)"
+  }
+ }
+}

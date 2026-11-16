@@ -9,7 +9,7 @@ if command -v shellcheck >/dev/null; then
 else
   echo 'shellcheck: not installed, skipped'
 fi
-for f in scripts/*.py; do
+for f in scripts/*.py scripts/bench/*.py; do
   python3 -c 'import ast, sys; ast.parse(open(sys.argv[1]).read(), sys.argv[1])' "$f"
 done
 echo 'python: pass'

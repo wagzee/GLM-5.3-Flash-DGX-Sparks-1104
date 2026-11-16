@@ -1,0 +1,118 @@
+{
+ "label": "bf16-2048-plain",
+ "date": "2026-11-16T16:43:16+0100",
+ "profiled": false,
+ "image": "tensorfold-glm53-spark:e612c82df940",
+ "recipe": "d55ea05",
+ "settings": {
+  "DENSE": "bf16",
+  "KV": "bf16",
+  "PROMPT_CHUNK": "",
+  "PARALLEL": "",
+  "CONTEXT": "500000",
+  "MEMORY_RESERVE_GIB": "",
+  "CACHE_FIRST": "",
+  "DRAFTER": ""
+ },
+ "plan": "prompts in passes of up to 2048 rows, a 5.0 GiB prompt cache",
+ "decode_tokens": 512,
+ "contexts": [
+  {
+   "ctx": 8192,
+   "prompt_tokens": 8218,
+   "cold_cached": 0,
+   "warm_cached": 8192,
+   "ttft_s": 5.264,
+   "prefill_tps": 1561.2,
+   "warm_s": 0.178,
+   "decode_tokens": 512,
+   "decode_tps": 34.08,
+   "recall": "4/4",
+   "recall_by_vault": {
+    "Amber": true,
+    "Basalt": true,
+    "Cedar": true,
+    "Dune": true
+   },
+   "reply_sha": "3e957f1ee7757391",
+   "reply_head": "VAULT=CODE lines\n- Amber=847806\n- Basalt=576306\n- Cedar=754256\n- Dune=877917\n\nDescription of the word list\n\n**Overall structure.** The text is one long, continu"
+  },
+  {
+   "ctx": 32768,
+   "prompt_tokens": 32825,
+   "cold_cached": 0,
+   "warm_cached": 32768,
+   "ttft_s": 19.651,
+   "prefill_tps": 1670.4,
+   "warm_s": 0.255,
+   "decode_tokens": 512,
+   "decode_tps": 33.97,
+   "recall": "4/4",
+   "recall_by_vault": {
+    "Amber": true,
+    "Basalt": true,
+    "Cedar": true,
+    "Dune": true
+   },
+   "reply_sha": "d9a113588308cc57",
+   "reply_head": "VAULT=CODE\nAmber=578607\nBasalt=111079\nCedar=706011\nDune=739732\n\n**Description of the word list:**\n\nThe text is a very long, continuous sequence of common Englis"
+  },
+  {
+   "ctx": 131072,
+   "prompt_tokens": 131548,
+   "cold_cached": 0,
+   "warm_cached": 131072,
+   "ttft_s": 78.783,
+   "prefill_tps": 1669.7,
+   "warm_s": 0.548,
+   "decode_tokens": 512,
+   "decode_tps": 38.86,
+   "recall": "4/4",
+   "recall_by_vault": {
+    "Amber": true,
+    "Basalt": true,
+    "Cedar": true,
+    "Dune": true
+   },
+   "reply_sha": "b40679edad1e45a2",
+   "reply_head": "VAULT=CODE lines:\n\nAmber=946682\nBasalt=429432\nCedar=818678\nDune=543148\n\nDescription of the word list:\n\nThe text is an extremely long, unbroken sequence of commo"
+  },
+  {
+   "ctx": 262144,
+   "prompt_tokens": 262832,
+   "cold_cached": 0,
+   "warm_cached": 262144,
+   "ttft_s": 162.929,
+   "prefill_tps": 1613.2,
+   "warm_s": 0.739,
+   "decode_tokens": 512,
+   "decode_tps": 33.6,
+   "recall": "4/4",
+   "recall_by_vault": {
+    "Amber": true,
+    "Basalt": true,
+    "Cedar": true,
+    "Dune": true
+   },
+   "reply_sha": "ff157f3a3df8fb0b",
+   "reply_head": "VAULT=CODE lines:\n\nAmber=546124\nBasalt=161981\nCedar=236821\nDune=993477\n\nDescription of the word list:\n\nThe text is an extremely long, unbroken sequence of commo"
+  }
+ ],
+ "greedy": [
+  {
+   "name": "short",
+   "prompt_tokens": 30,
+   "sha": "4f16ce754d1cf860"
+  },
+  {
+   "name": "p3k",
+   "prompt_tokens": 2987,
+   "sha": "71c638fe62e9ee76"
+  },
+  {
+   "name": "p9k",
+   "prompt_tokens": 8859,
+   "sha": "3c75bb14d8ee7d8d"
+  }
+ ]
+}

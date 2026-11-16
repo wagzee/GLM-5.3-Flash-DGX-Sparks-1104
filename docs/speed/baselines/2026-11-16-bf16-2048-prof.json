@@ -1,0 +1,679 @@
+{
+ "label": "bf16-2048-prof",
+ "date": "2026-11-16T17:53:03+0100",
+ "profiled": true,
+ "image": "tensorfold-glm53-spark:e612c82df940",
+ "recipe": "d55ea05",
+ "settings": {
+  "DENSE": "bf16",
+  "KV": "bf16",
+  "PROMPT_CHUNK": "",
+  "PARALLEL": "",
+  "CONTEXT": "500000",
+  "MEMORY_RESERVE_GIB": "",
+  "CACHE_FIRST": "",
+  "DRAFTER": ""
+ },
+ "plan": "prompts in passes of up to 2048 rows, a 5.0 GiB prompt cache",
+ "decode_tokens": 512,
+ "contexts": [
+  {
+   "ctx": 8192,
+   "prompt_tokens": 8241,
+   "cold_cached": 0,
+   "warm_cached": 8192,
+   "ttft_s": 5.404,
+   "prefill_tps": 1525.0,
+   "warm_s": 0.247,
+   "decode_tokens": 512,
+   "decode_tps": 40.01,
+   "recall": "4/4",
+   "recall_by_vault": {
+    "Amber": true,
+    "Basalt": true,
+    "Cedar": true,
+    "Dune": true
+   },
+   "reply_sha": "e941b16eae07419f",
+   "reply_head": "Looking at the notes embedded in the text, the access codes are given directly:\n\nVAULT=861570\nVAULT=639923\nVAULT=738211\nVAULT=617209\n\nWait \u2014 I need to include t",
+   "profile": {
+    "prompt_chunks": [
+     {
+      "start": 0,
+      "rows": 2048,
+      "wall_ms": 1186.719,
+      "stages_ms": {
+       "ffn": 458.402,
+       "experts": 434.056,
+       "output_projection": 226.584,
+       "projections": 170.087,
+       "shared_expert": 130.497,
+       "kda": 102.297,
+       "mla": 94.212,
+       "glue": 69.807,
+       "wait_shared": 35.9,
+       "wait_gathered": 14.112,
+       "router": 12.259,
+       "replicated_qakva": 8.291,
+       "head": 2.824,
+       "gate": 1.208,
+       "control_reduce": 1.165,
+       "embed": 0.375,
+       "cache_write": 0.316,
+       "index_update": 0.26,
+       "prompt_score": 0.015,
+       "commit": 0.009,
+       "draw": 0.008,
+       "drafter": 0.007,
+       "mtp": 0.001
+      }
+     },
+     {
+      "start": 4096,
+      "rows": 2048,
+      "wall_ms": 1222.288,
+      "stages_ms": {
+       "ffn": 442.154,
+       "experts": 415.586,
+       "output_projection": 226.072,
+       "projections": 178.035,
+       "shared_expert": 131.288,
+       "mla": 129.865,
+       "kda": 101.001,
+       "glue": 70.421,
+       "wait_shared": 38.523,
+       "wait_gathered": 13.157,
+       "router": 12.774,
+       "replicated_qakva": 7.757,
+       "index_select": 6.437,
+       "head": 2.725,
+       "index_score": 2.275,
+       "gate": 0.965,
+       "control_reduce": 0.922,
+       "embed": 0.312,
+       "cache_write": 0.28,
+       "index_update": 0.221,
+       "commit": 0.001,
+       "prompt_score": 0.001,
+       "drafter": 0.001,
+       "draw": 0.001,
+       "mtp": 0.001
+      }
+     },
+     {
+      "start": 8192,
+      "rows": 49,
+      "wall_ms": 230.689,
+      "stages_ms": {
+       "ffn": 147.114,
+       "experts": 144.381,
+       "projections": 24.338,
+       "output_projection": 19.431,
+       "wait_gathered": 7.98,
+       "shared_expert": 7.446,
+       "kda": 5.977,
+       "wait_shared": 4.952,
+       "mla": 4.785,
+       "gate": 4.34,
+       "control_reduce": 4.293,
+       "glue": 3.439,
+       "head": 2.643,
+       "drafter": 1.571,
+       "router": 1.159,
+       "replicated_qakva": 1.147,
+       "draw": 0.854,
+       "token_gather": 0.823,
+       "index_select": 0.756,
+       "index_score": 0.254,
+       "index_update": 0.097,
+       "cache_write": 0.07,
+       "embed": 0.017,
+       "commit": 0.005,
+       "prompt_score": 0.001,
+       "mtp": 0.001
+      }
+     }
+    ],
+    "prompt_chunk_count": 5,
+    "decode": {
+     "verify 8 rows": {
+      "calls": 64,
+      "wall_ms": 96.33,
+      "gpu_ms": 96.25,
+      "sections_ms": {
+       "routed": 49.5,
+       "kda": 23.33,
+       "mla": 9.88,
+       "router": 3.99,
+       "head": 2.62,
+       "gather_b": 2.5,
+       "dense": 2.07,
+       "gather_a": 1.75,
+       "shared": 0.6,
+       "embed": 0.02
+      }
+     },
+     "verify 2 rows": {
+      "calls": 64,
+      "wall_ms": 59.19,
+      "gpu_ms": 59.15,
+      "sections_ms": {
+       "kda": 21.94,
+       "routed": 18.03,
+       "mla": 8.15,
+       "router": 3.52,
+       "head": 2.57,
+       "dense": 2.03,
+       "gather_b": 1.28,
+       "gather_a": 1.26,
+       "shared": 0.37,
+       "embed": 0.01
+      }
+     },
+     "verify 5 rows": {
+      "calls": 64,
+      "wall_ms": 79.17,
+      "gpu_ms": 79.12,
+      "sections_ms": {
+       "routed": 34.36,
+       "kda": 22.74,
+       "mla": 9.12,
+       "router": 3.88,
+       "head": 2.6,
+       "dense": 2.06,
+       "gather_b": 2.04,
+       "gather_a": 1.79,
+       "shared": 0.51,
+       "embed": 0.02
+      }
+     }
+    }
+   }
+  },
+  {
+   "ctx": 32768,
+   "prompt_tokens": 32977,
+   "cold_cached": 0,
+   "warm_cached": 32768,
+   "ttft_s": 19.976,
+   "prefill_tps": 1650.8,
+   "warm_s": 0.382,
+   "decode_tokens": 512,
+   "decode_tps": 34.35,
+   "recall": "4/4",
+   "recall_by_vault": {
+    "Amber": true,
+    "Basalt": true,
+    "Cedar": true,
+    "Dune": true
+   },
+   "reply_sha": "fb51b550c45888bc",
+   "reply_head": "VAULT=CODE lines:\n\nAmber=162073\nBasalt=771286\nCedar=612224\nDune=357393\n\nDescription of the word list:\n\nThe text is an enormous, unbroken stream of single common",
+   "profile": {
+    "prompt_chunks": [
+     {
+      "start": 0,
+      "rows": 2048,
+      "wall_ms": 1190.058,
+      "stages_ms": {
+       "ffn": 452.11,
+       "experts": 427.504,
+       "output_projection": 227.311,
+       "projections": 171.397,
+       "shared_expert": 131.678,
+       "kda": 101.655,
+       "mla": 96.365,
+       "glue": 69.525,
+       "wait_shared": 36.746,
+       "wait_gathered": 18.684,
+       "router": 12.194,
+       "replicated_qakva": 8.102,
+       "head": 3.46,
+       "gate": 1.943,
+       "control_reduce": 1.907,
+       "embed": 0.376,
+       "cache_write": 0.31,
+       "index_update": 0.263,
+       "commit": 0.001,
+       "drafter": 0.001,
+       "prompt_score": 0.001,
+       "mtp": 0.001,
+       "draw": 0.001
+      }
+     },
+     {
+      "start": 16384,
+      "rows": 2048,
+      "wall_ms": 1189.186,
+      "stages_ms": {
+       "ffn": 397.966,
+       "experts": 372.791,
+       "output_projection": 225.771,
+       "projections": 177.663,
+       "mla": 130.034,
+       "shared_expert": 129.458,
+       "kda": 103.543,
+       "glue": 68.655,
+       "wait_shared": 38.586,
+       "wait_gathered": 20.007,
+       "router": 11.934,
+       "replicated_qakva": 8.132,
+       "index_score": 7.156,
+       "index_select": 5.672,
+       "head": 2.71,
+       "gate": 0.611,
+       "control_reduce": 0.577,
+       "embed": 0.318,
+       "cache_write": 0.278,
+       "index_update": 0.22,
+       "commit": 0.001,
+       "prompt_score": 0.001,
+       "drafter": 0.001,
+       "draw": 0.001,
+       "mtp": 0.001
+      }
+     },
+     {
+      "start": 32768,
+      "rows": 209,
+      "wall_ms": 351.806,
+      "stages_ms": {
+       "ffn": 211.898,
+       "experts": 208.201,
+       "output_projection": 42.828,
+       "projections": 26.775,
+       "shared_expert": 19.177,
+       "mla": 16.881,
+       "gate": 9.86,
+       "control_reduce": 9.817,
+       "kda": 9.177,
+       "glue": 9.137,
+       "wait_shared": 5.839,
+       "drafter": 5.327,
+       "wait_gathered": 5.306,
+       "head": 2.625,
+       "router": 1.897,
+       "replicated_qakva": 1.72,
+       "index_score": 1.535,
+       "index_select": 1.214,
+       "index_update": 0.133,
+       "cache_write": 0.132,
+       "draw": 0.111,
+       "token_gather": 0.08,
+       "embed": 0.055,
+       "commit": 0.004,
+       "prompt_score": 0.001,
+       "mtp": 0.001
+      }
+     }
+    ],
+    "prompt_chunk_count": 17,
+    "decode": {
+     "verify 4 rows": {
+      "calls": 64,
+      "wall_ms": 72.56,
+      "gpu_ms": 72.47,
+      "sections_ms": {
+       "routed": 28.91,
+       "kda": 22.47,
+       "mla": 8.96,
+       "router": 3.82,
+       "head": 2.58,
+       "dense": 2.04,
+       "gather_b": 1.65,
+       "gather_a": 1.58,
+       "shared": 0.44,
+       "embed": 0.02
+      }
+     },
+     "verify 2 rows": {
+      "calls": 128,
+      "wall_ms": 59.385,
+      "gpu_ms": 59.35,
+      "sections_ms": {
+       "kda": 21.915,
+       "routed": 18.2,
+       "mla": 8.29,
+       "router": 3.515,
+       "head": 2.58,
+       "dense": 2.01,
+       "gather_a": 1.235,
+       "gather_b": 1.215,
+       "shared": 0.365,
+       "embed": 0.01
+      }
+     },
+     "verify 3 rows": {
+      "calls": 64,
+      "wall_ms": 66.21,
+      "gpu_ms": 66.16,
+      "sections_ms": {
+       "routed": 23.9,
+       "kda": 22.26,
+       "mla": 8.37,
+       "router": 3.62,
+       "head": 2.6,
+       "dense": 2.03,
+       "gather_b": 1.52,
+       "gather_a": 1.47,
+       "shared": 0.39,
+       "embed": 0.01
+      }
+     }
+    }
+   }
+  },
+  {
+   "ctx": 131072,
+   "prompt_tokens": 131345,
+   "cold_cached": 0,
+   "warm_cached": 131072,
+   "ttft_s": 79.615,
+   "prefill_tps": 1649.8,
+   "warm_s": 0.448,
+   "decode_tokens": 512,
+   "decode_tps": 35.76,
+   "recall": "4/4",
+   "recall_by_vault": {
+    "Amber": true,
+    "Basalt": true,
+    "Cedar": true,
+    "Dune": true
+   },
+   "reply_sha": "41ccd5d0e633d10e",
+   "reply_head": "VAULT=CODE lines:\n\nAmber=347166\nBasalt=489965\nCedar=624995\nDune=831871\n\nDescription of the word list:\n\nThe text is an enormous, continuous stream of common Engl",
+   "profile": {
+    "prompt_chunks": [
+     {
+      "start": 0,
+      "rows": 2048,
+      "wall_ms": 1186.868,
+      "stages_ms": {
+       "ffn": 448.333,
+       "experts": 423.248,
+       "output_projection": 227.647,
+       "projections": 172.942,
+       "shared_expert": 131.38,
+       "kda": 101.876,
+       "mla": 96.216,
+       "glue": 69.984,
+       "wait_shared": 39.22,
+       "wait_gathered": 15.355,
+       "router": 11.89,
+       "replicated_qakva": 8.241,
+       "head": 2.744,
+       "gate": 1.562,
+       "control_reduce": 1.526,
+       "embed": 0.372,
+       "cache_write": 0.307,
+       "index_update": 0.265,
+       "commit": 0.001,
+       "prompt_score": 0.001,
+       "drafter": 0.001,
+       "draw": 0.001,
+       "mtp": 0.001
+      }
+     },
+     {
+      "start": 65536,
+      "rows": 2048,
+      "wall_ms": 1217.205,
+      "stages_ms": {
+       "ffn": 385.606,
+       "experts": 359.554,
+       "output_projection": 227.853,
+       "projections": 178.51,
+       "mla": 132.88,
+       "shared_expert": 130.635,
+       "kda": 103.069,
+       "glue": 70.029,
+       "wait_shared": 38.595,
+       "index_score": 26.859,
+       "index_select": 21.881,
+       "wait_gathered": 18.137,
+       "router": 12.335,
+       "replicated_qakva": 7.909,
+       "head": 2.758,
+       "gate": 0.389,
+       "control_reduce": 0.353,
+       "embed": 0.312,
+       "cache_write": 0.27,
+       "index_update": 0.227,
+       "commit": 0.001,
+       "prompt_score": 0.001,
+       "drafter": 0.001,
+       "draw": 0.001,
+       "mtp": 0.001
+      }
+     },
+     {
+      "start": 131072,
+      "rows": 273,
+      "wall_ms": 429.4,
+      "stages_ms": {
+       "ffn": 222.94,
+       "experts": 218.537,
+       "output_projection": 64.229,
+       "projections": 35.1,
+       "shared_expert": 28.508,
+       "gate": 26.708,
+       "control_reduce": 26.668,
+       "mla": 22.714,
+       "kda": 12.315,
+       "glue": 9.918,
+       "wait_shared": 9.095,
+       "index_score": 7.331,
+       "drafter": 6.881,
+       "wait_gathered": 2.674,
+       "head": 2.616,
+       "index_select": 2.369,
+       "router": 1.988,
+       "replicated_qakva": 1.738,
+       "draw": 0.483,
+       "token_gather": 0.452,
+       "cache_write": 0.155,
+       "index_update": 0.087,
+       "embed": 0.059,
+       "commit": 0.002,
+       "prompt_score": 0.001,
+       "mtp": 0.001
+      }
+     }
+    ],
+    "prompt_chunk_count": 65,
+    "decode": {
+     "verify 2 rows": {
+      "calls": 128,
+      "wall_ms": 60.61,
+      "gpu_ms": 60.56,
+      "sections_ms": {
+       "kda": 22.005,
+       "routed": 18.535,
+       "mla": 8.69,
+       "router": 3.545,
+       "head": 2.565,
+       "dense": 2.035,
+       "gather_a": 1.46,
+       "gather_b": 1.34,
+       "shared": 0.375,
+       "embed": 0.015
+      }
+     }
+    }
+   }
+  },
+  {
+   "ctx": 262144,
+   "prompt_tokens": 263101,
+   "cold_cached": 0,
+   "warm_cached": 262144,
+   "ttft_s": 164.724,
+   "prefill_tps": 1597.2,
+   "warm_s": 0.882,
+   "decode_tokens": 512,
+   "decode_tps": 37.17,
+   "recall": "4/4",
+   "recall_by_vault": {
+    "Amber": true,
+    "Basalt": true,
+    "Cedar": true,
+    "Dune": true
+   },
+   "reply_sha": "4ed00f60cbbfa249",
+   "reply_head": "VAULT=CODE lines:\n\nAmber=799241\nBasalt=371552\nCedar=518270\nDune=750460\n\nDescription of the word list:\n\nThe text is an extremely long, unbroken sequence of commo",
+   "profile": {
+    "prompt_chunks": [
+     {
+      "start": 0,
+      "rows": 2048,
+      "wall_ms": 1189.797,
+      "stages_ms": {
+       "ffn": 453.21,
+       "experts": 428.789,
+       "output_projection": 229.729,
+       "projections": 172.302,
+       "shared_expert": 132.707,
+       "kda": 102.058,
+       "mla": 96.253,
+       "glue": 69.808,
+       "wait_shared": 38.084,
+       "wait_gathered": 13.414,
+       "router": 12.379,
+       "replicated_qakva": 7.944,
+       "head": 2.704,
+       "gate": 1.602,
+       "control_reduce": 1.566,
+       "embed": 0.376,
+       "cache_write": 0.297,
+       "index_update": 0.265,
+       "commit": 0.001,
+       "prompt_score": 0.001,
+       "drafter": 0.001,
+       "draw": 0.001,
+       "mtp": 0.001
+      }
+     },
+     {
+      "start": 131072,
+      "rows": 2048,
+      "wall_ms": 1273.678,
+      "stages_ms": {
+       "ffn": 389.986,
+       "experts": 364.341,
+       "output_projection": 226.818,
+       "projections": 179.614,
+       "mla": 133.915,
+       "shared_expert": 131.008,
+       "kda": 104.206,
+       "glue": 69.136,
+       "index_score": 54.184,
+       "index_select": 40.612,
+       "wait_shared": 39.454,
+       "wait_gathered": 21.157,
+       "router": 12.115,
+       "replicated_qakva": 7.99,
+       "head": 3.19,
+       "gate": 0.589,
+       "control_reduce": 0.552,
+       "embed": 0.316,
+       "cache_write": 0.284,
+       "index_update": 0.254,
+       "commit": 0.002,
+       "draw": 0.001,
+       "prompt_score": 0.001,
+       "drafter": 0.001,
+       "mtp": 0.001
+      }
+     },
+     {
+      "start": 262144,
+      "rows": 957,
+      "wall_ms": 864.712,
+      "stages_ms": {
+       "ffn": 306.081,
+       "experts": 294.687,
+       "output_projection": 119.927,
+       "projections": 89.768,
+       "shared_expert": 66.453,
+       "mla": 64.751,
+       "gate": 53.276,
+       "control_reduce": 53.231,
+       "index_score": 49.468,
+       "kda": 45.936,
+       "index_select": 33.958,
+       "glue": 31.55,
+       "drafter": 23.822,
+       "wait_shared": 21.693,
+       "wait_gathered": 13.479,
+       "router": 5.123,
+       "replicated_qakva": 4.48,
+       "head": 2.751,
+       "embed": 0.178,
+       "cache_write": 0.143,
+       "index_update": 0.138,
+       "draw": 0.049,
+       "token_gather": 0.012,
+       "commit": 0.004,
+       "prompt_score": 0.001,
+       "mtp": 0.001
+      }
+     }
+    ],
+    "prompt_chunk_count": 129,
+    "decode": {
+     "verify 2 rows": {
+      "calls": 64,
+      "wall_ms": 61.08,
+      "gpu_ms": 61.03,
+      "sections_ms": {
+       "kda": 22.0,
+       "routed": 18.49,
+       "mla": 9.19,
+       "router": 3.58,
+       "head": 2.57,
+       "dense": 2.03,
+       "gather_a": 1.41,
+       "gather_b": 1.36,
+       "shared": 0.37,
+       "embed": 0.01
+      }
+     },
+     "verify 4 rows": {
+      "calls": 64,
+      "wall_ms": 74.16,
+      "gpu_ms": 74.08,
+      "sections_ms": {
+       "routed": 29.9,
+       "kda": 22.53,
+       "mla": 9.29,
+       "router": 3.85,
+       "head": 2.6,
+       "dense": 2.05,
+       "gather_b": 1.73,
+       "gather_a": 1.67,
+       "shared": 0.45,
+       "embed": 0.01
+      }
+     }
+    }
+   }
+  }
+ ],
+ "greedy": [
+  {
+   "name": "short",
+   "prompt_tokens": 30,
+   "sha": "4f16ce754d1cf860"
+  },
+  {
+   "name": "p3k",
+   "prompt_tokens": 2987,
+   "sha": "71c638fe62e9ee76"
+  },
+  {
+   "name": "p9k",
+   "prompt_tokens": 8859,
+   "sha": "3c75bb14d8ee7d8d"
+  }
+ ]
+}

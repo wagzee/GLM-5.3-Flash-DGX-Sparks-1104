@@ -1,0 +1,3946 @@
+{
+ "date": "2026-11-16T17:03:41+0100",
+ "image": "tensorfold-glm53-spark:e612c82df940",
+ "recipe": "d55ea05",
+ "settings": {
+  "DENSE": "bf16",
+  "KV": "bf16",
+  "HEAD": "(default)",
+  "PROMPT_CHUNK": "(default)",
+  "PARALLEL": "(default)",
+  "CONTEXT": "500000",
+  "DRAFTER": "(default)",
+  "ABSORB_MMA": "(default)",
+  "W8A8": "(default)"
+ },
+ "plan": "prompts in passes of up to 2048 rows, a 5.0 GiB prompt cache",
+ "label": "bf16-2048",
+ "seed": 0,
+ "lengths": {
+  "32768": 6,
+  "131072": 3,
+  "262144": 2
+ },
+ "budgets": {
+  "off": 512,
+  "on": 8192
+ },
+ "items": [
+  {
+   "id": "32768/0/00-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "8710684",
+   "want": [
+    "8710684"
+   ],
+   "finish": "stop",
+   "completion_tokens": 6,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 33558,
+   "secs": 1.71
+  },
+  {
+   "id": "32768/0/01-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "5714636",
+   "want": [
+    "5714636"
+   ],
+   "finish": "stop",
+   "completion_tokens": 6,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 33558,
+   "secs": 1.79
+  },
+  {
+   "id": "32768/0/02-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "457319, 164744, 936531, 753150",
+   "want": [
+    "457319",
+    "164744",
+    "753150",
+    "936531"
+   ],
+   "finish": "stop",
+   "completion_tokens": 21,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 33561,
+   "secs": 4.91
+  },
+  {
+   "id": "32768/0/03-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "396256, 968667, 255853, 987253",
+   "want": [
+    "968667",
+    "987253",
+    "255853",
+    "396256"
+   ],
+   "finish": "stop",
+   "completion_tokens": 21,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 33561,
+   "secs": 4.91
+  },
+  {
+   "id": "32768/0/04-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "RJJNC, QQNQH, XGJNK, GVNXT, RKHFT",
+   "want": [
+    "RJJNC",
+    "QQNQH",
+    "XGJNK",
+    "GVNXT",
+    "RKHFT"
+   ],
+   "finish": "stop",
+   "completion_tokens": 22,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 33568,
+   "secs": 9.69
+  },
+  {
+   "id": "32768/0/05-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Looking at the document, I need to find which variables are assigned the value 36511, either directly or through other variables.\n\nFrom the document:\n- `VAR GGKXG = 36511` \u2014 directly assigned 36511\n- `VAR BXHTX = VAR GGKXG` \u2014 assigned through GGKXG\n- `VAR CPJWL = VAR BXHTX` \u2014 assigned through BXHTX\n",
+   "want": [
+    "GGKXG",
+    "BXHTX",
+    "CPJWL",
+    "PCDBL",
+    "BGPZN"
+   ],
+   "finish": "stop",
+   "completion_tokens": 280,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 33567,
+   "secs": 12.51
+  },
+  {
+   "id": "32768/0/06-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Malmo",
+   "want": [
+    "Malmo"
+   ],
+   "finish": "stop",
+   "completion_tokens": 3,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 33564,
+   "secs": 3.36
+  },
+  {
+   "id": "32768/0/07-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Lima",
+   "want": [
+    "Lima"
+   ],
+   "finish": "stop",
+   "completion_tokens": 3,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 33562,
+   "secs": 0.94
+  },
+  {
+   "id": "32768/0/08-cnt",
+   "task": "cnt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.0,
+   "answer": "6",
+   "want": [
+    "8"
+   ],
+   "finish": "stop",
+   "completion_tokens": 2,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 33563,
+   "secs": 1.17
+  },
+  {
+   "id": "32768/0/09-agg",
+   "task": "agg",
+   "thinking": false,
+   "ok": false,
+   "part": 1.0,
+   "answer": "Lagos, Zurich, Split, Nairobi, Quito, Accra",
+   "want": [
+    "Split",
+    "Nairobi",
+    "Quito",
+    "Lagos",
+    "Zurich"
+   ],
+   "finish": "stop",
+   "completion_tokens": 15,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 33565,
+   "secs": 3.54
+  },
+  {
+   "id": "32768/0/00-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "8710684",
+   "want": [
+    "8710684"
+   ],
+   "finish": "stop",
+   "completion_tokens": 59,
+   "reasoning_tokens": 53,
+   "prompt_tokens": 33564,
+   "secs": 7.27
+  },
+  {
+   "id": "32768/0/01-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "5714636",
+   "want": [
+    "5714636"
+   ],
+   "finish": "stop",
+   "completion_tokens": 66,
+   "reasoning_tokens": 60,
+   "prompt_tokens": 33564,
+   "secs": 5.86
+  },
+  {
+   "id": "32768/0/02-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "936531, 164744, 457319, 753150",
+   "want": [
+    "457319",
+    "164744",
+    "753150",
+    "936531"
+   ],
+   "finish": "stop",
+   "completion_tokens": 277,
+   "reasoning_tokens": 256,
+   "prompt_tokens": 33567,
+   "secs": 15.07
+  },
+  {
+   "id": "32768/0/03-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "396256, 968667, 255853, 987253",
+   "want": [
+    "968667",
+    "987253",
+    "255853",
+    "396256"
+   ],
+   "finish": "stop",
+   "completion_tokens": 316,
+   "reasoning_tokens": 295,
+   "prompt_tokens": 33567,
+   "secs": 19.71
+  },
+  {
+   "id": "32768/0/04-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "**RJJNC, QQNQH, XGJNK, GVNXT, RKHFT**\n\nTracing the chain: RJJNC = 67765 directly; QQNQH = RJJNC; XGJNK = QQNQH; GVNXT = XGJNK; RKHFT = GVNXT.",
+   "want": [
+    "RJJNC",
+    "QQNQH",
+    "XGJNK",
+    "GVNXT",
+    "RKHFT"
+   ],
+   "finish": "stop",
+   "completion_tokens": 708,
+   "reasoning_tokens": 633,
+   "prompt_tokens": 33574,
+   "secs": 31.04
+  },
+  {
+   "id": "32768/0/05-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "**GGKXG, BXHTX, CPJWL, PCDBL, BGPZN**\n\nThe chain is:\n- `VAR GGKXG = 36511` (direct assignment)\n- `VAR BXHTX = VAR GGKXG`\n- `VAR CPJWL = VAR BXHTX`\n- `VAR PCDBL = VAR CPJWL`\n- `VAR BGPZN = VAR PCDBL`",
+   "want": [
+    "GGKXG",
+    "BXHTX",
+    "CPJWL",
+    "PCDBL",
+    "BGPZN"
+   ],
+   "finish": "stop",
+   "completion_tokens": 734,
+   "reasoning_tokens": 642,
+   "prompt_tokens": 33573,
+   "secs": 34.07
+  },
+  {
+   "id": "32768/0/06-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Malmo",
+   "want": [
+    "Malmo"
+   ],
+   "finish": "stop",
+   "completion_tokens": 233,
+   "reasoning_tokens": 230,
+   "prompt_tokens": 33570,
+   "secs": 17.97
+  },
+  {
+   "id": "32768/0/07-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Lima",
+   "want": [
+    "Lima"
+   ],
+   "finish": "stop",
+   "completion_tokens": 63,
+   "reasoning_tokens": 60,
+   "prompt_tokens": 33568,
+   "secs": 3.1
+  },
+  {
+   "id": "32768/0/08-cnt",
+   "task": "cnt",
+   "thinking": true,
+   "ok": false,
+   "part": 0.0,
+   "answer": "**7**",
+   "want": [
+    "8"
+   ],
+   "finish": "stop",
+   "completion_tokens": 3427,
+   "reasoning_tokens": 3423,
+   "prompt_tokens": 33569,
+   "secs": 75.32
+  },
+  {
+   "id": "32768/0/09-agg",
+   "task": "agg",
+   "thinking": true,
+   "ok": false,
+   "part": 1.0,
+   "answer": "Lagos, Zurich, Split, Nairobi, Quito, Accra",
+   "want": [
+    "Split",
+    "Nairobi",
+    "Quito",
+    "Lagos",
+    "Zurich"
+   ],
+   "finish": "stop",
+   "completion_tokens": 418,
+   "reasoning_tokens": 403,
+   "prompt_tokens": 33571,
+   "secs": 14.06
+  },
+  {
+   "id": "32768/1/00-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "6907031",
+   "want": [
+    "6907031"
+   ],
+   "finish": "stop",
+   "completion_tokens": 6,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 30138,
+   "secs": 2.34
+  },
+  {
+   "id": "32768/1/01-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "5860951",
+   "want": [
+    "5860951"
+   ],
+   "finish": "stop",
+   "completion_tokens": 6,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 30138,
+   "secs": 2.34
+  },
+  {
+   "id": "32768/1/02-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "118326, 940338, 507207, 870081",
+   "want": [
+    "507207",
+    "870081",
+    "118326",
+    "940338"
+   ],
+   "finish": "stop",
+   "completion_tokens": 21,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 30142,
+   "secs": 6.27
+  },
+  {
+   "id": "32768/1/03-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "578794, 777987, 754748, 991513",
+   "want": [
+    "777987",
+    "991513",
+    "578794",
+    "754748"
+   ],
+   "finish": "stop",
+   "completion_tokens": 23,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 30141,
+   "secs": 6.27
+  },
+  {
+   "id": "32768/1/04-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.6,
+   "answer": "NWKHS, TBMSH, CBMZD",
+   "want": [
+    "NWKHS",
+    "TBMSH",
+    "CBMZD",
+    "NPTGZ",
+    "BDWCD"
+   ],
+   "finish": "stop",
+   "completion_tokens": 12,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 30148,
+   "secs": 4.2
+  },
+  {
+   "id": "32768/1/05-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "HLSVJ, GZBWN, HJZSF, XWTWV, HLQCC",
+   "want": [
+    "HLSVJ",
+    "GZBWN",
+    "HJZSF",
+    "XWTWV",
+    "HLQCC"
+   ],
+   "finish": "stop",
+   "completion_tokens": 24,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 30148,
+   "secs": 10.76
+  },
+  {
+   "id": "32768/1/06-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Riga",
+   "want": [
+    "Riga"
+   ],
+   "finish": "stop",
+   "completion_tokens": 3,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 30143,
+   "secs": 3.7
+  },
+  {
+   "id": "32768/1/07-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Dakar",
+   "want": [
+    "Dakar"
+   ],
+   "finish": "stop",
+   "completion_tokens": 4,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 30142,
+   "secs": 1.41
+  },
+  {
+   "id": "32768/1/08-cnt",
+   "task": "cnt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.0,
+   "answer": "8",
+   "want": [
+    "7"
+   ],
+   "finish": "stop",
+   "completion_tokens": 2,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 30142,
+   "secs": 2.28
+  },
+  {
+   "id": "32768/1/09-agg",
+   "task": "agg",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Perth, Lima, Leeds, Zurich, Fresno",
+   "want": [
+    "Zurich",
+    "Leeds",
+    "Perth",
+    "Fresno",
+    "Lima"
+   ],
+   "finish": "stop",
+   "completion_tokens": 11,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 30146,
+   "secs": 4.79
+  },
+  {
+   "id": "32768/1/00-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "6907031",
+   "want": [
+    "6907031"
+   ],
+   "finish": "stop",
+   "completion_tokens": 67,
+   "reasoning_tokens": 61,
+   "prompt_tokens": 30144,
+   "secs": 6.81
+  },
+  {
+   "id": "32768/1/01-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "5860951",
+   "want": [
+    "5860951"
+   ],
+   "finish": "stop",
+   "completion_tokens": 69,
+   "reasoning_tokens": 63,
+   "prompt_tokens": 30144,
+   "secs": 8.35
+  },
+  {
+   "id": "32768/1/02-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "118326, 940338, 507207, 870081",
+   "want": [
+    "507207",
+    "870081",
+    "118326",
+    "940338"
+   ],
+   "finish": "stop",
+   "completion_tokens": 384,
+   "reasoning_tokens": 363,
+   "prompt_tokens": 30148,
+   "secs": 25.14
+  },
+  {
+   "id": "32768/1/03-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "578794, 777987, 754748, 991513",
+   "want": [
+    "777987",
+    "991513",
+    "578794",
+    "754748"
+   ],
+   "finish": "stop",
+   "completion_tokens": 157,
+   "reasoning_tokens": 134,
+   "prompt_tokens": 30147,
+   "secs": 11.81
+  },
+  {
+   "id": "32768/1/04-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "NWKHS, TBMSH, CBMZD, NPTGZ, BDWCD",
+   "want": [
+    "NWKHS",
+    "TBMSH",
+    "CBMZD",
+    "NPTGZ",
+    "BDWCD"
+   ],
+   "finish": "stop",
+   "completion_tokens": 1064,
+   "reasoning_tokens": 1043,
+   "prompt_tokens": 30154,
+   "secs": 49.07
+  },
+  {
+   "id": "32768/1/05-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "HLSVJ, GZBWN, HJZSF, XWTWV, HLQCC",
+   "want": [
+    "HLSVJ",
+    "GZBWN",
+    "HJZSF",
+    "XWTWV",
+    "HLQCC"
+   ],
+   "finish": "stop",
+   "completion_tokens": 425,
+   "reasoning_tokens": 401,
+   "prompt_tokens": 30154,
+   "secs": 24.09
+  },
+  {
+   "id": "32768/1/06-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Riga",
+   "want": [
+    "Riga"
+   ],
+   "finish": "stop",
+   "completion_tokens": 65,
+   "reasoning_tokens": 62,
+   "prompt_tokens": 30149,
+   "secs": 4.22
+  },
+  {
+   "id": "32768/1/07-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Dakar",
+   "want": [
+    "Dakar"
+   ],
+   "finish": "stop",
+   "completion_tokens": 67,
+   "reasoning_tokens": 63,
+   "prompt_tokens": 30148,
+   "secs": 4.63
+  },
+  {
+   "id": "32768/1/08-cnt",
+   "task": "cnt",
+   "thinking": true,
+   "ok": false,
+   "part": 0.0,
+   "answer": "6",
+   "want": [
+    "7"
+   ],
+   "finish": "stop",
+   "completion_tokens": 2689,
+   "reasoning_tokens": 2687,
+   "prompt_tokens": 30148,
+   "secs": 71.66
+  },
+  {
+   "id": "32768/1/09-agg",
+   "task": "agg",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Perth, Lima, Leeds, Fresno, Zurich",
+   "want": [
+    "Zurich",
+    "Leeds",
+    "Perth",
+    "Fresno",
+    "Lima"
+   ],
+   "finish": "stop",
+   "completion_tokens": 285,
+   "reasoning_tokens": 274,
+   "prompt_tokens": 30152,
+   "secs": 11.45
+  },
+  {
+   "id": "32768/2/00-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "9650975",
+   "want": [
+    "9650975"
+   ],
+   "finish": "stop",
+   "completion_tokens": 6,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32389,
+   "secs": 2.71
+  },
+  {
+   "id": "32768/2/01-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "8715024",
+   "want": [
+    "8715024"
+   ],
+   "finish": "stop",
+   "completion_tokens": 6,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32389,
+   "secs": 2.56
+  },
+  {
+   "id": "32768/2/02-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "740623, 826726, 496217, 486233",
+   "want": [
+    "740623",
+    "826726",
+    "496217",
+    "486233"
+   ],
+   "finish": "stop",
+   "completion_tokens": 22,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32393,
+   "secs": 5.71
+  },
+  {
+   "id": "32768/2/03-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "595086, 796167, 737413, 517377",
+   "want": [
+    "796167",
+    "595086",
+    "517377",
+    "737413"
+   ],
+   "finish": "stop",
+   "completion_tokens": 22,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32394,
+   "secs": 7.12
+  },
+  {
+   "id": "32768/2/04-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "DKRMZ, JTBTB, TPLWB, NJFKH, MNKTG, NTKVW, KLCPP",
+   "want": [
+    "DKRMZ",
+    "JTBTB",
+    "TPLWB",
+    "NJFKH",
+    "MNKTG"
+   ],
+   "finish": "stop",
+   "completion_tokens": 29,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32399,
+   "secs": 9.38
+  },
+  {
+   "id": "32768/2/05-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "ZSWXR, CMTKL, KHPQQ, NTKVW, KLCPP",
+   "want": [
+    "ZSWXR",
+    "CMTKL",
+    "KHPQQ",
+    "NTKVW",
+    "KLCPP"
+   ],
+   "finish": "stop",
+   "completion_tokens": 21,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32399,
+   "secs": 12.65
+  },
+  {
+   "id": "32768/2/06-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Ghent",
+   "want": [
+    "Ghent"
+   ],
+   "finish": "stop",
+   "completion_tokens": 4,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32394,
+   "secs": 1.41
+  },
+  {
+   "id": "32768/2/07-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Zurich",
+   "want": [
+    "Zurich"
+   ],
+   "finish": "stop",
+   "completion_tokens": 3,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32397,
+   "secs": 4.48
+  },
+  {
+   "id": "32768/2/08-cnt",
+   "task": "cnt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.0,
+   "answer": "4",
+   "want": [
+    "6"
+   ],
+   "finish": "stop",
+   "completion_tokens": 2,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32394,
+   "secs": 2.63
+  },
+  {
+   "id": "32768/2/09-agg",
+   "task": "agg",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Fresno, Hanoi, Split, Accra, Durban",
+   "want": [
+    "Fresno",
+    "Hanoi",
+    "Split",
+    "Accra",
+    "Durban"
+   ],
+   "finish": "stop",
+   "completion_tokens": 15,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32397,
+   "secs": 5.1
+  },
+  {
+   "id": "32768/2/00-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "9650975",
+   "want": [
+    "9650975"
+   ],
+   "finish": "stop",
+   "completion_tokens": 58,
+   "reasoning_tokens": 52,
+   "prompt_tokens": 32395,
+   "secs": 6.88
+  },
+  {
+   "id": "32768/2/01-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "8715024",
+   "want": [
+    "8715024"
+   ],
+   "finish": "stop",
+   "completion_tokens": 68,
+   "reasoning_tokens": 62,
+   "prompt_tokens": 32395,
+   "secs": 8.34
+  },
+  {
+   "id": "32768/2/02-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "740623, 826726, 496217, 486233",
+   "want": [
+    "740623",
+    "826726",
+    "496217",
+    "486233"
+   ],
+   "finish": "stop",
+   "completion_tokens": 475,
+   "reasoning_tokens": 453,
+   "prompt_tokens": 32399,
+   "secs": 31.61
+  },
+  {
+   "id": "32768/2/03-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "595086, 796167, 737413, 517377",
+   "want": [
+    "796167",
+    "595086",
+    "517377",
+    "737413"
+   ],
+   "finish": "stop",
+   "completion_tokens": 304,
+   "reasoning_tokens": 282,
+   "prompt_tokens": 32400,
+   "secs": 20.81
+  },
+  {
+   "id": "32768/2/04-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "**DKRMZ, JTBTB, TPLWB, NJFKH, MNKTG**\n\nThe chain is: `VAR DKRMZ = 20837`, then `VAR JTBTB = VAR DKRMZ`, `VAR TPLWB = VAR JTBTB`, `VAR NJFKH = VAR TPLWB`, and `VAR MNKTG = VAR NJFKH`.",
+   "want": [
+    "DKRMZ",
+    "JTBTB",
+    "TPLWB",
+    "NJFKH",
+    "MNKTG"
+   ],
+   "finish": "stop",
+   "completion_tokens": 922,
+   "reasoning_tokens": 840,
+   "prompt_tokens": 32405,
+   "secs": 39.63
+  },
+  {
+   "id": "32768/2/05-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "ZSWXR, CMTKL, KHPQQ, NTKVW, KLCPP",
+   "want": [
+    "ZSWXR",
+    "CMTKL",
+    "KHPQQ",
+    "NTKVW",
+    "KLCPP"
+   ],
+   "finish": "stop",
+   "completion_tokens": 547,
+   "reasoning_tokens": 526,
+   "prompt_tokens": 32405,
+   "secs": 28.18
+  },
+  {
+   "id": "32768/2/06-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Ghent",
+   "want": [
+    "Ghent"
+   ],
+   "finish": "stop",
+   "completion_tokens": 67,
+   "reasoning_tokens": 63,
+   "prompt_tokens": 32400,
+   "secs": 4.34
+  },
+  {
+   "id": "32768/2/07-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Zurich",
+   "want": [
+    "Zurich"
+   ],
+   "finish": "stop",
+   "completion_tokens": 74,
+   "reasoning_tokens": 71,
+   "prompt_tokens": 32403,
+   "secs": 4.8
+  },
+  {
+   "id": "32768/2/08-cnt",
+   "task": "cnt",
+   "thinking": true,
+   "ok": false,
+   "part": 0.0,
+   "answer": "**5**",
+   "want": [
+    "6"
+   ],
+   "finish": "stop",
+   "completion_tokens": 1579,
+   "reasoning_tokens": 1575,
+   "prompt_tokens": 32400,
+   "secs": 43.13
+  },
+  {
+   "id": "32768/2/09-agg",
+   "task": "agg",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Fresno, Hanoi, Split, Accra, Durban",
+   "want": [
+    "Fresno",
+    "Hanoi",
+    "Split",
+    "Accra",
+    "Durban"
+   ],
+   "finish": "stop",
+   "completion_tokens": 239,
+   "reasoning_tokens": 224,
+   "prompt_tokens": 32403,
+   "secs": 12.67
+  },
+  {
+   "id": "32768/3/00-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "1745397",
+   "want": [
+    "1745397"
+   ],
+   "finish": "stop",
+   "completion_tokens": 5,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35674,
+   "secs": 1.87
+  },
+  {
+   "id": "32768/3/01-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "7415064",
+   "want": [
+    "7415064"
+   ],
+   "finish": "stop",
+   "completion_tokens": 6,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35675,
+   "secs": 3.89
+  },
+  {
+   "id": "32768/3/02-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": false,
+   "part": 0.75,
+   "answer": "676557, 230118, 198110, 2259978",
+   "want": [
+    "230118",
+    "431140",
+    "676557",
+    "198110"
+   ],
+   "finish": "stop",
+   "completion_tokens": 19,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35679,
+   "secs": 5.16
+  },
+  {
+   "id": "32768/3/03-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "171543, 573533, 547086, 784476",
+   "want": [
+    "573533",
+    "547086",
+    "784476",
+    "171543"
+   ],
+   "finish": "stop",
+   "completion_tokens": 22,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35679,
+   "secs": 2.12
+  },
+  {
+   "id": "32768/3/04-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "NFLCW, QNSVZ, FZDVG, WNCGM, LPNFG",
+   "want": [
+    "NFLCW",
+    "QNSVZ",
+    "FZDVG",
+    "WNCGM",
+    "LPNFG"
+   ],
+   "finish": "stop",
+   "completion_tokens": 21,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35684,
+   "secs": 8.3
+  },
+  {
+   "id": "32768/3/05-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.4,
+   "answer": "QVCMS, FPMWG",
+   "want": [
+    "QVCMS",
+    "FPMWG",
+    "GLNCZ",
+    "PPHCN",
+    "CCQRB"
+   ],
+   "finish": "stop",
+   "completion_tokens": 8,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35685,
+   "secs": 7.96
+  },
+  {
+   "id": "32768/3/06-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Riga",
+   "want": [
+    "Riga"
+   ],
+   "finish": "stop",
+   "completion_tokens": 3,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35680,
+   "secs": 1.2
+  },
+  {
+   "id": "32768/3/07-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Osaka",
+   "want": [
+    "Osaka"
+   ],
+   "finish": "stop",
+   "completion_tokens": 3,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35680,
+   "secs": 0.93
+  },
+  {
+   "id": "32768/3/08-cnt",
+   "task": "cnt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.0,
+   "answer": "5",
+   "want": [
+    "7"
+   ],
+   "finish": "stop",
+   "completion_tokens": 2,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35679,
+   "secs": 1.72
+  },
+  {
+   "id": "32768/3/09-agg",
+   "task": "agg",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Lisbon, Hobart, Lima, Cusco, Kyoto",
+   "want": [
+    "Cusco",
+    "Kyoto",
+    "Lima",
+    "Lisbon",
+    "Hobart"
+   ],
+   "finish": "stop",
+   "completion_tokens": 15,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35683,
+   "secs": 2.85
+  },
+  {
+   "id": "32768/3/00-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "1745397",
+   "want": [
+    "1745397"
+   ],
+   "finish": "stop",
+   "completion_tokens": 62,
+   "reasoning_tokens": 57,
+   "prompt_tokens": 35680,
+   "secs": 5.76
+  },
+  {
+   "id": "32768/3/01-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "7415064",
+   "want": [
+    "7415064"
+   ],
+   "finish": "stop",
+   "completion_tokens": 58,
+   "reasoning_tokens": 52,
+   "prompt_tokens": 35681,
+   "secs": 5.62
+  },
+  {
+   "id": "32768/3/02-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "431140, 230118, 198110, 676557",
+   "want": [
+    "230118",
+    "431140",
+    "676557",
+    "198110"
+   ],
+   "finish": "stop",
+   "completion_tokens": 298,
+   "reasoning_tokens": 280,
+   "prompt_tokens": 35685,
+   "secs": 17.11
+  },
+  {
+   "id": "32768/3/03-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "171543, 573533, 547086, 784476",
+   "want": [
+    "573533",
+    "547086",
+    "784476",
+    "171543"
+   ],
+   "finish": "stop",
+   "completion_tokens": 321,
+   "reasoning_tokens": 299,
+   "prompt_tokens": 35685,
+   "secs": 18.93
+  },
+  {
+   "id": "32768/3/04-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "NFLCW, QNSVZ, FZDVG, WNCGM, LPNFG",
+   "want": [
+    "NFLCW",
+    "QNSVZ",
+    "FZDVG",
+    "WNCGM",
+    "LPNFG"
+   ],
+   "finish": "stop",
+   "completion_tokens": 631,
+   "reasoning_tokens": 609,
+   "prompt_tokens": 35690,
+   "secs": 29.86
+  },
+  {
+   "id": "32768/3/05-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "QVCMS, FPMWG, GLNCZ, PPHCN, CCQRB",
+   "want": [
+    "QVCMS",
+    "FPMWG",
+    "GLNCZ",
+    "PPHCN",
+    "CCQRB"
+   ],
+   "finish": "stop",
+   "completion_tokens": 641,
+   "reasoning_tokens": 621,
+   "prompt_tokens": 35691,
+   "secs": 30.77
+  },
+  {
+   "id": "32768/3/06-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Riga",
+   "want": [
+    "Riga"
+   ],
+   "finish": "stop",
+   "completion_tokens": 66,
+   "reasoning_tokens": 63,
+   "prompt_tokens": 35686,
+   "secs": 4.55
+  },
+  {
+   "id": "32768/3/07-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Osaka",
+   "want": [
+    "Osaka"
+   ],
+   "finish": "stop",
+   "completion_tokens": 63,
+   "reasoning_tokens": 60,
+   "prompt_tokens": 35686,
+   "secs": 4.5
+  },
+  {
+   "id": "32768/3/08-cnt",
+   "task": "cnt",
+   "thinking": true,
+   "ok": false,
+   "part": 0.0,
+   "answer": "**4**",
+   "want": [
+    "7"
+   ],
+   "finish": "stop",
+   "completion_tokens": 7689,
+   "reasoning_tokens": 7685,
+   "prompt_tokens": 35685,
+   "secs": 111.61
+  },
+  {
+   "id": "32768/3/09-agg",
+   "task": "agg",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Lisbon, Hobart, Lima, Cusco, Kyoto",
+   "want": [
+    "Cusco",
+    "Kyoto",
+    "Lima",
+    "Lisbon",
+    "Hobart"
+   ],
+   "finish": "stop",
+   "completion_tokens": 372,
+   "reasoning_tokens": 357,
+   "prompt_tokens": 35689,
+   "secs": 16.87
+  },
+  {
+   "id": "32768/4/00-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "2390835",
+   "want": [
+    "2390835"
+   ],
+   "finish": "stop",
+   "completion_tokens": 6,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35081,
+   "secs": 1.25
+  },
+  {
+   "id": "32768/4/01-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "9714744",
+   "want": [
+    "9714744"
+   ],
+   "finish": "stop",
+   "completion_tokens": 6,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35081,
+   "secs": 1.16
+  },
+  {
+   "id": "32768/4/02-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "210162, 430059, 570107, 314393",
+   "want": [
+    "210162",
+    "570107",
+    "430059",
+    "314393"
+   ],
+   "finish": "stop",
+   "completion_tokens": 19,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35085,
+   "secs": 3.45
+  },
+  {
+   "id": "32768/4/03-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "789195, 786127, 537736, 787399, 570107",
+   "want": [
+    "537736",
+    "786127",
+    "789195",
+    "787399"
+   ],
+   "finish": "stop",
+   "completion_tokens": 26,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35084,
+   "secs": 4.05
+  },
+  {
+   "id": "32768/4/04-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.4,
+   "answer": "WSRVH, PVTQD, MXTLG, GDXTS, TTKVJ, QRFHT",
+   "want": [
+    "WSRVH",
+    "PVTQD",
+    "SJTSK",
+    "PBZBV",
+    "MTDNV"
+   ],
+   "finish": "stop",
+   "completion_tokens": 26,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35091,
+   "secs": 4.56
+  },
+  {
+   "id": "32768/4/05-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.2,
+   "answer": "SZZFD",
+   "want": [
+    "SZZFD",
+    "NWHCM",
+    "CCTCM",
+    "LQSMX",
+    "PRLPR"
+   ],
+   "finish": "stop",
+   "completion_tokens": 4,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35091,
+   "secs": 2.9
+  },
+  {
+   "id": "32768/4/06-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Split",
+   "want": [
+    "Split"
+   ],
+   "finish": "stop",
+   "completion_tokens": 2,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35087,
+   "secs": 2.85
+  },
+  {
+   "id": "32768/4/07-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Perth",
+   "want": [
+    "Perth"
+   ],
+   "finish": "stop",
+   "completion_tokens": 3,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35085,
+   "secs": 0.78
+  },
+  {
+   "id": "32768/4/08-cnt",
+   "task": "cnt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.0,
+   "answer": "3",
+   "want": [
+    "6"
+   ],
+   "finish": "stop",
+   "completion_tokens": 2,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35085,
+   "secs": 1.5
+  },
+  {
+   "id": "32768/4/09-agg",
+   "task": "agg",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Tallinn, Lisbon, Riga, Tbilisi, Cusco",
+   "want": [
+    "Tallinn",
+    "Lisbon",
+    "Cusco",
+    "Tbilisi",
+    "Riga"
+   ],
+   "finish": "stop",
+   "completion_tokens": 17,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 35089,
+   "secs": 2.33
+  },
+  {
+   "id": "32768/4/00-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "2390835",
+   "want": [
+    "2390835"
+   ],
+   "finish": "stop",
+   "completion_tokens": 68,
+   "reasoning_tokens": 62,
+   "prompt_tokens": 35087,
+   "secs": 5.48
+  },
+  {
+   "id": "32768/4/01-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "9714744",
+   "want": [
+    "9714744"
+   ],
+   "finish": "stop",
+   "completion_tokens": 61,
+   "reasoning_tokens": 55,
+   "prompt_tokens": 35087,
+   "secs": 4.59
+  },
+  {
+   "id": "32768/4/02-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "210162, 430059, 570107, 314393",
+   "want": [
+    "210162",
+    "570107",
+    "430059",
+    "314393"
+   ],
+   "finish": "stop",
+   "completion_tokens": 323,
+   "reasoning_tokens": 304,
+   "prompt_tokens": 35091,
+   "secs": 16.76
+  },
+  {
+   "id": "32768/4/03-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "789195, 786127, 537736, 787399",
+   "want": [
+    "537736",
+    "786127",
+    "789195",
+    "787399"
+   ],
+   "finish": "stop",
+   "completion_tokens": 331,
+   "reasoning_tokens": 310,
+   "prompt_tokens": 35090,
+   "secs": 20.17
+  },
+  {
+   "id": "32768/4/04-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "WSRVH, PVTQD, SJTSK, PBZBV, MTDNV",
+   "want": [
+    "WSRVH",
+    "PVTQD",
+    "SJTSK",
+    "PBZBV",
+    "MTDNV"
+   ],
+   "finish": "stop",
+   "completion_tokens": 628,
+   "reasoning_tokens": 607,
+   "prompt_tokens": 35097,
+   "secs": 23.88
+  },
+  {
+   "id": "32768/4/05-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "**SZZFD, NWHCM, CCTCM, LQSMX, PRLPR**\n\nThe chain is: `VAR SZZFD = 85620` \u2192 `VAR NWHCM = VAR SZZFD` \u2192 `VAR CCTCM = VAR NWHCM` \u2192 `VAR LQSMX = VAR CCTCM` \u2192 `VAR PRLPR = VAR LQSMX`.",
+   "want": [
+    "SZZFD",
+    "NWHCM",
+    "CCTCM",
+    "LQSMX",
+    "PRLPR"
+   ],
+   "finish": "stop",
+   "completion_tokens": 758,
+   "reasoning_tokens": 673,
+   "prompt_tokens": 35097,
+   "secs": 32.92
+  },
+  {
+   "id": "32768/4/06-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Split",
+   "want": [
+    "Split"
+   ],
+   "finish": "stop",
+   "completion_tokens": 59,
+   "reasoning_tokens": 57,
+   "prompt_tokens": 35093,
+   "secs": 4.44
+  },
+  {
+   "id": "32768/4/07-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Perth",
+   "want": [
+    "Perth"
+   ],
+   "finish": "stop",
+   "completion_tokens": 71,
+   "reasoning_tokens": 68,
+   "prompt_tokens": 35091,
+   "secs": 4.97
+  },
+  {
+   "id": "32768/4/08-cnt",
+   "task": "cnt",
+   "thinking": true,
+   "ok": false,
+   "part": 0.0,
+   "answer": "5",
+   "want": [
+    "6"
+   ],
+   "finish": "stop",
+   "completion_tokens": 995,
+   "reasoning_tokens": 993,
+   "prompt_tokens": 35091,
+   "secs": 30.41
+  },
+  {
+   "id": "32768/4/09-agg",
+   "task": "agg",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Tallinn, Lisbon, Riga, Tbilisi, Cusco",
+   "want": [
+    "Tallinn",
+    "Lisbon",
+    "Cusco",
+    "Tbilisi",
+    "Riga"
+   ],
+   "finish": "stop",
+   "completion_tokens": 357,
+   "reasoning_tokens": 340,
+   "prompt_tokens": 35095,
+   "secs": 12.9
+  },
+  {
+   "id": "32768/5/00-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "2225077",
+   "want": [
+    "2225077"
+   ],
+   "finish": "stop",
+   "completion_tokens": 5,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32673,
+   "secs": 2.89
+  },
+  {
+   "id": "32768/5/01-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "9991264",
+   "want": [
+    "9991264"
+   ],
+   "finish": "stop",
+   "completion_tokens": 4,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32673,
+   "secs": 2.82
+  },
+  {
+   "id": "32768/5/02-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "131791, 155369, 234785, 360694",
+   "want": [
+    "360694",
+    "131791",
+    "155369",
+    "234785"
+   ],
+   "finish": "stop",
+   "completion_tokens": 20,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32677,
+   "secs": 6.51
+  },
+  {
+   "id": "32768/5/03-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "320867, 546210, 680205, 704372",
+   "want": [
+    "680205",
+    "546210",
+    "704372",
+    "320867"
+   ],
+   "finish": "stop",
+   "completion_tokens": 20,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32677,
+   "secs": 6.52
+  },
+  {
+   "id": "32768/5/04-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "WPNHW, CJXPK, MHLBR, JMTLZ, GFTLZ",
+   "want": [
+    "WPNHW",
+    "CJXPK",
+    "MHLBR",
+    "JMTLZ",
+    "GFTLZ"
+   ],
+   "finish": "stop",
+   "completion_tokens": 22,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32683,
+   "secs": 8.5
+  },
+  {
+   "id": "32768/5/05-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "The user asks which variables are assigned the value 48480, directly or through other variables.\n\nLooking at the documents, I find:\n- `VAR DKPNB = 48480`\n- `VAR ZSBTG = VAR DKPNB`\n- `VAR RXRVF = VAR ZSBTG`\n- `VAR KHDSN = VAR RXRVF`\n- `VAR DCSMN = VAR KHDSN`\n\nSo the chain: DKPNB = 48480, ZSBTG = DKPN",
+   "want": [
+    "DKPNB",
+    "ZSBTG",
+    "RXRVF",
+    "KHDSN",
+    "DCSMN"
+   ],
+   "finish": "stop",
+   "completion_tokens": 240,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32683,
+   "secs": 21.88
+  },
+  {
+   "id": "32768/5/06-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "The user is asking about the city where the headquarters of the company Noor Lindqvist works at is located.\n\nLooking at the documents, I found this line:\n\"Noor Lindqvist works at Neeslid.\"\n\nAnd also:\n\"Neeslid has its headquarters in Quito.\"\n\nSo the company Noor Lindqvist works at is Neeslid, and Nee",
+   "want": [
+    "Quito"
+   ],
+   "finish": "stop",
+   "completion_tokens": 87,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32679,
+   "secs": 12.69
+  },
+  {
+   "id": "32768/5/07-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Sofia",
+   "want": [
+    "Sofia"
+   ],
+   "finish": "stop",
+   "completion_tokens": 4,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32678,
+   "secs": 2.82
+  },
+  {
+   "id": "32768/5/08-cnt",
+   "task": "cnt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.0,
+   "answer": "The user is asking me to count how many times the status log says \"checkpoint OBHA reached\" in the provided document.\n\nLet me search through the document for \"checkpoint OBHA reached\":\n\n1. \"Status log: checkpoint OBHA reached.\" - in the CUDA memory receipts section\n2. \"Status log: checkpoint OBHA re",
+   "want": [
+    "9"
+   ],
+   "finish": "length",
+   "completion_tokens": 512,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32677,
+   "secs": 20.0
+  },
+  {
+   "id": "32768/5/09-agg",
+   "task": "agg",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Leeds, Porto, Cusco, Kyoto, Durban",
+   "want": [
+    "Leeds",
+    "Kyoto",
+    "Porto",
+    "Cusco",
+    "Durban"
+   ],
+   "finish": "stop",
+   "completion_tokens": 14,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 32680,
+   "secs": 4.56
+  },
+  {
+   "id": "32768/5/00-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "2225077",
+   "want": [
+    "2225077"
+   ],
+   "finish": "stop",
+   "completion_tokens": 66,
+   "reasoning_tokens": 61,
+   "prompt_tokens": 32679,
+   "secs": 7.93
+  },
+  {
+   "id": "32768/5/01-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "9991264",
+   "want": [
+    "9991264"
+   ],
+   "finish": "stop",
+   "completion_tokens": 94,
+   "reasoning_tokens": 90,
+   "prompt_tokens": 32679,
+   "secs": 10.8
+  },
+  {
+   "id": "32768/5/02-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "234785, 360694, 131791, 155369",
+   "want": [
+    "360694",
+    "131791",
+    "155369",
+    "234785"
+   ],
+   "finish": "stop",
+   "completion_tokens": 264,
+   "reasoning_tokens": 244,
+   "prompt_tokens": 32683,
+   "secs": 18.03
+  },
+  {
+   "id": "32768/5/03-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "546210, 704372, 680205, 320867",
+   "want": [
+    "680205",
+    "546210",
+    "704372",
+    "320867"
+   ],
+   "finish": "stop",
+   "completion_tokens": 310,
+   "reasoning_tokens": 290,
+   "prompt_tokens": 32683,
+   "secs": 23.23
+  },
+  {
+   "id": "32768/5/04-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "**WPNHW, CJXPK, MHLBR, JMTLZ, GFTLZ**\n\nThe chain is: `WPNHW = 82881` \u2192 `CJXPK = VAR WPNHW` \u2192 `MHLBR = VAR CJXPK` \u2192 `JMTLZ = VAR MHLBR` \u2192 `GFTLZ = VAR JMTLZ`.",
+   "want": [
+    "WPNHW",
+    "CJXPK",
+    "MHLBR",
+    "JMTLZ",
+    "GFTLZ"
+   ],
+   "finish": "stop",
+   "completion_tokens": 635,
+   "reasoning_tokens": 549,
+   "prompt_tokens": 32689,
+   "secs": 31.0
+  },
+  {
+   "id": "32768/5/05-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "DKPNB, ZSBTG, RXRVF, KHDSN, DCSMN",
+   "want": [
+    "DKPNB",
+    "ZSBTG",
+    "RXRVF",
+    "KHDSN",
+    "DCSMN"
+   ],
+   "finish": "stop",
+   "completion_tokens": 396,
+   "reasoning_tokens": 376,
+   "prompt_tokens": 32689,
+   "secs": 22.62
+  },
+  {
+   "id": "32768/5/06-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Quito",
+   "want": [
+    "Quito"
+   ],
+   "finish": "stop",
+   "completion_tokens": 82,
+   "reasoning_tokens": 79,
+   "prompt_tokens": 32685,
+   "secs": 7.23
+  },
+  {
+   "id": "32768/5/07-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Sofia",
+   "want": [
+    "Sofia"
+   ],
+   "finish": "stop",
+   "completion_tokens": 71,
+   "reasoning_tokens": 67,
+   "prompt_tokens": 32684,
+   "secs": 6.13
+  },
+  {
+   "id": "32768/5/08-cnt",
+   "task": "cnt",
+   "thinking": true,
+   "ok": false,
+   "part": 0.0,
+   "answer": "7",
+   "want": [
+    "9"
+   ],
+   "finish": "stop",
+   "completion_tokens": 1582,
+   "reasoning_tokens": 1580,
+   "prompt_tokens": 32683,
+   "secs": 39.0
+  },
+  {
+   "id": "32768/5/09-agg",
+   "task": "agg",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Leeds, Porto, Cusco, Kyoto, Durban",
+   "want": [
+    "Leeds",
+    "Kyoto",
+    "Porto",
+    "Cusco",
+    "Durban"
+   ],
+   "finish": "stop",
+   "completion_tokens": 359,
+   "reasoning_tokens": 345,
+   "prompt_tokens": 32686,
+   "secs": 14.29
+  },
+  {
+   "id": "131072/0/00-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "7428686",
+   "want": [
+    "7428686"
+   ],
+   "finish": "stop",
+   "completion_tokens": 6,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 141460,
+   "secs": 1.21
+  },
+  {
+   "id": "131072/0/01-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "2386612",
+   "want": [
+    "2386612"
+   ],
+   "finish": "stop",
+   "completion_tokens": 6,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 141460,
+   "secs": 1.11
+  },
+  {
+   "id": "131072/0/02-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "197351, 584347, 525150, 106393",
+   "want": [
+    "106393",
+    "197351",
+    "584347",
+    "525150"
+   ],
+   "finish": "stop",
+   "completion_tokens": 21,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 141464,
+   "secs": 3.86
+  },
+  {
+   "id": "131072/0/03-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "358793, 632169, 959179, 995332",
+   "want": [
+    "632169",
+    "358793",
+    "995332",
+    "959179"
+   ],
+   "finish": "stop",
+   "completion_tokens": 21,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 141463,
+   "secs": 3.73
+  },
+  {
+   "id": "131072/0/04-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": false,
+   "part": 1.0,
+   "answer": "BRCBK, DBQJR, QFWKZ, GFCJG, HSKBN, RGZWM, LHZSR, CCMQK, LNJWK, WBZKZ, QCVMQ, KGDJM, HFXKX, CSWFW, MWJDN, JVWBP, KBGHD, ZNVFF, LQZJK, HWLDX, HFXKX, KGDJM, QCVMQ, ZNVFF, MWJDN, JVWBP, KBGHD, LQZJK, ZNVFF, LQZJK, HFXKX, KGDJM, QCVMQ, ZNVFF, MWJDN, JVWBP, KBGHD, LQZJK, ZNVFF, LQZJK, HFXKX, KGDJM, QCVMQ,",
+   "want": [
+    "BRCBK",
+    "DBQJR",
+    "QFWKZ",
+    "GFCJG",
+    "HSKBN"
+   ],
+   "finish": "length",
+   "completion_tokens": 512,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 141470,
+   "secs": 11.03
+  },
+  {
+   "id": "131072/0/05-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": false,
+   "part": 1.0,
+   "answer": "HFXKX, KGDJM, QCVMQ, ZNVFF, LQZJK, RGZWM, KBGHD, JVWBP, MWJDN, CSWFW, HSKBN, GFCJG, QFWKZ, DBQJR, BRCBK, LNJWK, WBZKZ, CCMQK, LHZSR, HWLDX, HFXKX",
+   "want": [
+    "HFXKX",
+    "KGDJM",
+    "QCVMQ",
+    "ZNVFF",
+    "LQZJK"
+   ],
+   "finish": "stop",
+   "completion_tokens": 91,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 141470,
+   "secs": 8.0
+  },
+  {
+   "id": "131072/0/06-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": false,
+   "part": 0.0,
+   "answer": "Ghent",
+   "want": [
+    "Riga"
+   ],
+   "finish": "stop",
+   "completion_tokens": 4,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 141465,
+   "secs": 0.81
+  },
+  {
+   "id": "131072/0/07-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Durban",
+   "want": [
+    "Durban"
+   ],
+   "finish": "stop",
+   "completion_tokens": 3,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 141464,
+   "secs": 1.36
+  },
+  {
+   "id": "131072/0/08-cnt",
+   "task": "cnt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.0,
+   "answer": "4",
+   "want": [
+    "9"
+   ],
+   "finish": "stop",
+   "completion_tokens": 2,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 141464,
+   "secs": 1.23
+  },
+  {
+   "id": "131072/0/09-agg",
+   "task": "agg",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Tallinn, Leeds, Kyoto, Nairobi, Dakar",
+   "want": [
+    "Tallinn",
+    "Dakar",
+    "Nairobi",
+    "Leeds",
+    "Kyoto"
+   ],
+   "finish": "stop",
+   "completion_tokens": 13,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 141468,
+   "secs": 1.55
+  },
+  {
+   "id": "131072/0/00-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "7428686",
+   "want": [
+    "7428686"
+   ],
+   "finish": "stop",
+   "completion_tokens": 58,
+   "reasoning_tokens": 52,
+   "prompt_tokens": 141466,
+   "secs": 4.91
+  },
+  {
+   "id": "131072/0/01-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "2386612",
+   "want": [
+    "2386612"
+   ],
+   "finish": "stop",
+   "completion_tokens": 62,
+   "reasoning_tokens": 56,
+   "prompt_tokens": 141466,
+   "secs": 4.17
+  },
+  {
+   "id": "131072/0/02-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "197351, 584347, 525150, 106393",
+   "want": [
+    "106393",
+    "197351",
+    "584347",
+    "525150"
+   ],
+   "finish": "stop",
+   "completion_tokens": 315,
+   "reasoning_tokens": 294,
+   "prompt_tokens": 141470,
+   "secs": 15.61
+  },
+  {
+   "id": "131072/0/03-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "959179, 632169, 995332, 358793",
+   "want": [
+    "632169",
+    "358793",
+    "995332",
+    "959179"
+   ],
+   "finish": "stop",
+   "completion_tokens": 324,
+   "reasoning_tokens": 303,
+   "prompt_tokens": 141469,
+   "secs": 15.62
+  },
+  {
+   "id": "131072/0/04-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "BRCBK, DBQJR, QFWKZ, GFCJG, HSKBN",
+   "want": [
+    "BRCBK",
+    "DBQJR",
+    "QFWKZ",
+    "GFCJG",
+    "HSKBN"
+   ],
+   "finish": "stop",
+   "completion_tokens": 760,
+   "reasoning_tokens": 738,
+   "prompt_tokens": 141476,
+   "secs": 32.79
+  },
+  {
+   "id": "131072/0/05-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "HFXKX, KGDJM, QCVMQ, ZNVFF, LQZJK",
+   "want": [
+    "HFXKX",
+    "KGDJM",
+    "QCVMQ",
+    "ZNVFF",
+    "LQZJK"
+   ],
+   "finish": "stop",
+   "completion_tokens": 531,
+   "reasoning_tokens": 509,
+   "prompt_tokens": 141476,
+   "secs": 25.15
+  },
+  {
+   "id": "131072/0/06-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Riga",
+   "want": [
+    "Riga"
+   ],
+   "finish": "stop",
+   "completion_tokens": 103,
+   "reasoning_tokens": 100,
+   "prompt_tokens": 141471,
+   "secs": 6.58
+  },
+  {
+   "id": "131072/0/07-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Durban",
+   "want": [
+    "Durban"
+   ],
+   "finish": "stop",
+   "completion_tokens": 82,
+   "reasoning_tokens": 79,
+   "prompt_tokens": 141470,
+   "secs": 4.89
+  },
+  {
+   "id": "131072/0/08-cnt",
+   "task": "cnt",
+   "thinking": true,
+   "ok": false,
+   "part": 0.0,
+   "answer": "7",
+   "want": [
+    "9"
+   ],
+   "finish": "stop",
+   "completion_tokens": 1995,
+   "reasoning_tokens": 1993,
+   "prompt_tokens": 141470,
+   "secs": 49.23
+  },
+  {
+   "id": "131072/0/09-agg",
+   "task": "agg",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Tallinn, Leeds, Kyoto, Nairobi, Dakar",
+   "want": [
+    "Tallinn",
+    "Dakar",
+    "Nairobi",
+    "Leeds",
+    "Kyoto"
+   ],
+   "finish": "stop",
+   "completion_tokens": 337,
+   "reasoning_tokens": 324,
+   "prompt_tokens": 141474,
+   "secs": 15.01
+  },
+  {
+   "id": "131072/1/00-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "9728188",
+   "want": [
+    "9728188"
+   ],
+   "finish": "stop",
+   "completion_tokens": 6,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 126089,
+   "secs": 2.35
+  },
+  {
+   "id": "131072/1/01-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "6172329",
+   "want": [
+    "6172329"
+   ],
+   "finish": "stop",
+   "completion_tokens": 5,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 126088,
+   "secs": 2.26
+  },
+  {
+   "id": "131072/1/02-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "701853, 973332, 604290, 580932",
+   "want": [
+    "604290",
+    "580932",
+    "701853",
+    "973332"
+   ],
+   "finish": "stop",
+   "completion_tokens": 22,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 126093,
+   "secs": 6.2
+  },
+  {
+   "id": "131072/1/03-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "143697, 784639, 968122, 802433",
+   "want": [
+    "802433",
+    "784639",
+    "143697",
+    "968122"
+   ],
+   "finish": "stop",
+   "completion_tokens": 21,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 126092,
+   "secs": 6.08
+  },
+  {
+   "id": "131072/1/04-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.4,
+   "answer": "NTZGQ, ZXDGK",
+   "want": [
+    "NTZGQ",
+    "ZXDGK",
+    "DCRJC",
+    "GPFHN",
+    "HFGWZ"
+   ],
+   "finish": "stop",
+   "completion_tokens": 9,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 126099,
+   "secs": 4.03
+  },
+  {
+   "id": "131072/1/05-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.4,
+   "answer": "GLTVR, XFPVJ",
+   "want": [
+    "GLTVR",
+    "XFPVJ",
+    "SBGCM",
+    "MTMGS",
+    "KNGCJ"
+   ],
+   "finish": "stop",
+   "completion_tokens": 9,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 126099,
+   "secs": 9.99
+  },
+  {
+   "id": "131072/1/06-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Riga",
+   "want": [
+    "Riga"
+   ],
+   "finish": "stop",
+   "completion_tokens": 3,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 126095,
+   "secs": 3.76
+  },
+  {
+   "id": "131072/1/07-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Lima",
+   "want": [
+    "Lima"
+   ],
+   "finish": "stop",
+   "completion_tokens": 3,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 126093,
+   "secs": 1.18
+  },
+  {
+   "id": "131072/1/08-cnt",
+   "task": "cnt",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "3",
+   "want": [
+    "3"
+   ],
+   "finish": "stop",
+   "completion_tokens": 2,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 126093,
+   "secs": 2.18
+  },
+  {
+   "id": "131072/1/09-agg",
+   "task": "agg",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Bergen, Lisbon, Tunis, Split, Perth",
+   "want": [
+    "Lisbon",
+    "Split",
+    "Tunis",
+    "Perth",
+    "Bergen"
+   ],
+   "finish": "stop",
+   "completion_tokens": 12,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 126096,
+   "secs": 4.96
+  },
+  {
+   "id": "131072/1/00-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "9728188",
+   "want": [
+    "9728188"
+   ],
+   "finish": "stop",
+   "completion_tokens": 60,
+   "reasoning_tokens": 54,
+   "prompt_tokens": 126095,
+   "secs": 6.56
+  },
+  {
+   "id": "131072/1/01-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "6172329",
+   "want": [
+    "6172329"
+   ],
+   "finish": "stop",
+   "completion_tokens": 63,
+   "reasoning_tokens": 58,
+   "prompt_tokens": 126094,
+   "secs": 6.57
+  },
+  {
+   "id": "131072/1/02-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "701853, 973332, 604290, 580932",
+   "want": [
+    "604290",
+    "580932",
+    "701853",
+    "973332"
+   ],
+   "finish": "stop",
+   "completion_tokens": 322,
+   "reasoning_tokens": 300,
+   "prompt_tokens": 126099,
+   "secs": 21.29
+  },
+  {
+   "id": "131072/1/03-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "784639, 143697, 968122, 802433",
+   "want": [
+    "802433",
+    "784639",
+    "143697",
+    "968122"
+   ],
+   "finish": "stop",
+   "completion_tokens": 329,
+   "reasoning_tokens": 308,
+   "prompt_tokens": 126098,
+   "secs": 19.43
+  },
+  {
+   "id": "131072/1/04-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "**NTZGQ, ZXDGK, DCRJC, GPFHN, HFGWZ**\n\nThe chain is:\n- `VAR NTZGQ = 42811` (CHANGELOG, 1.0.8)\n- `VAR ZXDGK = VAR NTZGQ` (THIRD_PARTY_NOTICES.md)\n- `VAR DCRJC = VAR ZXDGK` (ZIG-PREVIEW.md)\n- `VAR GPFHN = VAR DCRJC` (app/docs/bots.md)\n- `VAR HFGWZ = VAR GPFHN` (app/docs/linux-port/PLAN.md)",
+   "want": [
+    "NTZGQ",
+    "ZXDGK",
+    "DCRJC",
+    "GPFHN",
+    "HFGWZ"
+   ],
+   "finish": "stop",
+   "completion_tokens": 1177,
+   "reasoning_tokens": 1042,
+   "prompt_tokens": 126105,
+   "secs": 47.33
+  },
+  {
+   "id": "131072/1/05-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "**GLTVR, XFPVJ, SBGCM, MTMGS, KNGCJ**\n\nThe chain is:\n- `VAR GLTVR = 58307`\n- `VAR XFPVJ = VAR GLTVR`\n- `VAR SBGCM = VAR XFPVJ`\n- `VAR MTMGS = VAR SBGCM`\n- `VAR KNGCJ = VAR MTMGS`",
+   "want": [
+    "GLTVR",
+    "XFPVJ",
+    "SBGCM",
+    "MTMGS",
+    "KNGCJ"
+   ],
+   "finish": "stop",
+   "completion_tokens": 805,
+   "reasoning_tokens": 714,
+   "prompt_tokens": 126105,
+   "secs": 38.35
+  },
+  {
+   "id": "131072/1/06-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Riga",
+   "want": [
+    "Riga"
+   ],
+   "finish": "stop",
+   "completion_tokens": 77,
+   "reasoning_tokens": 74,
+   "prompt_tokens": 126101,
+   "secs": 7.88
+  },
+  {
+   "id": "131072/1/07-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Lima",
+   "want": [
+    "Lima"
+   ],
+   "finish": "stop",
+   "completion_tokens": 75,
+   "reasoning_tokens": 72,
+   "prompt_tokens": 126099,
+   "secs": 4.29
+  },
+  {
+   "id": "131072/1/08-cnt",
+   "task": "cnt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "3",
+   "want": [
+    "3"
+   ],
+   "finish": "stop",
+   "completion_tokens": 508,
+   "reasoning_tokens": 506,
+   "prompt_tokens": 126099,
+   "secs": 24.91
+  },
+  {
+   "id": "131072/1/09-agg",
+   "task": "agg",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Tunis, Bergen, Lisbon, Split, Perth",
+   "want": [
+    "Lisbon",
+    "Split",
+    "Tunis",
+    "Perth",
+    "Bergen"
+   ],
+   "finish": "stop",
+   "completion_tokens": 326,
+   "reasoning_tokens": 314,
+   "prompt_tokens": 126102,
+   "secs": 14.43
+  },
+  {
+   "id": "131072/2/00-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "The user is asking for the special magic number for Fenyny. Let me search through the document for this information.\n\nLooking through the document, I can find several mentions of special magic numbers:\n- \"The special magic number for Digoha is 3084045.\"\n- \"The special magic number for Tazevo is 4649",
+   "want": [
+    "5923359"
+   ],
+   "finish": "stop",
+   "completion_tokens": 204,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 135330,
+   "secs": 10.72
+  },
+  {
+   "id": "131072/2/01-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "3084045",
+   "want": [
+    "3084045"
+   ],
+   "finish": "stop",
+   "completion_tokens": 5,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 135330,
+   "secs": 1.11
+  },
+  {
+   "id": "131072/2/02-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "368140, 853983, 679489, 719259",
+   "want": [
+    "719259",
+    "853983",
+    "679489",
+    "368140"
+   ],
+   "finish": "stop",
+   "completion_tokens": 22,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 135335,
+   "secs": 4.04
+  },
+  {
+   "id": "131072/2/03-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "993356, 920605, 652164, 159138",
+   "want": [
+    "920605",
+    "993356",
+    "159138",
+    "652164"
+   ],
+   "finish": "stop",
+   "completion_tokens": 20,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 135334,
+   "secs": 3.33
+  },
+  {
+   "id": "131072/2/04-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.2,
+   "answer": "XBWBN",
+   "want": [
+    "XBWBN",
+    "MDKKM",
+    "GRKWW",
+    "ZJJLF",
+    "VPNSS"
+   ],
+   "finish": "stop",
+   "completion_tokens": 4,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 135341,
+   "secs": 2.24
+  },
+  {
+   "id": "131072/2/05-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.2,
+   "answer": "GLHHG",
+   "want": [
+    "GLHHG",
+    "ZQZHZ",
+    "SQVBF",
+    "TXWHS",
+    "KLVJJ"
+   ],
+   "finish": "stop",
+   "completion_tokens": 4,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 135341,
+   "secs": 3.7
+  },
+  {
+   "id": "131072/2/06-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "The user asks: \"In which city are the headquarters of the company Hugo Novak works at? Answer with the city only.\"\n\nI need to find where Hugo Novak works. Searching the context: \"Hugo Novak works at Diesvex.\" And \"Diesvex has its headquarters in Osaka.\"\n\nSo the answer is Osaka.</think>Osaka",
+   "want": [
+    "Osaka"
+   ],
+   "finish": "stop",
+   "completion_tokens": 72,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 135335,
+   "secs": 5.12
+  },
+  {
+   "id": "131072/2/07-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Nairobi",
+   "want": [
+    "Nairobi"
+   ],
+   "finish": "stop",
+   "completion_tokens": 3,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 135337,
+   "secs": 0.69
+  },
+  {
+   "id": "131072/2/08-cnt",
+   "task": "cnt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.0,
+   "answer": "4",
+   "want": [
+    "8"
+   ],
+   "finish": "stop",
+   "completion_tokens": 2,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 135335,
+   "secs": 0.7
+  },
+  {
+   "id": "131072/2/09-agg",
+   "task": "agg",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Tbilisi, Cork, Krakow, Durban, Hobart",
+   "want": [
+    "Hobart",
+    "Krakow",
+    "Tbilisi",
+    "Durban",
+    "Cork"
+   ],
+   "finish": "stop",
+   "completion_tokens": 15,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 135340,
+   "secs": 1.88
+  },
+  {
+   "id": "131072/2/00-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "5923359",
+   "want": [
+    "5923359"
+   ],
+   "finish": "stop",
+   "completion_tokens": 47,
+   "reasoning_tokens": 41,
+   "prompt_tokens": 135336,
+   "secs": 3.35
+  },
+  {
+   "id": "131072/2/01-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "3084045",
+   "want": [
+    "3084045"
+   ],
+   "finish": "stop",
+   "completion_tokens": 67,
+   "reasoning_tokens": 62,
+   "prompt_tokens": 135336,
+   "secs": 5.21
+  },
+  {
+   "id": "131072/2/02-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "853983, 368140, 679489, 719259",
+   "want": [
+    "719259",
+    "853983",
+    "679489",
+    "368140"
+   ],
+   "finish": "stop",
+   "completion_tokens": 337,
+   "reasoning_tokens": 315,
+   "prompt_tokens": 135341,
+   "secs": 16.58
+  },
+  {
+   "id": "131072/2/03-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "993356, 920605, 652164, 159138",
+   "want": [
+    "920605",
+    "993356",
+    "159138",
+    "652164"
+   ],
+   "finish": "stop",
+   "completion_tokens": 323,
+   "reasoning_tokens": 303,
+   "prompt_tokens": 135340,
+   "secs": 15.4
+  },
+  {
+   "id": "131072/2/04-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "XBWBN, MDKKM, GRKWW, ZJJLF, VPNSS",
+   "want": [
+    "XBWBN",
+    "MDKKM",
+    "GRKWW",
+    "ZJJLF",
+    "VPNSS"
+   ],
+   "finish": "stop",
+   "completion_tokens": 982,
+   "reasoning_tokens": 963,
+   "prompt_tokens": 135347,
+   "secs": 37.13
+  },
+  {
+   "id": "131072/2/05-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "GLHHG, ZQZHZ, SQVBF, TXWHS, KLVJJ",
+   "want": [
+    "GLHHG",
+    "ZQZHZ",
+    "SQVBF",
+    "TXWHS",
+    "KLVJJ"
+   ],
+   "finish": "stop",
+   "completion_tokens": 443,
+   "reasoning_tokens": 422,
+   "prompt_tokens": 135347,
+   "secs": 20.5
+  },
+  {
+   "id": "131072/2/06-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Osaka",
+   "want": [
+    "Osaka"
+   ],
+   "finish": "stop",
+   "completion_tokens": 81,
+   "reasoning_tokens": 78,
+   "prompt_tokens": 135341,
+   "secs": 4.26
+  },
+  {
+   "id": "131072/2/07-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Nairobi",
+   "want": [
+    "Nairobi"
+   ],
+   "finish": "stop",
+   "completion_tokens": 118,
+   "reasoning_tokens": 115,
+   "prompt_tokens": 135343,
+   "secs": 7.83
+  },
+  {
+   "id": "131072/2/08-cnt",
+   "task": "cnt",
+   "thinking": true,
+   "ok": false,
+   "part": 0.0,
+   "answer": "",
+   "want": [
+    "8"
+   ],
+   "finish": "length",
+   "completion_tokens": 8192,
+   "reasoning_tokens": 8192,
+   "prompt_tokens": 135341,
+   "secs": 107.82
+  },
+  {
+   "id": "131072/2/09-agg",
+   "task": "agg",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Tbilisi, Cork, Krakow, Durban, Hobart",
+   "want": [
+    "Hobart",
+    "Krakow",
+    "Tbilisi",
+    "Durban",
+    "Cork"
+   ],
+   "finish": "stop",
+   "completion_tokens": 370,
+   "reasoning_tokens": 355,
+   "prompt_tokens": 135346,
+   "secs": 12.78
+  },
+  {
+   "id": "262144/0/00-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "2604327",
+   "want": [
+    "2604327"
+   ],
+   "finish": "stop",
+   "completion_tokens": 5,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 252922,
+   "secs": 4.95
+  },
+  {
+   "id": "262144/0/01-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "1850522",
+   "want": [
+    "1850522"
+   ],
+   "finish": "stop",
+   "completion_tokens": 5,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 252922,
+   "secs": 2.41
+  },
+  {
+   "id": "262144/0/02-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "735539, 789873, 334783, 944831",
+   "want": [
+    "735539",
+    "789873",
+    "334783",
+    "944831"
+   ],
+   "finish": "stop",
+   "completion_tokens": 23,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 252927,
+   "secs": 2.69
+  },
+  {
+   "id": "262144/0/03-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "978547, 223630, 399216, 975758",
+   "want": [
+    "978547",
+    "975758",
+    "223630",
+    "399216"
+   ],
+   "finish": "stop",
+   "completion_tokens": 21,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 252926,
+   "secs": 6.39
+  },
+  {
+   "id": "262144/0/04-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "WWLCV, BXLJH, CFFBV, WVHFR, KSGXL",
+   "want": [
+    "WWLCV",
+    "BXLJH",
+    "CFFBV",
+    "WVHFR",
+    "KSGXL"
+   ],
+   "finish": "stop",
+   "completion_tokens": 21,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 252931,
+   "secs": 7.93
+  },
+  {
+   "id": "262144/0/05-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "BCCSF, MDGPP, DKVSN, TTHXN, WLSGW",
+   "want": [
+    "BCCSF",
+    "MDGPP",
+    "DKVSN",
+    "TTHXN",
+    "WLSGW"
+   ],
+   "finish": "stop",
+   "completion_tokens": 21,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 252932,
+   "secs": 10.75
+  },
+  {
+   "id": "262144/0/06-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Kyoto",
+   "want": [
+    "Kyoto"
+   ],
+   "finish": "stop",
+   "completion_tokens": 3,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 252926,
+   "secs": 1.47
+  },
+  {
+   "id": "262144/0/07-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Perth",
+   "want": [
+    "Perth"
+   ],
+   "finish": "stop",
+   "completion_tokens": 3,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 252928,
+   "secs": 3.77
+  },
+  {
+   "id": "262144/0/08-cnt",
+   "task": "cnt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.0,
+   "answer": "4",
+   "want": [
+    "7"
+   ],
+   "finish": "stop",
+   "completion_tokens": 2,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 252926,
+   "secs": 2.25
+  },
+  {
+   "id": "262144/0/09-agg",
+   "task": "agg",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Sofia, Riga, Tallinn, Fresno, Zurich",
+   "want": [
+    "Tallinn",
+    "Fresno",
+    "Sofia",
+    "Riga",
+    "Zurich"
+   ],
+   "finish": "stop",
+   "completion_tokens": 14,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 252929,
+   "secs": 4.13
+  },
+  {
+   "id": "262144/0/00-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "2604327",
+   "want": [
+    "2604327"
+   ],
+   "finish": "stop",
+   "completion_tokens": 69,
+   "reasoning_tokens": 64,
+   "prompt_tokens": 252928,
+   "secs": 9.16
+  },
+  {
+   "id": "262144/0/01-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "1850522",
+   "want": [
+    "1850522"
+   ],
+   "finish": "stop",
+   "completion_tokens": 69,
+   "reasoning_tokens": 64,
+   "prompt_tokens": 252928,
+   "secs": 6.6
+  },
+  {
+   "id": "262144/0/02-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "735539, 789873, 334783, 944831",
+   "want": [
+    "735539",
+    "789873",
+    "334783",
+    "944831"
+   ],
+   "finish": "stop",
+   "completion_tokens": 346,
+   "reasoning_tokens": 323,
+   "prompt_tokens": 252933,
+   "secs": 21.33
+  },
+  {
+   "id": "262144/0/03-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "978547, 223630, 399216, 975758",
+   "want": [
+    "978547",
+    "975758",
+    "223630",
+    "399216"
+   ],
+   "finish": "stop",
+   "completion_tokens": 211,
+   "reasoning_tokens": 190,
+   "prompt_tokens": 252932,
+   "secs": 16.28
+  },
+  {
+   "id": "262144/0/04-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "WWLCV, BXLJH, CFFBV, WVHFR, KSGXL",
+   "want": [
+    "WWLCV",
+    "BXLJH",
+    "CFFBV",
+    "WVHFR",
+    "KSGXL"
+   ],
+   "finish": "stop",
+   "completion_tokens": 1260,
+   "reasoning_tokens": 1239,
+   "prompt_tokens": 252937,
+   "secs": 49.54
+  },
+  {
+   "id": "262144/0/05-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "BCCSF, MDGPP, DKVSN, TTHXN, WLSGW",
+   "want": [
+    "BCCSF",
+    "MDGPP",
+    "DKVSN",
+    "TTHXN",
+    "WLSGW"
+   ],
+   "finish": "stop",
+   "completion_tokens": 921,
+   "reasoning_tokens": 900,
+   "prompt_tokens": 252938,
+   "secs": 40.76
+  },
+  {
+   "id": "262144/0/06-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Kyoto",
+   "want": [
+    "Kyoto"
+   ],
+   "finish": "stop",
+   "completion_tokens": 93,
+   "reasoning_tokens": 90,
+   "prompt_tokens": 252932,
+   "secs": 6.63
+  },
+  {
+   "id": "262144/0/07-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Perth",
+   "want": [
+    "Perth"
+   ],
+   "finish": "stop",
+   "completion_tokens": 102,
+   "reasoning_tokens": 99,
+   "prompt_tokens": 252934,
+   "secs": 7.48
+  },
+  {
+   "id": "262144/0/08-cnt",
+   "task": "cnt",
+   "thinking": true,
+   "ok": false,
+   "part": 0.0,
+   "answer": "5",
+   "want": [
+    "7"
+   ],
+   "finish": "stop",
+   "completion_tokens": 580,
+   "reasoning_tokens": 578,
+   "prompt_tokens": 252932,
+   "secs": 30.46
+  },
+  {
+   "id": "262144/0/09-agg",
+   "task": "agg",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Sofia, Riga, Tallinn, Fresno, Zurich",
+   "want": [
+    "Tallinn",
+    "Fresno",
+    "Sofia",
+    "Riga",
+    "Zurich"
+   ],
+   "finish": "stop",
+   "completion_tokens": 353,
+   "reasoning_tokens": 339,
+   "prompt_tokens": 252935,
+   "secs": 18.63
+  },
+  {
+   "id": "262144/1/00-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "1258962",
+   "want": [
+    "1258962"
+   ],
+   "finish": "stop",
+   "completion_tokens": 5,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 257144,
+   "secs": 2.57
+  },
+  {
+   "id": "262144/1/01-mk",
+   "task": "mk",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "4048495",
+   "want": [
+    "4048495"
+   ],
+   "finish": "stop",
+   "completion_tokens": 6,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 257144,
+   "secs": 4.16
+  },
+  {
+   "id": "262144/1/02-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "638986, 911287, 996262, 412022",
+   "want": [
+    "412022",
+    "996262",
+    "911287",
+    "638986"
+   ],
+   "finish": "stop",
+   "completion_tokens": 23,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 257148,
+   "secs": 4.05
+  },
+  {
+   "id": "262144/1/03-mv",
+   "task": "mv",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "555772, 843591, 336506, 392272",
+   "want": [
+    "843591",
+    "555772",
+    "392272",
+    "336506"
+   ],
+   "finish": "stop",
+   "completion_tokens": 23,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 257148,
+   "secs": 8.12
+  },
+  {
+   "id": "262144/1/04-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": false,
+   "part": 1.0,
+   "answer": "WBXQM, DVXBT, NXVTR, GLBXH, ZQWRN, RZMTQ, QMTKL, QWKMD, SGPRN, THSBS, RSQJR, MJCQN, CQQRT, ZMWPT, QPXVS, BKBCF, SSXPP, KJNWZ, SLSDR",
+   "want": [
+    "WBXQM",
+    "DVXBT",
+    "NXVTR",
+    "GLBXH",
+    "ZMWPT"
+   ],
+   "finish": "stop",
+   "completion_tokens": 79,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 257154,
+   "secs": 13.12
+  },
+  {
+   "id": "262144/1/05-vt",
+   "task": "vt",
+   "thinking": false,
+   "ok": false,
+   "part": 1.0,
+   "answer": "CQQRT, MJCQN, RSQJR, THSBS, FFWMV, QPXVS, BKBCF, SSXPP, KJNWZ, SLSDR, WBXQM, DVXBT, NXVTR, GLBXH, ZMWPT, QWKMD, SGPRN, QMTKL, RZMTQ, ZQWRN",
+   "want": [
+    "CQQRT",
+    "MJCQN",
+    "RSQJR",
+    "THSBS",
+    "FFWMV"
+   ],
+   "finish": "stop",
+   "completion_tokens": 83,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 257154,
+   "secs": 12.65
+  },
+  {
+   "id": "262144/1/06-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Krakow",
+   "want": [
+    "Krakow"
+   ],
+   "finish": "stop",
+   "completion_tokens": 4,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 257150,
+   "secs": 2.49
+  },
+  {
+   "id": "262144/1/07-hop",
+   "task": "hop",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Riga",
+   "want": [
+    "Riga"
+   ],
+   "finish": "stop",
+   "completion_tokens": 3,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 257148,
+   "secs": 1.49
+  },
+  {
+   "id": "262144/1/08-cnt",
+   "task": "cnt",
+   "thinking": false,
+   "ok": false,
+   "part": 0.0,
+   "answer": "4",
+   "want": [
+    "5"
+   ],
+   "finish": "stop",
+   "completion_tokens": 2,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 257148,
+   "secs": 2.71
+  },
+  {
+   "id": "262144/1/09-agg",
+   "task": "agg",
+   "thinking": false,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Ghent, Split, Nairobi, Cusco, Perth",
+   "want": [
+    "Split",
+    "Perth",
+    "Ghent",
+    "Nairobi",
+    "Cusco"
+   ],
+   "finish": "stop",
+   "completion_tokens": 14,
+   "reasoning_tokens": 0,
+   "prompt_tokens": 257151,
+   "secs": 4.64
+  },
+  {
+   "id": "262144/1/00-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "1258962",
+   "want": [
+    "1258962"
+   ],
+   "finish": "stop",
+   "completion_tokens": 70,
+   "reasoning_tokens": 65,
+   "prompt_tokens": 257150,
+   "secs": 7.05
+  },
+  {
+   "id": "262144/1/01-mk",
+   "task": "mk",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "4048495",
+   "want": [
+    "4048495"
+   ],
+   "finish": "stop",
+   "completion_tokens": 68,
+   "reasoning_tokens": 62,
+   "prompt_tokens": 257150,
+   "secs": 8.35
+  },
+  {
+   "id": "262144/1/02-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "638986, 911287, 996262, 412022",
+   "want": [
+    "412022",
+    "996262",
+    "911287",
+    "638986"
+   ],
+   "finish": "stop",
+   "completion_tokens": 404,
+   "reasoning_tokens": 381,
+   "prompt_tokens": 257154,
+   "secs": 27.99
+  },
+  {
+   "id": "262144/1/03-mv",
+   "task": "mv",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "555772, 843591, 336506, 392272",
+   "want": [
+    "843591",
+    "555772",
+    "392272",
+    "336506"
+   ],
+   "finish": "stop",
+   "completion_tokens": 313,
+   "reasoning_tokens": 290,
+   "prompt_tokens": 257154,
+   "secs": 20.39
+  },
+  {
+   "id": "262144/1/04-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "WBXQM, DVXBT, NXVTR, GLBXH, ZMWPT",
+   "want": [
+    "WBXQM",
+    "DVXBT",
+    "NXVTR",
+    "GLBXH",
+    "ZMWPT"
+   ],
+   "finish": "stop",
+   "completion_tokens": 543,
+   "reasoning_tokens": 523,
+   "prompt_tokens": 257160,
+   "secs": 33.08
+  },
+  {
+   "id": "262144/1/05-vt",
+   "task": "vt",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "CQQRT, MJCQN, RSQJR, THSBS, FFWMV",
+   "want": [
+    "CQQRT",
+    "MJCQN",
+    "RSQJR",
+    "THSBS",
+    "FFWMV"
+   ],
+   "finish": "stop",
+   "completion_tokens": 820,
+   "reasoning_tokens": 800,
+   "prompt_tokens": 257160,
+   "secs": 37.84
+  },
+  {
+   "id": "262144/1/06-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Krakow",
+   "want": [
+    "Krakow"
+   ],
+   "finish": "stop",
+   "completion_tokens": 97,
+   "reasoning_tokens": 93,
+   "prompt_tokens": 257156,
+   "secs": 6.13
+  },
+  {
+   "id": "262144/1/07-hop",
+   "task": "hop",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Riga",
+   "want": [
+    "Riga"
+   ],
+   "finish": "stop",
+   "completion_tokens": 76,
+   "reasoning_tokens": 73,
+   "prompt_tokens": 257154,
+   "secs": 6.05
+  },
+  {
+   "id": "262144/1/08-cnt",
+   "task": "cnt",
+   "thinking": true,
+   "ok": false,
+   "part": 0.0,
+   "answer": "4",
+   "want": [
+    "5"
+   ],
+   "finish": "stop",
+   "completion_tokens": 616,
+   "reasoning_tokens": 614,
+   "prompt_tokens": 257154,
+   "secs": 24.35
+  },
+  {
+   "id": "262144/1/09-agg",
+   "task": "agg",
+   "thinking": true,
+   "ok": true,
+   "part": 1.0,
+   "answer": "Ghent, Split, Nairobi, Cusco, Perth",
+   "want": [
+    "Split",
+    "Perth",
+    "Ghent",
+    "Nairobi",
+    "Cusco"
+   ],
+   "finish": "stop",
+   "completion_tokens": 363,
+   "reasoning_tokens": 349,
+   "prompt_tokens": 257157,
+   "secs": 15.05
+  }
+ ]
+}
